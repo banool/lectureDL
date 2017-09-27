@@ -2,3 +2,5 @@ __pycache__
 *.pyc
 /myvenv/
 .DS_Store
+get-pip.py
+gui.py

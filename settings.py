@@ -1,1 +1,1 @@
-settings_personal.py
+from settings_personal import *
