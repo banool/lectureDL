@@ -1,14 +1,14 @@
 import os
 
 from collections import defaultdict
-from settings_base import _settings_base
+from settings_base import _settings_base, getLectureName
 
 settings = {
-    'username': 'dstern',
+    'username': 'porteousd',
     'password': os.environ['UNIMELBPASS'],
     'date_range': '1-12',
-    'lecture_subfolder_name': 'Recordings',
-    'uni_location': 'Dropbox/University/2017S2',
+    'lecture_subfolder_name': 'Lectures',
+    'uni_location': os.path.join(os.path.expanduser('~'), 'Dropbox/uni2017'),
     'subject_folders': {
         'SWEN30006': 'SWEN30006 - SMD',
         'COMP30020': 'COMP30020 - DP',

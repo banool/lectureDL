@@ -88,9 +88,16 @@ from util import (
 
 # Try to read in a settings file.
 try:
-    from settings import settings
-except ImportError:
+    from settings import (
+        settings,
+        getLectureName,
+    )
+except ImportError as e:
+    print(f'Couldn\'t import a settings file: {str(e)}')
     settings = defaultdict(lambda: None)
+    # Default download location.
+    settings['uni_location'] = os.path.join(os.path.expanduser('~'), 'Downloads')
+    getLectureName = lambda lec: f"{lec.subjName} - L{lec.recNum:02}"
 
 LECTURE_TAB_STRINGS = ["Lecture Recordings", "Lecture Capture", "Lectures",
                        "lectures", "Lecture capture", "Recordings",
@@ -534,7 +541,7 @@ def download_lectures_for_subject(driver, subject, downloaded, skipped,
         lectures_list.append(Lecture(first_link, subjCode, week_num, lec_num,
                                      date, name, rec_num))
 
-    # TODO: Get the length of the <ul>...</ul>, use it when creating the 
+    # TODO: Get the length of the <ul>...</ul>, use it when creating the
     #       lectures instead
     # Fixing Lecture Nums (lecs are downloaded & created in reverse order)
     num_lectures = len(lectures_list)
@@ -554,7 +561,7 @@ def download_lectures_for_subject(driver, subject, downloaded, skipped,
     for lec in lectures_list:
 
         # DAVE_PERSONAL_PREFERENCE
-        filename = f"{lec.subjName} - L{lec.recNum:02}"
+        filename = getLectureName(lec)
         # filename = lec.subjCode + " Week " + str(weekNum).zfill(2) + " Lecture"
 
 
@@ -632,7 +639,7 @@ def download_lectures_for_subject(driver, subject, downloaded, skipped,
                     sizeWeb / 1024 / 1024,
                 )
                 # Include (sizeLocal, sizeWeb) if partially downloaded.
-                to_download.append((lec, (sizeLocal, sizeWeb))) 
+                to_download.append((lec, (sizeLocal, sizeWeb)))
                 print("Resuming " + lec.fName + ": " + lec.dl_status)
             # Otherwise the file must be fully downloaded.
             else:
@@ -648,7 +655,7 @@ def download_lectures_for_subject(driver, subject, downloaded, skipped,
             # if just outside date range
             elif not lec.date in dates_list:
                 lec.dl_status = "Outside date range"
-            # If file already exists and is fully completed. 
+            # If file already exists and is fully completed.
             # Shouldn't really get to this case (caught above).
             elif os.path.isfile(lec.fPath):
                 lec.dl_status = "File already exists"

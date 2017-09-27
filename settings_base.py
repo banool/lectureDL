@@ -1,5 +1,9 @@
 # Don't import this directly.
 
+def getLectureName(lecture):
+    # My personal preference: COMP30022 Week 09 Lecture 1
+    return f"{lecture.subjCode} Week {lecture.week:02} Lecture {lecture.lecOfWeek}"
+
 _settings_base = {
     'media_type': 'video',
     'subject_choices': '',

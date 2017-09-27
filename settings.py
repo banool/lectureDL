@@ -1,1 +1,1 @@
-from settings_personal import settings
+from settings_personal import *
