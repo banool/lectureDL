@@ -728,15 +728,12 @@ def main():
 
     print("Welcome to", argv[0])
 
-
     # Date Junk
     current_year = datetime.datetime.now().year
     week_day = {}
     dates_list = get_weeks_to_download(current_year, week_day)
     # DATE ERROR
     # print(dates_list)
-
-
 
     download_mode = get_download_mode()
 

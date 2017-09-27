@@ -8,7 +8,7 @@ settings = {
     'password': os.environ['UNIMELBPASS'],
     'date_range': '1-12',
     'lecture_subfolder_name': 'Lectures',
-    'uni_location': os.path.join(os.path.expanduser('~'), 'Dropbox/uni2017'),
+    'uni_location': 'Dropbox/uni2017',
     'subject_folders': {
         'SWEN30006': 'SWEN30006 - SMD',
         'COMP30020': 'COMP30020 - DP',
