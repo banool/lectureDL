@@ -6,7 +6,7 @@ from settings_base import _settings_base, getLectureName
 settings = {
     'username': 'porteousd',
     'password': os.environ['UNIMELBPASS'],
-    'date_range': '1-12',
+    'date_range': '8-12',
     'lecture_subfolder_name': 'Lectures',
     'uni_location': 'Dropbox/uni2017',
     'subject_folders': {

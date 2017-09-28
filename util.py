@@ -30,7 +30,7 @@ def reporthook(blocknum, blocksize, totalsize):
     readsofar = blocknum * blocksize
     if totalsize > 0:
         percent = readsofar * 1e2 / totalsize
-        s = "\r%5.1f%% %*.1f / %.1f MiB" % (
+        s = "\r%5.1f%% %*.1f / %.1f MiB " % (
             percent,
             len(str(totalsize)),
             readsofar / 1024 / 1024,
@@ -53,5 +53,5 @@ def show_progress(filehook, localSize, webSize, chunk_size=1024):
             fh.close()
             break
         total_read += len(chunk)
-        print("Progress: %0.1f%%" % (total_read*100.0/total_size), end="\r")
+        print("== Progress: %0.1f%% ==" % (total_read*100.0/total_size), end="\r", flush=True)
         yield chunk

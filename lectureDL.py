@@ -68,6 +68,7 @@ from selenium.common.exceptions import (
 )
 
 import datetime
+import functools
 import getpass
 import os.path
 import time
@@ -77,9 +78,11 @@ import re
 from collections import defaultdict
 from os import listdir
 from os import stat
+from queue import Queue
 from sys import argv
 from sys import exit
 from sys import stderr
+from threading import Thread
 from util import (
     retry_until_result,
     reporthook,
@@ -425,7 +428,7 @@ def download_partial(dl_link, output_name, pretty_name, sizeLocal, sizeWeb):
 
 def download_lectures_for_subject(driver, subject, downloaded, skipped,
                                   current_year, week_day, dates_list,
-                                  download_mode, video_folder):
+                                  download_mode, video_folder, q):
 
     subjCode, name, link, sub_num = subject
     print(f"\nNow working on {subjCode}: {name}")
@@ -689,7 +692,7 @@ def download_lectures_for_subject(driver, subject, downloaded, skipped,
             else:
                 print(lec.fName)
     else:
-        print("No lectures to be downloaded.")
+        print("No lectures to be downloaded for " + subject[1])
 
     # for each lecture, set filename and download
     for lec, partial in to_download:
@@ -709,18 +712,29 @@ def download_lectures_for_subject(driver, subject, downloaded, skipped,
 
         # Easy to deal with full download, just use urlretrieve. reporthook gives a progress bar.
         if partial == False:
-            download_full(dl_link, lec.fPath)
+            dl_func = functools.partial(download_full, dl_link, lec.fPath)
         # This handles a partially downloaded file.
         else:
             sizeLocal, sizeWeb = partial
-            download_partial(dl_link, lec.fPath, lec.fName, sizeLocal, sizeWeb)
+            dl_func = functools.partial(download_partial, dl_link, lec.fPath, lec.fName, sizeLocal, sizeWeb)
+
+        q.put(dl_func)
 
     # when finished with subject
-    print("Finished downloading files for", lec.subjCode)
+    print(f"Queued downloads for {lec.subjCode}! Going to next file!")
     return downloaded, skipped
 
 # Check dates_list
 # The lectures further down are outside the date range, no need to check them.
+
+def consume_dl_queue(q):
+    # This will just keep consuming an item from the queue and downloading it
+    # until the program ends. get() blocks if there isn't an item in the queue.
+    while True:
+        dl_func = q.get()
+        res = dl_func()
+        if res is False:
+            break
 
 
 def main():
@@ -769,37 +783,44 @@ def main():
         print(f"{code}: {name}")
 
     # Track which lectures we downloaded and which we skipped.
-    downloaded = []
-    skipped = []
+    all_downloaded = []
+    all_skipped = []
 
+    q = Queue()
+    t = Thread(target=consume_dl_queue, args=(q,))
+    t.start()
     for subject in subjects_to_download:
-        loaded, skipd = download_lectures_for_subject(driver, subject,
-                                                      downloaded, skipped,
+        downloaded, skipped = download_lectures_for_subject(driver, subject,
+                                                      all_downloaded, all_skipped,
                                                       current_year, week_day,
                                                       dates_list,
                                                       download_mode,
-                                                      video_folder)
-        downloaded += loaded
-        skipped += skipd
-    # Done, close the browser.
-    print("All done!")
+                                                      video_folder, q)
+        all_downloaded += downloaded
+        all_skipped += skipped
+    # Done , close the browser.
+    print("All links have been collected, waiting for downloads to complete...")
     driver.quit()
+    # Let the thread know that we're done collecting download links.
+    q.put(lambda: False)
+    # Wait for all the downloads to complete.
+    t.join()
 
     # List the lectures that we downloaded and those we skipped.
-    if len(downloaded) > 0:
-        if len(downloaded) == 1:
+    if len(all_downloaded) > 0:
+        if len(all_downloaded) == 1:
             print("Downloaded 1 lecture:")
         else:
-            print(f"Downloaded {len(downloaded)} lectures:")
-        for lecture in downloaded:
+            print(f"Downloaded {len(all_downloaded)} lectures:")
+        for lecture in all_downloaded:
             print(lecture.fName)
 
-    if len(skipped) > 0:
-        if len(skipped) == 1:
+    if len(all_skipped) > 0:
+        if len(all_skipped) == 1:
             print("Skipped 1 lecture:")
         else:
-            print(f"Skipped {len(skipped)} lectures:")
-        for lecture in skipped:
+            print(f"Skipped {len(all_skipped)} lectures:")
+        for lecture in all_skipped:
             print(lecture.fName + ": " + lecture.dl_status)
 
     print("\nDone!\n")
