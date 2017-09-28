@@ -85,7 +85,6 @@ from sys import stderr
 from threading import Thread
 from util import (
     retry_until_result,
-    reporthook,
     show_progress,
 )
 
@@ -722,7 +721,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
             except:
                 time.sleep(0.5)
 
-        # Easy to deal with full download, just use urlretrieve. reporthook gives a progress bar.
+        # This handles a full download. Report the local size as 0.
         if not partial:
             dl_func = functools.partial(download_lecture, dl_link, lec.fPath, lec.fName, 0)
         # This handles a partially downloaded file.

@@ -23,27 +23,12 @@ def retry_until_result(wait_message, delay=0.25, max_retries=10):
     return actual_decorator
 
 
-# Progress bar code from here:
-# https://stackoverflow.com/questions/13881092/download-progressbar-for-python-3
-# This code is used in the urlretrieve call.
-def reporthook(blocknum, blocksize, totalsize):
-    readsofar = blocknum * blocksize
-    if totalsize > 0:
-        percent = readsofar * 1e2 / totalsize
-        s = "\r%5.1f%% %*.1f / %.1f MiB " % (
-            percent,
-            len(str(totalsize)),
-            readsofar / 1024 / 1024,
-            totalsize / 1024 / 1024,
-        )
-        sys.stderr.write(s)
-        if readsofar >= totalsize: # near the end
-            sys.stderr.write("\n")
-    else: # total size is unknown
-        sys.stderr.write("read %d\n" % (readsofar,))
-
-
 def show_progress(filehook, pretty_name, localSize, webSize, chunk_size=1024):
+    ''' Downloads a file, optionally partially, while showing the progress of
+    the download. This download progress is printed on the same line using a
+    carriage return. This can mean other lines can sometimes display leftovers
+    from this function if the line is shorter than the progress message.
+    '''
     fh = filehook
     total_size = webSize
     total_read = localSize
