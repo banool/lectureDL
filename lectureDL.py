@@ -404,7 +404,23 @@ def determine_subjects_to_download(subject_list):
     return getSubjects(subject_list)
 
 
+def download_full(dl_link, output_name):
+    print("Downloading to", output_name)
+    urllib.request.urlretrieve(dl_link, output_name, reporthook)
 
+
+def download_partial(dl_link, output_name, pretty_name, sizeLocal, sizeWeb):
+    print("Resuming partial download of %s (%0.1f/%0.1f)." % (pretty_name, sizeLocal/1000, sizeWeb/1000))
+
+    req = urllib.request.Request(dl_link)
+    req.headers['Range'] = 'bytes=%s-' % sizeLocal
+    f = urllib.request.urlopen(req)
+    # The ab is the append write mode.
+    with open(output_name, 'ab') as output:
+        for chunk in show_progress(f, sizeLocal, sizeWeb):
+            # Process the chunk
+            output.write(chunk)
+    f.close()
 
 
 def download_lectures_for_subject(driver, subject, downloaded, skipped,
@@ -693,24 +709,11 @@ def download_lectures_for_subject(driver, subject, downloaded, skipped,
 
         # Easy to deal with full download, just use urlretrieve. reporthook gives a progress bar.
         if partial == False:
-            print("Downloading to", lec.fPath)
-            urllib.request.urlretrieve(dl_link, lec.fPath, reporthook)
+            download_full(dl_link, lec.fPath)
         # This handles a partially downloaded file.
         else:
             sizeLocal, sizeWeb = partial
-            print("Resuming partial download of %s (%0.1f/%0.1f)." % (lec.fName, sizeLocal/1000, sizeWeb/1000))
-
-            req = urllib.request.Request(dl_link)
-            req.headers['Range'] = 'bytes=%s-' % sizeLocal
-            f = urllib.request.urlopen(req)
-            # The ab is the append write mode.
-            with open(lec.fPath, 'ab') as output:
-                for chunk in show_progress(f, sizeLocal, sizeWeb):
-                    # Process the chunk
-                    output.write(chunk)
-
-        print("Completed! Going to next file!")
-        downloaded.append(lec)
+            download_partial(dl_link, lec.fPath, lec.fName, sizeLocal, sizeWeb)
 
     # when finished with subject
     print("Finished downloading files for", lec.subjCode)
