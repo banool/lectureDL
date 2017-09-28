@@ -426,10 +426,10 @@ def download_partial(dl_link, output_name, pretty_name, sizeLocal, sizeWeb):
     f.close()
 
 
-def download_lectures_for_subject(driver, subject, downloaded, skipped,
-                                  current_year, week_day, dates_list,
-                                  download_mode, video_folder, q):
-
+def download_lectures_for_subject(driver, subject,  current_year, week_day,
+                                  dates_list, download_mode, video_folder, q):
+    downloaded = []
+    skipped = []
     subjCode, name, link, sub_num = subject
     print(f"\nNow working on {subjCode}: {name}")
 
@@ -719,6 +719,7 @@ def download_lectures_for_subject(driver, subject, downloaded, skipped,
             dl_func = functools.partial(download_partial, dl_link, lec.fPath, lec.fName, sizeLocal, sizeWeb)
 
         q.put(dl_func)
+        downloaded.append(lec)
 
     # when finished with subject
     print(f"Queued downloads for {lec.subjCode}! Going to next file!")
@@ -791,7 +792,6 @@ def main():
     t.start()
     for subject in subjects_to_download:
         downloaded, skipped = download_lectures_for_subject(driver, subject,
-                                                      all_downloaded, all_skipped,
                                                       current_year, week_day,
                                                       dates_list,
                                                       download_mode,
@@ -808,18 +808,12 @@ def main():
 
     # List the lectures that we downloaded and those we skipped.
     if len(all_downloaded) > 0:
-        if len(all_downloaded) == 1:
-            print("Downloaded 1 lecture:")
-        else:
-            print(f"Downloaded {len(all_downloaded)} lectures:")
+        print(f"Downloaded {len(all_downloaded)} lecture(s):")
         for lecture in all_downloaded:
             print(lecture.fName)
 
     if len(all_skipped) > 0:
-        if len(all_skipped) == 1:
-            print("Skipped 1 lecture:")
-        else:
-            print(f"Skipped {len(all_skipped)} lectures:")
+        print(f"Skipped {len(all_skipped)} lecture(s):")
         for lecture in all_skipped:
             print(lecture.fName + ": " + lecture.dl_status)
 
