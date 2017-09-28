@@ -407,20 +407,29 @@ def determine_subjects_to_download(subject_list):
     return getSubjects(subject_list)
 
 
-def download_full(dl_link, output_name):
-    print("Downloading to", output_name)
-    urllib.request.urlretrieve(dl_link, output_name, reporthook)
-
-
-def download_partial(dl_link, output_name, pretty_name, sizeLocal, sizeWeb):
-    print("Resuming partial download of %s (%0.1f/%0.1f)." % (pretty_name, sizeLocal/1000, sizeWeb/1000))
-
+def download_lecture(dl_link, output_name, pretty_name, sizeLocal):
+    partial = bool(sizeLocal)
     req = urllib.request.Request(dl_link)
-    req.headers['Range'] = 'bytes=%s-' % sizeLocal
+    if not partial:
+        # Full download.
+        mode = 'wb'
+    else:
+        # Resuming a partially completed download.
+        req.headers['Range'] = 'bytes=%s-' % sizeLocal
+        mode = 'ab'
     f = urllib.request.urlopen(req)
+    # We do + sizeLocal because if we are doing a partial download, the length
+    # is only for what we requested to download, not the whole thing.
+    sizeWeb = int(f.headers["Content-Length"]) + sizeLocal
+
+    if not partial:
+        print(f"Downloading {pretty_name} to {output_name}.")
+    else:
+        print(f"Resuming partial download of {pretty_name} ({sizeLocal/1000:0.1f}/{sizeWeb/1000:0.1f}).")
+
     # The ab is the append write mode.
-    with open(output_name, 'ab') as output:
-        for chunk in show_progress(f, sizeLocal, sizeWeb):
+    with open(output_name, mode) as output:
+        for chunk in show_progress(f, pretty_name, sizeLocal, sizeWeb):
             # Process the chunk
             output.write(chunk)
     f.close()
@@ -478,7 +487,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
             recs_list = recs_ul.find_elements_by_css_selector("li.li-echoes")
             break
         except NoSuchElementException:
-            print("Slow connection, waiting for echocenter to load...")
+            print("Slow connection, waiting for echocenter to load... ")
             time.sleep(0.5)
 
     # setup for recordings
@@ -639,6 +648,9 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
             # cancelled the download). We tell them we're going to download it again.
             # Using wget we could resume the download, but python urllib doesn't have such functionality.
             try:
+                # TODO: This whole thing is weird, we shouldn't have to open the
+                # web link twice. This should all probably be handled in the
+                # download function, or at least more elegantly than this.
                 f = urllib.request.urlopen(dl_link)
                 # This is the size of the file on the server in bytes.
                 sizeWeb = int(f.headers["Content-Length"])
@@ -711,12 +723,12 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
                 time.sleep(0.5)
 
         # Easy to deal with full download, just use urlretrieve. reporthook gives a progress bar.
-        if partial == False:
-            dl_func = functools.partial(download_full, dl_link, lec.fPath)
+        if not partial:
+            dl_func = functools.partial(download_lecture, dl_link, lec.fPath, lec.fName, 0)
         # This handles a partially downloaded file.
         else:
             sizeLocal, sizeWeb = partial
-            dl_func = functools.partial(download_partial, dl_link, lec.fPath, lec.fName, sizeLocal, sizeWeb)
+            dl_func = functools.partial(download_lecture, dl_link, lec.fPath, lec.fName, sizeLocal)
 
         q.put(dl_func)
         downloaded.append(lec)

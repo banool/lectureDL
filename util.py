@@ -43,7 +43,7 @@ def reporthook(blocknum, blocksize, totalsize):
         sys.stderr.write("read %d\n" % (readsofar,))
 
 
-def show_progress(filehook, localSize, webSize, chunk_size=1024):
+def show_progress(filehook, pretty_name, localSize, webSize, chunk_size=1024):
     fh = filehook
     total_size = webSize
     total_read = localSize
@@ -53,5 +53,5 @@ def show_progress(filehook, localSize, webSize, chunk_size=1024):
             fh.close()
             break
         total_read += len(chunk)
-        print("== Progress: %0.1f%% ==" % (total_read*100.0/total_size), end="\r", flush=True)
+        print("== Progress (%s):% 5.1f%% ==" % (pretty_name, total_read*100.0/total_size), end="\r", flush=True)
         yield chunk
