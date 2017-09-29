@@ -309,9 +309,12 @@ def sign_in(driver):
 # TODO think of a better way to select the lecture stuff and not the community stuff on the right.
 @retry_until_result('Waiting for course list to load...')
 def get_course_links(driver):
-    # list items in list class "courseListing"
+    # NOTE: Because of the decorator, use this function as if it were a regular
+    # function that returns, not yields.
     course_links = None
     try:
+        time.sleep(1)
+        # list items in list class "courseListing"
         course_list_candidates = driver.find_elements_by_css_selector("ul.courseListing")
         course_list = None
         # Sometimes there is an invisible dummy subject list that of course
@@ -321,16 +324,16 @@ def get_course_links(driver):
             if c.value_of_css_property('display') == 'none':
                 continue
             course_list = c
-        if course_list is None:
-            return None
-        # only get links with target="_top" to single out subject headings
-        course_links = course_list.find_elements_by_css_selector('a[target=_top]')
-        # list to be appended with [subj_code, subj_name, subj_link]
+            if course_list is None:
+                yield None
+            # only get links with target="_top" to single out subject headings
+            course_links = course_list.find_elements_by_css_selector('a[target=_top]')
+            # list to be appended with [subj_code, subj_name, subj_link]
+            yield course_links
+        yield None
     except NoSuchElementException:
         # This section must not have loaded yet.
-        return None
-
-    return course_links
+        yield None
 
 
 def getSubjectList(course_links):
@@ -341,7 +344,10 @@ def getSubjectList(course_links):
     for subj_num, link in enumerate(course_links):
         # Turn link text into usable information.
         # E.g. 'POLS20025_2017_SM2: International Relations: Key Questions'
-        subj_code, _, _, subj_name = re.split(r"[_:]", link.text, 3)
+        try:
+            subj_code, _, _, subj_name = re.split(r"[_:]", link.text, 3)
+        except ValueError:
+            raise RuntimeError('Wrong box, communities probably')
         subj_name = subj_name.lstrip()
         subj_link = link.get_attribute("href")
 
@@ -780,8 +786,17 @@ def main():
     driver.refresh()
     print("Building list of subjects")
 
-    course_listing = get_course_links(driver)
-    subject_list = getSubjectList(course_listing)
+    # This yucky looking control structure makes sure we get the right
+    # box (subjects and not communities).
+    subjectsFoundSuccess = False
+    while not subjectsFoundSuccess:
+        course_listing = get_course_links(driver)
+        try:
+            subject_list = getSubjectList(course_listing)
+        except RuntimeError:
+            continue
+        subjectsFoundSuccess = True
+
     numSubjects = len(subject_list)
 
     subjects_to_download = determine_subjects_to_download(subject_list)
@@ -794,7 +809,7 @@ def main():
     all_skipped = []
 
     q = Queue()
-    t = Thread(target=consume_dl_queue, args=(q,))
+    t = Thread(target=consume_dl_queue, args=(q,), daemon=True)
     t.start()
     for subject in subjects_to_download:
         downloaded, skipped = download_lectures_for_subject(driver, subject,

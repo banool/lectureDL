@@ -1,1 +1,1 @@
-from settings_personal import *
+from settings_claire import *

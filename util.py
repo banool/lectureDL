@@ -1,10 +1,13 @@
 import sys
 import time
+import types
 
 def retry_until_result(wait_message, delay=0.25, max_retries=10):
     ''' Decorator to retry a function until it doesn't return None.
     As such it obviously relies on the function returning None on failure.
     Any function that waits on something to load should use this decorator.
+    Note that in its current form, this reduces generators to be used as
+    if they were just regular functions (so don't call next() or anything).
     '''
     def actual_decorator(function):
         def wrapper(*args, **kwargs):
@@ -14,6 +17,9 @@ def retry_until_result(wait_message, delay=0.25, max_retries=10):
                     raise RuntimeError('Max retries exceeded!')
                 retries += 1
                 result = function(*args, **kwargs)
+                # Roughly handle if the function is a generator.
+                if isinstance(result, types.GeneratorType):
+                    result = next(result)
                 if result is None:
                     time.sleep(delay)
                     print(wait_message)
