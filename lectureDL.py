@@ -22,7 +22,7 @@
 # If you're modifying this in the future, know first off that the code was
 # not designed with easy future use, nor abstraction in general, in mind.
 # I've made it a bit better but it's still messy. Assuming you've got the
-# required directory structure in place (check out the video_folder variable),
+# required directory structure in place (check out the uni_folder variable),
 # you'll have to:
 # 1. Change the current year and semester if necessary.
 # 2. Change the variables representing the start of the semester (such as
@@ -111,10 +111,6 @@ FOLDER_ERROR = (" doesn\'t exist.\nWould you like to use the Downloads" +
 FOLDER_NAME_ERROR = ("There is a name mismatch between the subjects list and" +
                      " the folder names.")
 
-# DAVE_PERSONAL_PREFERENCE
-# Enter Video Folder here
-UNI_FOLDER = settings['uni_location']
-
 
 class Lecture(object):
 
@@ -144,7 +140,7 @@ def check_uni_folder(uni_folder):
         conf = input(f"{uni_folder}{FOLDER_ERROR}")[0].lower()
         if conf != 'y':
             print('Ok, shutting down.')
-            exit()
+            exit(1)
         uni_folder = os.path.join(home_dir, "Downloads")
     return uni_folder
 
@@ -435,7 +431,7 @@ def download_lecture(dl_link, output_name, pretty_name, sizeLocal):
 
 
 def download_lectures_for_subject(driver, subject,  current_year, week_day,
-                                  dates_list, download_mode, video_folder, q):
+                                  dates_list, download_mode, uni_folder, q):
     downloaded = []
     skipped = []
     subjCode, name, link, sub_num = subject
@@ -580,7 +576,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
     # preset_subject_folders = settings['subject_folders']
     # if preset_subject_folders != '':
     #     subjectFolder =
-    subjectFolder = getSubjectFolder(lec.subjCode, video_folder)
+    subjectFolder = getSubjectFolder(lec.subjCode, uni_folder)
 
     # assign filenames
     # made it a separate loop because in the loop above it's constantly
@@ -601,7 +597,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
             folder = audio_folder
         else:
             filename_with_ext = filename + ".m4v"
-            folder = video_folder
+            folder = uni_folder
 
         file_path = os.path.join(folder, subjectFolder, LECTURE_FOLD_NAME,
                                  filename_with_ext)
@@ -752,8 +748,7 @@ def consume_dl_queue(q):
 def main():
     # Setup download folders
     home_dir = os.path.expanduser("~")
-    uni_folder = os.path.join(home_dir, UNI_FOLDER)
-    video_folder = check_uni_folder(uni_folder)
+    uni_folder = check_uni_folder(settings['uni_location'])
 
     print("Welcome to", argv[0])
 
@@ -806,7 +801,7 @@ def main():
                                                       current_year, week_day,
                                                       dates_list,
                                                       download_mode,
-                                                      video_folder, q)
+                                                      uni_folder, q)
         all_downloaded += downloaded
         all_skipped += skipped
     # Done , close the browser.

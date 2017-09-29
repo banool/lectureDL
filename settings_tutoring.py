@@ -1,12 +1,14 @@
 import os
 
 from collections import defaultdict
-from settings_base import _settings_base
+from settings_base import _settings_base, getLectureName
 
 settings = {
     'username': 'dsporteous',
     'password': os.environ['UNIMELBPASSTUTOR'],
-    'date_range': '3-12',
+    'date_range': '8-12',
+    'lecture_subfolder_name': 'Lectures',
+    'uni_location': os.path.join(os.path.expanduser('~'), 'Dropbox/uni2017'),
 }
 
 # Merge settings_base and settings.
