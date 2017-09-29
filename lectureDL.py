@@ -157,9 +157,8 @@ def getSubjectFolder(fname, uni_folder):
             break
     try:
         return subjectFolder
-    except NameError:
-        print(FOLDER_NAME_ERROR)
-        exit(-1)
+    except NameError as e:
+        raise e
 
 
 # define function to find a link and return the one it finds
@@ -582,7 +581,18 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
     # preset_subject_folders = settings['subject_folders']
     # if preset_subject_folders != '':
     #     subjectFolder =
-    subjectFolder = getSubjectFolder(lec.subjCode, uni_folder)
+    try:
+        subjectFolder = getSubjectFolder(lec.subjCode, uni_folder)
+    except NameError:
+        # If the user wants to automatically create the folders, do so.
+        if settings['auto_create_folders']:
+            subjectFolder = settings['default_auto_create_format'].format(
+                code=subjCode, name=name)
+            os.mkdir(subjectFolder)
+            print('Made folder: ' + subjectFolder)
+        else:
+            print(FOLDER_NAME_ERROR)
+            exit(1)
 
     # assign filenames
     # made it a separate loop because in the loop above it's constantly
