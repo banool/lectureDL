@@ -65,6 +65,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import (
     NoSuchElementException,
     ElementNotVisibleException,
+    WebDriverException,
 )
 
 import datetime
@@ -456,6 +457,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
             if recs_page is None:
                 print("No recordings page found, skipping to next subject")
                 return
+
             recs_page.click()
             time.sleep(.1)
 
@@ -471,7 +473,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
         # Untested, because the problem causing this bug mysteriously stopped
         # Could cause main tab to close. This also handles intermediate page
         # errors (because they're viewed as IndexErrors).
-        except IndexError:
+        except (IndexError, WebDriverException):
             # BELOW COMMENTED CODE LEFT IN CASE ERROR ARISES AGAIN
             # Switch tab to the new tab, which we will assume is the next one
             # on the right
@@ -822,13 +824,13 @@ def main():
     t = Thread(target=consume_dl_queue, args=(q,), daemon=True)
     t.start()
     for subject in subjects_to_download:
-        downloaded, skipped = download_lectures_for_subject(driver, subject,
-                                                      current_year, week_day,
-                                                      dates_list,
-                                                      download_mode,
-                                                      uni_folder, q)
-        all_downloaded += downloaded
-        all_skipped += skipped
+        res = download_lectures_for_subject(driver, subject, current_year,
+                                            week_day, dates_list, download_mode,
+                                            uni_folder, q)
+        if res:
+            downloaded, skipped = res
+            all_downloaded += downloaded
+            all_skipped += skipped if skipped else []
     # Done , close the browser.
     print("All links have been collected, waiting for downloads to complete...")
     driver.quit()
