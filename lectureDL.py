@@ -435,6 +435,16 @@ def download_lecture(dl_link, output_name, pretty_name, sizeLocal):
     f.close()
 
 
+@retry_until_result('Waiting for the echocenter to load... ')
+def getLectureList(driver):
+    try:
+        recs_ul = driver.find_element_by_css_selector("ul#echoes-list")
+        recs_list = recs_ul.find_elements_by_css_selector("li.li-echoes")
+    except NoSuchElementException:
+        return None
+    return (recs_ul, recs_list)
+
+
 def getRecordingsPage(driver):
     link_num = 0
     while True:
@@ -446,7 +456,6 @@ def getRecordingsPage(driver):
             if recs_page is None:
                 print("No recordings page found, skipping to next subject")
                 return
-
             recs_page.click()
             time.sleep(0.1)
 
@@ -457,7 +466,6 @@ def getRecordingsPage(driver):
             iframe3 = driver.find_elements_by_tag_name('iframe')[0]
             driver.switch_to_frame(iframe3)
             break
-
         # Incorrect page opened due to multiple 'Lecture' links. Try next link
         # Untested, because the problem causing this bug mysteriously stopped
         # Could cause main tab to close. This also handles intermediate page
@@ -471,17 +479,7 @@ def getRecordingsPage(driver):
             # driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + 'w')
             link_num += 1
 
-
-    # find ul element, list of recordings
-    while True:
-        try:
-            recs_ul = driver.find_element_by_css_selector("ul#echoes-list")
-            recs_list = recs_ul.find_elements_by_css_selector("li.li-echoes")
-            break
-        except NoSuchElementException:
-            print("Slow connection, waiting for echocenter to load... ")
-            time.sleep(0.5)
-    return (recs_list, recs_ul)
+    return getLectureList(driver)
 
 
 def download_lectures_for_subject(driver, subject,  current_year, week_day,
@@ -504,7 +502,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
         res = getRecordingsPage(driver)
         if res is None:
             return
-    recs_list, recs_ul = res
+    recs_ul, recs_list = res
 
     # setup for recordings
     multiple_lectures = False

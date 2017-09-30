@@ -1,1 +1,1 @@
-from settings_tutoring import *
+from settings_personal import *
