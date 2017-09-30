@@ -11,7 +11,8 @@ settings = {
     'uni_location': os.path.join(os.path.expanduser('~'), 'Downloads/claire'),
     'auto_create_folders': True,
     # Ignored if 'auto_create_folders' is False.
-    'default_auto_create_format': '{code} - {name}'
+    'default_auto_create_format': '{code} - {name}',
+    'subject_choices': '2,3',
 }
 
 # Merge settings_base and settings.

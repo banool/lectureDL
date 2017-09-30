@@ -369,8 +369,7 @@ def getValidUserChoice():
             print(f"Using preloaded setting: {settings['subject_choices']}")
             user_choice = settings['subject_choices']
         # Return the choice if it's valid
-        if user_choice == "" or (all(list(map(lambda x: x.isdigit()),
-                                          user_choice.split(",")))):
+        if user_choice == "" or all([x.isdigit() for x in user_choice.split(",")]):
             print("User choice valid!")
             return user_choice
         # If user choice invalid, continue loop.
@@ -495,6 +494,9 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
     driver.get(link)
 
     main_window = driver.current_window_handle
+    res = getRecordingsPage(driver)
+    if res is None:
+        return
     recs_list, recs_ul = getRecordingsPage(driver)
 
     # setup for recordings
