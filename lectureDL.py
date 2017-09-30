@@ -77,6 +77,7 @@ import urllib
 import re
 
 from collections import defaultdict
+from contextlib import suppress
 from os import listdir
 from os import stat
 from queue import Queue
@@ -102,9 +103,12 @@ except ImportError as e:
     settings['uni_location'] = os.path.join(os.path.expanduser('~'), 'Downloads')
     getLectureName = lambda lec: f"{lec.subjName} - L{lec.recNum:02}"
 
+# These are partial matches, so the best matches should appear first:
 LECTURE_TAB_STRINGS = ["Lecture Recordings", "Lecture Capture", "Lectures",
                        "lectures", "Lecture capture", "Recordings",
                        "recordings", "Capture", "capture"]
+# These must be exact matches:
+INTERMEDIATE_LECTURE_CAPTURE_NAMES = ['Lecture Capture', 'Lecture-Capture']
 LECTURE_FOLD_NAME = settings['lecture_subfolder_name']
 SUBJ_NAMES = settings['subject_names']
 FOLDER_ERROR = (" doesn\'t exist.\nWould you like to use the Downloads" +
@@ -166,15 +170,16 @@ def getSubjectFolder(fname, uni_folder):
 # works by making a list of the elements and sorts by descending list length,
 # so it returns the one with length 1, avoiding the empty lists.
 # if it can't find anything, it will return none
-def search_link_text(browser, query_terms, link_number):
+def search_link_text(browser, query_terms):
     link_elements = []
     for term in query_terms:
         link_elements.append(browser.find_elements_by_partial_link_text(term))
     sorted_links = sorted(link_elements, key=len, reverse=True)
-    if sorted_links[link_number] == []:
-        return None
-    else:
-        return sorted_links[link_number][0]
+    sorted_links_flat = []
+    for i in sorted_links:
+        for j in i:
+            sorted_links_flat.append(j)
+    return sorted_links_flat[0]
 
 
 # Determine download mode.
@@ -435,9 +440,30 @@ def download_lecture(dl_link, output_name, pretty_name, sizeLocal):
     f.close()
 
 
-@retry_until_result('Waiting for the echocenter to load... ')
+def getToRecordingsFirstPage(driver):
+    recs_first_page = search_link_text(driver, LECTURE_TAB_STRINGS)
+    if recs_first_page:
+        with suppress(WebDriverException):
+            recs_first_page.click()
+            return
+    # Try to move down the page (only once).
+    actions = webdriver.ActionChains(driver)
+    actions.send_keys(Keys.SPACE)
+    actions.perform()
+    recs_first_page = search_link_text(driver, LECTURE_TAB_STRINGS)
+    recs_first_page.click()
+
+
+# @retry_until_result('Waiting for the echocenter to load... ')
 def getLectureList(driver):
     try:
+        with suppress(Exception):
+            iframe = driver.find_elements_by_tag_name('iframe')[1]
+            driver.switch_to_frame(iframe)
+            iframe = driver.find_elements_by_tag_name('iframe')[0]
+            driver.switch_to_frame(iframe)
+            iframe = driver.find_elements_by_tag_name('iframe')[0]
+            driver.switch_to_frame(iframe)
         recs_ul = driver.find_element_by_css_selector("ul#echoes-list")
         recs_list = recs_ul.find_elements_by_css_selector("li.li-echoes")
     except NoSuchElementException:
@@ -445,40 +471,17 @@ def getLectureList(driver):
     return (recs_ul, recs_list)
 
 
-def getRecordingsPage(driver):
-    link_num = 0
-    while True:
-        try:
-            # Used where code under IndexError is also used (new tabs
-            # accidentally opened)
-            # driver.switch_to_window(main_window)
-            recs_page = search_link_text(driver, LECTURE_TAB_STRINGS, link_num)
-            if recs_page is None:
-                print("No recordings page found, skipping to next subject")
-                return
-            recs_page.click()
-            time.sleep(0.1)
+def getPastIntermediateRecordingsPage(driver):
+    # Try to get past an intermediate page if there is one.
+    for i in INTERMEDIATE_LECTURE_CAPTURE_NAMES:
+        with suppress(IndexError):
+            w = driver.find_elements_by_link_text(i)[0]
+            w.click()
 
-            iframe = driver.find_elements_by_tag_name('iframe')[1]
-            driver.switch_to_frame(iframe)
-            iframe2 = driver.find_elements_by_tag_name('iframe')[0]
-            driver.switch_to_frame(iframe2)
-            iframe3 = driver.find_elements_by_tag_name('iframe')[0]
-            driver.switch_to_frame(iframe3)
-            break
-        # Incorrect page opened due to multiple 'Lecture' links. Try next link
-        # Untested, because the problem causing this bug mysteriously stopped
-        # Could cause main tab to close. This also handles intermediate page
-        # errors (because they're viewed as IndexErrors).
-        except (IndexError, WebDriverException):
-            # BELOW COMMENTED CODE LEFT IN CASE ERROR ARISES AGAIN
-            # Switch tab to the new tab, which we will assume is the next one
-            # on the right
-            # driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.TAB)
-            # Close this new tab
-            # driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + 'w')
-            link_num += 1
 
+@retry_until_result('Getting past intermediate page / waiting for Echocenter to load...')
+def getToEchoCenter(driver):
+    getPastIntermediateRecordingsPage(driver)  # This one sleep internally.
     return getLectureList(driver)
 
 
@@ -493,16 +496,10 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
     driver.get(link)
 
     main_window = driver.current_window_handle
-    res = getRecordingsPage(driver)
-    if res is None:
-        # Try to move down the page (only once).
-        actions = webdriver.ActionChains(driver)
-        actions.send_keys(Keys.SPACE)
-        actions.perform()
-        res = getRecordingsPage(driver)
-        if res is None:
-            return
-    recs_ul, recs_list = res
+
+    # Get to the list of lectures.
+    getToRecordingsFirstPage(driver)
+    recs_ul, recs_list = getToEchoCenter(driver)
 
     # setup for recordings
     multiple_lectures = False

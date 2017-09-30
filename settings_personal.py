@@ -14,7 +14,7 @@ settings = {
         'COMP30020': 'COMP30020 - DP',
         'COMP30026': 'COMP30026 - MOC',
         'INFO20003': 'INFO20003 - DBS',
-    }
+    },
 }
 
 # Merge settings_base and settings.

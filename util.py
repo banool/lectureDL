@@ -2,7 +2,7 @@ import sys
 import time
 import types
 
-def retry_until_result(wait_message, delay=0.25, max_retries=10):
+def retry_until_result(wait_message, delay=0.25, max_retries=20):
     ''' Decorator to retry a function until it doesn't return None.
     As such it obviously relies on the function returning None on failure.
     Any function that waits on something to load should use this decorator.
@@ -12,6 +12,7 @@ def retry_until_result(wait_message, delay=0.25, max_retries=10):
     def actual_decorator(function):
         def wrapper(*args, **kwargs):
             retries = 0
+            print(wait_message)
             while True:
                 if retries >= max_retries:
                     raise RuntimeError('Max retries exceeded!')
@@ -22,7 +23,6 @@ def retry_until_result(wait_message, delay=0.25, max_retries=10):
                     result = next(result)
                 if result is None:
                     time.sleep(delay)
-                    print(wait_message)
                     continue
                 return result
         return wrapper
