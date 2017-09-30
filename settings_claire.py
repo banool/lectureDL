@@ -12,7 +12,7 @@ settings = {
     'auto_create_folders': True,
     # Ignored if 'auto_create_folders' is False.
     'default_auto_create_format': '{code} - {name}',
-    'subject_choices': '2,3',
+    'subject_choices': '1,2,3',
 }
 
 # Merge settings_base and settings.

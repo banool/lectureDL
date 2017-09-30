@@ -448,7 +448,7 @@ def getRecordingsPage(driver):
                 return
 
             recs_page.click()
-            time.sleep(.1)
+            time.sleep(0.1)
 
             iframe = driver.find_elements_by_tag_name('iframe')[1]
             driver.switch_to_frame(iframe)
@@ -470,6 +470,7 @@ def getRecordingsPage(driver):
             # Close this new tab
             # driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + 'w')
             link_num += 1
+
 
     # find ul element, list of recordings
     while True:
@@ -496,8 +497,14 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
     main_window = driver.current_window_handle
     res = getRecordingsPage(driver)
     if res is None:
-        return
-    recs_list, recs_ul = getRecordingsPage(driver)
+        # Try to move down the page (only once).
+        actions = webdriver.ActionChains(driver)
+        actions.send_keys(Keys.SPACE)
+        actions.perform()
+        res = getRecordingsPage(driver)
+        if res is None:
+            return
+    recs_list, recs_ul = res
 
     # setup for recordings
     multiple_lectures = False
