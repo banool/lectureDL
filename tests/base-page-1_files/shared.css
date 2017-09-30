@@ -1,0 +1,2890 @@
+@import url("../fonts/icon-core.css");
+@import url("../fonts/icon-listing.css");
+
+
+/* SHARED css - used across all themes and all pages, including MyBlackboard pages
+ *
+ * Rules for this file:
+ * - Only put 'named' classes here: Do not style raw elements without a qualifying classname
+ * - Only put structural classes here, not colors unless absolutely necessary (comment).
+ *
+ * The long-term intention is to eventually have the system "functional" with just shared.css included -
+ * maybe not colourful and pretty, but functional
+ */
+
+/*Noframes adjustments*/
+
+#globalNavPageContentArea {
+  position: relative;
+}
+
+/*End noframes*/
+
+.container {
+  position: relative;
+}
+
+.submitStepBottom p.taskbuttonhelp { float:left }
+
+.submitStepTop {
+ height: 75px;
+}
+
+.submitStepBottom {
+    background: #fff;
+    border: 0px;
+}
+
+.submitStepFixed {
+    background-color: #eee;
+    border: 1px solid #cdcdcd;
+    box-shadow: 0 -5px 4px -3px rgba(0, 0, 0, 0.13);
+    -webkit-box-shadow: 0 -5px 4px -3px rgba(0, 0, 0, 0.13);
+    z-index: 100;
+    position: fixed;
+    bottom: 0;
+}
+
+.taskbuttondiv_wrapper{
+  height: 75px;
+  width:100%;
+}
+
+div.blogContainer div.entryFooter div.addBlogComment {
+ display: none;
+}
+
+div.blogContainer div.entryFooter a.genericButton {
+ display: block;
+ float: right;
+}
+
+.legend-visible {
+  display:block;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  height: auto;
+  line-height: 1.2;
+  position: static;
+  top: auto;
+  word-wrap: break-word;
+}
+
+.legend-visible-header {font-weight: bold;}
+
+.u_controlsWrapper {
+ padding: 6px 0;
+ *display: inline-block;
+}
+
+.u_reverseAlign {
+ text-align: right
+}
+
+tr.dummyVTBEFooter td {
+ padding: 2px;
+ text-align: right;
+}
+
+div.blogContainer ul.entryComments {
+ margin: 0;
+ padding: 0;
+}
+
+div.blogContainer ul.entryComments li {
+ list-style: none;
+ margin: 0;
+ padding: 6px 0;
+}
+
+div.blogContainer ul.entryComments li p {
+ margin: 0px 0 4px;
+ padding: 12px;
+ _height: 1%;
+ overflow: hidden;
+}
+
+div.blogContainer ul.entryComments li p.commentDate {
+ position: relative;
+ z-index: 10;
+ margin: 2px 0 -1px;
+ padding: 0 0 4px;
+ text-align: right;
+}
+
+/* h5 wrapped around the name of each commentor */
+div.blogContainer ul.entryComments li h5 {
+ display: inline;
+ margin: 0;
+ padding: 3px 0 0;
+}
+
+.comment-delete {
+  background: url(/images/ci/actionbar/clp_item_remove.gif) no-repeat 0 0;
+  overflow: hidden;
+  display: inline-block;
+  height: 17px;
+  width: 24px;
+}
+
+.comment-delete img {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+/* div.liveArea styles are since 9.1 - used in Blogs */
+div.liveArea fieldset.stepcontent {
+ margin: 0;
+ padding: 0;
+}
+
+div.liveArea fieldset.stepcontent ol li {
+ margin: 0;
+}
+
+div.liveArea fieldset.stepcontent textarea {
+ width: 98%;
+ *width: 98%;
+ *overflow: auto;
+}
+
+div.liveArea fieldset.stepcontent span.inlineHelp {
+ display: inline;
+}
+
+/* ========= BEGIN HUB AND SPOKE ==============*/
+/*SubStep*/
+.subStep{
+    padding: 0;
+    margin: 0 0 10px 0;
+    border: none;
+}
+/*Step Title*/
+.collapsibleStepTitle{
+    color: #00748B;
+    background-color: #eee;
+    padding: 0 12px;
+    height:40px;
+    line-height:40px;
+    text-decoration:underline;
+    cursor: pointer;
+    border-bottom:1px solid transparent;
+}
+h3.collapsibleStepTitle{
+    margin-bottom:0;
+}
+.collapsibleStepTitle:focus
+{
+ border-bottom:1px solid #ccc;
+}
+
+/*Step Content*/
+.collapsibleStepContent{
+    background-color:#eee !important;
+}
+.collapsibleStepContent > ol {
+  margin:0 15px 30px 15px;
+}
+
+.collapsibleStepContent li{
+    padding:10px 0 !important;
+}
+/* ========= END HUB AND SPOKE ==========*/
+
+
+
+/* ================= Global Nav Menu ================= */
+#mybb-nav .flyout-menu {
+ width: 400px;
+}
+
+.mybb-tools li {
+ height: 40px;
+ width: 40px;
+ overflow: hidden;
+}
+
+.mybb-tools li:hover { /* IE 8 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+ /* IE 5-7 */
+ filter: alpha(opacity =   100);
+ /* Netscape */
+ -moz-opacity: 1;
+ /* Safari 1.x */
+ -khtml-opacity: 1;
+ /* Good browsers */
+ opacity: 1;
+}
+
+
+.mybb-tools li a {
+ height: 39px;
+ width: 39px;
+ position: relative;
+ /* IE 8 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+ /* IE 5-7 */
+ filter: alpha(opacity =   80);
+ /* Netscape */
+ -moz-opacity: 0.8;
+ /* Safari 1.x */
+ -khtml-opacity: 0.8;
+ /* Good browsers */
+ opacity: 0.8;
+}
+
+.mybb-tools li a:focus, .mybb-tools li a:focus img {
+  outline: 1px dotted #CCCCCC;
+}
+
+
+#global-list-tools {
+ margin: 4px;
+ width: 40px;
+}
+
+.mybb-tools li a:focus,
+.mybb-tools li a:focus img,
+.mybb-tools li a:hover { /* IE 8 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+ /* IE 5-7 */
+ filter: alpha(opacity =                 100);
+ /* Netscape */
+ -moz-opacity: 1;
+ /* Safari 1.x */
+ -khtml-opacity: 1;
+ /* Good browsers */
+ opacity: 1;
+}
+
+/* TODO: Someone added color without comment here - against the rules for shared.css */
+.mybb-tools li span.badge {
+ background-color: #B90000;
+ position: absolute;
+ right: 0;
+ top: 2px;
+}
+
+/* TODO: Someone added color without comment here - against the rules for shared.css */
+.mybb-tools li.home,.mybb-tools li.logout {
+ background-color: #666;
+}
+
+/* TODO: Someone added color without comment here - against the rules for shared.css */
+.mybb-tools li.home:hover,.mybb-tools li.logout:hover {
+ background-color: #404040;
+}
+
+/* BEGIN SMALL TOOL ICONS*/
+.mybb-tools a {
+ background-image: url('/images/ci/mybb/mybb_nav_sprite_sm.png');
+ background-repeat: no-repeat;
+ background-color: transparent;
+}
+
+.mybb-tools .overview a {
+ background-position: 5px 7px
+}
+
+.mybb-tools .stream a {
+ background-position: -72px 7px
+}
+
+.mybb-tools .messages a {
+ background-position: -115px 7px
+}
+
+.mybb-tools .grades a {
+ background-position: -156px 7px
+}
+
+.mybb-tools .people a {
+ background-position: -202px 7px
+}
+
+.mybb-tools .spaces a {
+ background-position: -247px 7px
+}
+
+.mybb-tools .todo a {
+ background-position: -293px 7px
+}
+
+.mybb-tools .alerts a {
+ background-position: -336px 7px
+}
+
+.mybb-tools .more-link a {
+ background-position: -417px 7px
+}
+
+.mybb-tools .calendar a {
+ background-position: -459px 7px
+}
+
+.mybb-tools .logout a {
+ background-position: -372px 7px
+}
+
+.mybb-tools .profile {
+ height: auto;
+ margin-bottom: 5px;
+}
+
+.mybb-tools .profile a {
+ padding: 0;
+ height: auto;
+ background-image: none;
+}
+
+/* END SMALL TOOL ICONS*/
+#global-nav .profile img {
+ width: 30px;
+ height: 30px;
+ margin: 5px;
+ padding: 0;
+}
+
+/*flyout- bottom button styels*/
+/* TODO: Someone added color without comment here - against the rules for shared.css */
+.bottom-buttons {
+ width: 210px;
+ background-color: white;
+ height: 25px;
+ line-height: 25px;
+ position: absolute;
+ bottom: 0;
+ right: 0;
+}
+
+.bottom-buttons li {
+ border-right: 1px solid #EEEEEE;
+ float: left;
+ font-size: 11px;
+ overflow: hidden;
+ width: 105px;
+ -webkit-box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ box-sizing: border-box;
+}
+
+.bottom-buttons li:last-child {
+ border: none;
+}
+
+.bottom-buttons a {
+ text-indent: -9999px;
+}
+
+/* hope to un-comment these in the future, so all themes can use the same icons */
+/* for now, only the 2012 theme uses these icons. the 2008 themes use icons set on the Customize Brand page */
+/*.bottom-buttons-home a {
+  background: transparent
+              url('/images/ci/mybb/mybb_nav_bottombuttons_sprite.png ') no-repeat
+              50% 6px;
+}
+
+.bottom-buttons-help a {
+  background: transparent
+              url('/images/ci/mybb/mybb_nav_bottombuttons_sprite.png ') no-repeat
+              50% -13px;
+}
+
+.bottom-buttons-logout a {
+  background: transparent
+              url('/images/ci/mybb/mybb_nav_bottombuttons_sprite.png ') no-repeat
+              50% -33px;
+}*/
+
+/* TODO: Someone added color without comment here - against the rules for shared.css */
+.bottom-buttons a:hover,.bottom-buttons a:focus {
+ color: #000;
+ background-color: #ddd !important;
+}
+
+.accordion_toggle_active {
+ background-color: #ccc !important;
+ color: #000;
+}
+
+.accordion_content {
+ background-color: #eee;
+ color: #444444;
+ overflow: auto;
+ -webkit-box-shadow: 0 5px 10px -7px #000 inset;
+ -moz-box-shadow: 0 5px 10px -7px #000 inset;
+ box-shadow: 0 5px 10px -7px #000 inset;
+}
+
+.accordion_content li {
+ margin: 0 12px;
+ padding: 4px 0;
+}
+
+.accordion_content li:last-child {
+ border-bottom: none;
+}
+
+.accordion_content li a {
+ color: #128FA8;
+ padding: 0;
+ font-size: 110%;
+ line-height: 1.2em;
+}
+
+
+.accordion_content .course-list li a,.accordion_content .accordion-list li a
+ {
+ border-bottom: 1px dotted;
+ font-weight: 600;
+ display: inline;
+}
+
+.accordion_content .course-list li a:hover,.accordion_content .course-list li a:focus,.accordion_content .accordion-list li a:hover,.accordion_content .accordion-list li a:focus
+ {
+ border-bottom-style: solid;
+}
+
+.accordion-list {
+ margin-top: 6px;
+}
+
+.accordion_content .noItems {
+ margin-top: 12px;
+ display: block;
+ text-align: center;
+ font-size: 110%;
+}
+
+.accordion_content li span {
+ display: block;
+ font-size: 9px;
+ line-height: 100%;
+}
+
+.accordion_content #menuShortcutText {
+  margin-top: 100%;
+  font-style: italic;
+  font-size: 75%;
+}
+
+/*top bar styles--*/
+
+.global-nav-bar-wrap {
+  position: absolute;
+  top: 0;
+  height: 0;
+  width: 100%;
+  z-index: 1010;
+}
+
+.global-nav-bar {
+ /*
+font-size: 11px;
+ height: 25px;
+ position: fixed;
+ top: 0;
+ right: 35px;
+ z-index: 999;
+*/
+
+  font-size: 12px;
+  height: 25px;
+  z-index: 999;
+  float: right;
+  margin-left: 3px;
+  position: relative;
+
+}
+
+.global-nav-bar.logout {
+/*  right: 0px; */
+}
+
+.global-nav-bar .badge,.side-nav .menu-icon span.badge {
+ /*This badge style should be a global class. Once added into mybb.css, remove this declaration.*/
+ display: inline-block;
+ font-size: 10px;
+ font-weight: 800;
+ height: 12px;
+ /*  width: 20px; */
+ background-color: #b90000;
+ text-align: center;
+ line-height: .9;
+ color: #fff;
+ margin-left: 5px;
+ -webkit-border-radius: 2px 2px 2px 2px;
+ -moz-border-radius: 2px 2px 2px 2px;
+ border-radius: 2px 2px 2px 2px;
+ -webkit-box-shadow: none;
+ -moz-box-shadow: none;
+ box-shadow: none;
+ padding: 3px 3px 0;
+}
+
+
+.global-nav-bar a {
+ display: block;
+}
+
+.nav-link {
+ position: relative;
+ display: block;
+ padding: 0 49px 0 28px;
+ background: none;
+ background: rgba(0, 0, 0, 0.2);
+ -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#26000000,
+  endColorstr=#26000000 );
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#26000000,
+  endColorstr=#26000000 );
+ zoom: 1;
+ color: #eee;
+ height: 25px;
+ line-height: 25px;
+ text-decoration: none;
+ -webkit-touch-callout: none;
+ -webkit-user-select: none;
+ -khtml-user-select: none;
+ -moz-user-select: none;
+ -ms-user-select: none;
+ user-select: none;
+ white-space: nowrap;
+}
+
+.nav-link:hover,.nav-link:focus {
+ background: rgba(0, 0, 0, 0.6);
+ -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#62000000,
+  endColorstr=#62000000 );
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#62000000,
+  endColorstr=#62000000 );
+}
+
+.global-nav-bar .logout-link {
+ width: 32px;
+ padding: 0;
+ background-image: url('/images/ci/mybb/mybb_nav_logout.png');
+ background-repeat: no-repeat;
+ background-position: 50% 0;
+ text-indent:-10000px;
+ overflow:hidden;
+}
+
+.global-nav-bar .logout-link:hover,.global-nav-bar .logout-link:focus {
+ background-position: 50% -22px;
+}
+
+.nav-link .badge {
+ position: absolute;
+ right: 22px;
+ top: 5px;
+}
+
+.global-toggle {
+ position: absolute;
+ right: 0;
+ top: 9px;
+}
+
+.flyout-menu {
+ -webkit-box-shadow: 0 4px 15px 2px #222;
+ -moz-box-shadow: 0 4px 15px 2px #222;
+ box-shadow: 0 4px 15px 2px #222;
+ -webkit-box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ box-sizing: border-box;
+ background-color: #444;
+ position: absolute;
+ top: 25px;
+ right: 0;
+ width: 260px;
+}
+
+.flyout-menu a {
+ color: #128FA8;
+}
+
+.flyout-menu .list li {
+ padding: .5em;
+ border-bottom: 1px solid #eee;
+}
+
+.flyout-menu .list li:last-child {
+ border-bottom: none;
+}
+
+.flyout-menu .list li:hover {
+ background-color: #eee;
+}
+
+.flyout-menu .accordion-wrapper {
+ position: absolute;
+ top: 0;
+ bottom: 0;
+ right: 0;
+ background-color: #ddd;
+ width: 211px;
+ overflow: hidden;
+}
+
+.flyout-menu .accordion_toggle {
+ outline: none;
+}
+
+
+
+.flyout-menu .accordion_toggle span {
+  -moz-user-select: none;
+  background-color: #DDDDDD;
+  border-bottom: 1px solid #CCCCCC;
+  color: #555555;
+  cursor: pointer;
+  display: block;
+  font-size: 110%;
+  font-weight: bold;
+  line-height: 25px;
+  margin: 0;
+  padding: 0 10px;
+  text-shadow: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.flyout-menu .accordion_toggle:focus span, .flyout-menu .accordion_toggle:hover span {
+ background-color: #ccc;
+}
+
+.flyout-menu .mybb-tools {
+ float: left;
+ height: 100%;
+ background-color: #333;
+ position: relative;
+}
+
+#global-nav .global-top-avatar {
+ position: absolute;
+ top: 4px;
+ left: 6px;
+ height: 16px;
+ width: 16px;
+}
+
+#global-nav-link span.observing {
+ background: transparent url(/images/console/icons/observing.gif)
+  no-repeat scroll 4px -3px;
+ display: inline;
+ padding: 3px 1px 3px 30px;
+ top: -5px;
+ *top: -3px;
+ *display: inline-block;
+ *vertical-align: top;
+ *position: relative;
+}
+
+#global-nav .more-tools {
+ position: absolute;
+ right: 100%;
+ bottom: 6px;
+ background-color: #404040;
+ -webkit-box-shadow: 0 0 12px 1px #111111;
+ -moz-box-shadow: 0 0 12px 1px #111111;
+ box-shadow: 0 0 12px 1px #111111;
+}
+
+.more-tools li {
+ float: left;
+ padding: 4px;
+}
+
+.previewContent .global-nav-bar {
+ position: relative;
+ float: right;
+}
+
+.previewContent .nav-link {
+ white-space: nowrap;
+}
+
+div.section-loading {
+ background: url( /images/ci/misc/progress/progress_learningSystem.gif )
+  no-repeat center center;
+ display: block;
+}
+
+/* ================= END Global Nav Menu ================= */
+
+/*Styles for lightbox.js*/
+div.lb-overlay {
+ position: fixed;
+ left: 0;
+ top: 0;
+ bottom: 0;
+ right: 0;
+ z-index: 1001;
+ filter: alpha(opacity = 50);
+ opacity: 0.5;
+}
+
+div.lb-wrapper {
+  position: fixed;
+  z-index: 1002;
+  -moz-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+
+div.lb-wrapper div.lb-header {
+  padding: 0.6em 3.0em 0.6em 1.0em;
+  outline: none;
+  background: #e7e7e7;
+  webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -o-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+}
+body>div.lb-wrapper div.lb-header {
+  margin-bottom:0 !important;
+}
+
+div.lb-wrapper div.lb-header h2 {
+ margin: 0;
+ padding: 0 15px 0 0;
+ min-height: 1.23em;
+ overflow: hidden;
+ font-weight: normal;
+}
+
+div.lb-wrapper div.lb-content {
+ overflow: auto;
+ padding: 0;
+}
+
+.lbAction {
+  background-color: #555555;
+  border: 2px solid #EEEEEE;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  color: #EEEEEE;
+  height: 20px;
+  line-height: 17px;
+  position: absolute;
+  right: -7px;
+  top: -7px;
+  width: 20px;
+  text-align: center;
+  z-index: 1010;
+}
+.lbAction img {
+  height: 10px;
+ /* margin-top: 5px;*/
+  width: 10px;
+}
+
+/* Apply to the parent element of children floated right */
+.u_floatThis-right {
+ float: right;
+ /* TODO everywhere but 2012 core had margin-left: 5px; here
+  * - and 2012 even has margin-right; 5px for the reverse of this
+  * I think we probably want to just add mergin-left:5px here, -right: 5px in float-left,
+  * and then add the reverse margins in shared_rtl.css
+  * and then remove all these styles from all other themes.
+  */
+}
+
+/* Apply to the parent element of children floated left */
+.u_floatThis-left {
+ float: left;
+}
+
+/*Float wrappers*/
+
+/* Floats immediate descendats right */
+.u_floatWrapper-right > div, .u_floatWrapper-right > li {
+  float: right;
+}
+
+/* Floats immediate descendats left */
+.u_floatWrapper-left > div, .u_floatWrapper-left > li, .u_floatWrapper-left > label, .u_floatWrapper-left > input {
+  float: left;
+}
+
+/* Cleans up after floats */
+.u_floatWrapper-left:after, .u_floatWrapper-right:after, .u_controlsWrapper:after {
+  content: ".";
+  display: block;
+  height:0;
+  clear: both;
+  visibility: hidden;
+}
+
+.u_clearFloatsWrapper > div, .u_clearFloatsWrapper > li {
+  float:none!important;
+}
+
+
+/* clearfix is applied to the parent containing floating children */
+.clearfix:after,.clearfixParent>div:after,.clearfixParent>li:after {
+ content: ".";
+ display: block;
+ height: 0px;
+ clear: both;
+ visibility: hidden;
+}
+
+.clearfix,.clearfixParent>div,.clearfixParent>li {
+ display: inline-block;
+}
+/* Hide from IE Mac \*/
+.clearfix,.clearfixParent>div,.clearfixParent>li {
+ display: block;
+}
+/* End hide from IE Mac */
+
+/* used in mashupPicker.vm */
+.clearfixInlineBlock {
+ display: inline-block;
+}
+
+/* welcome overlay */
+.welcomeOverlay {
+ background: none repeat scroll 0 0 rgba(0, 0, 0, 0.75);
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#B0000000,
+  endColorstr=#B0000000 );
+ bottom: 0;
+
+ font-family: "Helvetica Neue";
+ height: 100%;
+ left: 0;
+ position: fixed;
+ right: 0;
+
+ top: 0;
+ width: 100%;
+ z-index: 1001;
+}
+
+/* Colors */
+.welcomeMessage strong,.whatsNew h2 {
+ color: #32D0DB;
+ font-weight: bold;
+
+}
+
+.welcomeMessage {
+ right: 550px;
+ position: absolute;
+ top: 75px;
+ width: 370px;
+ max-width: 450px;
+ color: #DDDDDD;
+ text-shadow: 2px 0 2px #000000;
+ z-index: 1002;
+}
+
+.welcomeMessage h2 {
+ margin: 18px 0 10px;
+ font-size: 64px;
+ font-weight: bold;
+ line-height: 1;
+ word-wrap: break-word;
+}
+
+.welcomeMessage h2 .welcomeText {
+ float: left;
+ line-height: normal;
+}
+
+.welcomeMessage p {
+ font-size: 22px;
+ margin-bottom: 10px;
+ line-height: 125%;
+}
+
+.whatsNew {
+  font-size: 16px;
+  position: absolute;
+  right: 60px;
+  top: 100px;
+  width: 380px;
+  line-height: 125%;
+  color: #DDDDDD;
+  text-shadow: 2px 0 2px #000000;
+  z-index: 1002;
+}
+
+.whatsNew li {
+ position: relative;
+}
+
+.whatsNew .number {
+ background: #15cedb;
+ background: -moz-linear-gradient(center top, #15cedb 0%, #0C8F98 100%);
+ background: -webkit-gradient(linear, 0% 0%, 0% 90%, from(#15cedb),
+  to(#0C8F98) );
+ -ms-filter:
+  "progid:DXImageTransform.Microsoft.gradient(startColorstr=#15cedb, endColorstr=#0C8F98";
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#15cedb,
+  endColorstr=#0C8F98 );
+ -webkit-border-radius: 40px;
+ -moz-border-radius: 40px;
+ border-radius: 40px;
+ -webkit-box-shadow: 2px 2px 2px #000;
+ -moz-box-radius: 2px 2px 2px #000;
+ box-shadow: 2px 2px 2px #000;
+ color: #000;
+ font-size: 32px;
+ font-weight: bold;
+ left: -70px;
+ line-height: 48px;
+ padding: 0px 10px;
+ position: absolute;
+ text-align: center;
+ text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+ top: -10px;
+ width: 30px;
+}
+
+.whatsNew h2 {
+ font-family: "Helvetica Neue", Arial, sans-serif;
+ font-size: 26px;
+ margin: 15px 0 10px;
+ text-shadow: 0 1px 0 rgba(0, 0, 0, .7);
+ line-height: 120%;
+}
+
+.whatsNew li {
+/*  clear: both; */
+}
+
+.whatsNew .arrow {
+ background: url(overview_global_nav_arrow.png) no-repeat;
+ height: 90px;
+ position: absolute;
+ right: -10px;
+ top: -70px;
+ width: 40px;
+}
+
+.whatsNew ol>li:first-child {
+ margin-bottom: 48px;
+}
+
+ul.newMenu {
+ margin: 10px 0 20px;
+}
+
+.newMenu li {
+ display: inline-block;
+ margin: 0px 10px 10px 0px;
+ min-width: 100px;
+}
+
+#spacesHelp {
+  font-size: 12px;
+  line-height: 1.3;
+  margin: 6px 0 12px;
+}
+
+.social-buttons li {
+  float: left;
+  width: auto;
+  margin:3px 6px 6px 0;
+}
+
+.social-buttons li {
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  margin:12px 14px 12px 0;
+}
+
+
+.social-buttons li a {
+  display: block;
+}
+
+.social-buttons li a img {
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+}
+
+
+li.socialConnections,li.anotherAccount {
+ background-color: #d5fdfd;
+ background: -moz-linear-gradient(center top, #dedede 0%, #cacaca 100%);
+ background: -webkit-gradient(linear, 0% 0%, 0% 90%, from(#dedede),
+  to(#cacaca) );
+ -ms-filter:
+  "progid:DXImageTransform.Microsoft.gradient(startColorstr=#dedede, endColorstr=#cacaca";
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#dedede,
+  endColorstr=#cacaca );
+ -webkit-border-radius: 5px;
+ -moz-border-radius: 5px;
+ border-radius: 5px;
+ color: #000;
+ padding: 9px 18px 8px 24px;
+ text-shadow: none;
+ width: 160px;
+}
+
+li.anotherAccount {
+ background: none;
+ color: #d5fdfd;
+ padding-top: 5px;
+ font-size: 12px;
+}
+
+li.socialConnections img {
+ position: absolute;
+ left: 20px;
+}
+
+li.socialConnections h3 {
+ font-size: 13px;
+ margin: 0;
+ line-height: 1;
+}
+
+li.socialConnections p {
+ font-size: 12px;
+}
+
+li.socialConnections h3 a,li.socialConnections p a {
+ color: #000;
+
+}
+
+li.anotherAccount p a {
+ color: #21ACB6;
+}
+
+.confirmation {
+/*
+ position: absolute;
+ bottom: 20px;
+ right: 20px;
+*/
+}
+
+#finishLater {
+ background: transparent;
+ border: none;
+ border-bottom: 1px #21ACB6 dotted;
+ color: #21ACB6;
+ font-family: "Helvetica Neue", Arial, sans-serif;
+ font-size: 16px;
+ font-weight: bold;
+ padding: 2px 0;
+ text-shadow: 0 1px 0 rgba(0, 0, 0, .7);
+}
+
+#finishLater:hover {
+ cursor: pointer;
+}
+
+.cmdiv {
+ z-index: 9001 !important;
+ /*9001 is top z-index value*/
+ padding: 0;
+}
+
+/*Contextual menu  and mini menu containers. Hidden until called.*/
+.cmdiv,.menumini,div.quickAddPal,div.keyboardAccess {
+ position: absolute;
+ display: none;
+ z-index: 2000;
+}
+
+/*To fix Context menu not dispalying beside context menu link*/
+.cmdiv {
+/*	position: fixed; This breaks too many other context menus such as scrolling down the building blocks page and picking a context menu there*/
+}
+
+.cmdiv ul {
+ width: 180px;
+ padding: 3px 4px;
+}
+
+.cmdiv ul.cmul-hide {
+ padding: 0px 4px;
+ border-top: 0;
+ display: none;
+}
+
+.nav .sub ul li a,.cmdiv a,.menumini a {
+ width: 190px;
+ display: block;
+ margin: 0;
+ padding: 5px 6px 5px 12px;
+ zoom: 1;
+ overflow-x: hidden;
+ overflow-y: visible;
+ word-break: normal;
+ word-wrap: break-word;
+}
+
+.cmdiv a {
+ width: auto !important;
+}
+
+.cmdiv a.cmitem-hide {
+ display: none;
+}
+
+a.cmimg {
+ zoom: 1;
+ *position: static;
+}
+
+a.cmimg:hover,a.cmimg:focus {
+ opacity: 1;
+ filter: alpha(opacity =         100);
+}
+
+a.cmimg img {
+ width: 16px;
+ height: 14px;
+ padding: 0;
+ margin: 0;
+ opacity: 0;
+ filter: alpha(opacity =       0);
+}
+
+a.cmimg.cmimg-hide {
+ display: none;
+}
+
+.breadcrumbs a.cmimg.cmimg-hide {
+  /* do not hide context menu links in the breadcrumbs even if it would open an empty context menu since
+     a proper display of the indicators in the breadcrumb depends on the presence of the context menu links */
+  display: inline-block;
+}
+
+.cmdiv li.contextmenubar_top,.menumini li.contextmenubar {
+ position: absolute;
+ text-align: right;
+ display: block;
+ width: 190px;
+ right: -1px;
+ top: -20px;
+ padding: 0;
+}
+
+.cmdiv li.cmli-hide, .cmdiv li.cmitem-hide {
+ display: none;
+}
+
+.providerList {
+ list-style-type: disc;
+ list-style-position: inside;
+ margin: 1.5em 2em;
+}
+
+.providerList li {
+ margin: 0;
+}
+
+/*-------- BEGIN DEFAULT TOOLTIP STYLES --------*/
+
+.tooltip{
+  color:#ffffff;
+  cursor:normal;
+  display:-moz-inline-stack;
+  display:none;
+  font-size:12px;
+  font-family:arial;
+  padding:.5em 1em;
+  position:absolute;
+  width:170px;
+  z-index: 99;
+  text-align:center;
+  text-shadow:0 -1px 1px #111111;
+  -webkit-border-top-left-radius:4px ;
+  -webkit-border-top-right-radius:4px ;
+  -webkit-border-bottom-right-radius:4px ;
+  -webkit-border-bottom-left-radius:4px ;
+  -khtml-border-top-left-radius:4px ;
+  -khtml-border-top-right-radius:4px ;
+  -khtml-border-bottom-right-radius:4px ;
+  -khtml-border-bottom-left-radius:4px ;
+  -moz-border-radius-topleft:4px ;
+  -moz-border-radius-topright:4px ;
+  -moz-border-radius-bottomright:4px ;
+  -moz-border-radius-bottomleft:4px ;
+  border-top-left-radius:4px ;
+  border-top-right-radius:4px ;
+  border-bottom-right-radius:4px ;
+  border-bottom-left-radius:4px ;
+  -o-box-shadow:0 1px 2px #000000, inset 0 0 0 1px #222222, inset 0 2px #666666, inset 0 -2px 2px #444444;
+  -moz-box-shadow:0 1px 2px #000000, inset 0 0 0 1px #222222, inset 0 2px #666666, inset 0 -2px 2px #444444;
+  -khtml-box-shadow:0 1px 2px #000000, inset 0 0 0 1px #222222, inset 0 2px #666666, inset 0 -2px 2px #444444;
+  -webkit-box-shadow:0 1px 2px #000000, inset 0 0 0 1px #222222, inset 0 2px #666666, inset 0 -2px 2px #444444;
+  box-shadow:0 1px 2px #000000, inset 0 0 0 1px #222222, inset 0 2px #666666, inset 0 -2px 2px #444444;
+  background-color:#3b3b3b;
+  background-image:-moz-linear-gradient(top,#555555,#222222);
+  background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#555555),color-stop(1,#222222));
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#555555,EndColorStr=#222222);
+  -ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#555555,EndColorStr=#222222);
+  overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tooltipContainer, .tooltipContainer-bot, .tooltipContainer-right, .tooltipContainer-left{
+  position: relative;
+  display: inline-block;
+}
+.tooltipContainer .tooltip{
+  /* Top Specific*/
+  margin:0 0 10px -85px;
+  left:50%;
+  bottom:100%;
+}
+.tooltipContainer-bot .tooltip{
+  /* Bottom Specific */
+  margin:10px 0 0 -85px;
+  left:50%;
+  top:100%;
+}
+.tooltipContainer-left .tooltip{
+  /*Left Specific */
+  top:0;
+  right:100%;
+  margin:0 10px 0 0;
+}
+.tooltipContainer-right .tooltip{
+  /*Right Specific */
+  top:0;
+  left:100%;
+  margin:0 0 0 10px;
+}
+
+/*Display Tooltip On Hover*/
+.tooltipContainer:hover .tooltip,
+.tooltipContainer-bot:hover .tooltip,
+.tooltipContainer-right:hover .tooltip,
+.tooltipContainer-left:hover .tooltip,
+.tooltipContainer:focus .tooltip,
+.tooltipContainer-bot:focus .tooltip,
+.tooltipContainer-right:focus .tooltip,
+.tooltipContainer-left:focus .tooltip{
+  display: block !important;
+}
+
+/*Tooltip Arrow*/
+.tooltip:after,
+.tooltipContainer .tooltip:after,
+.tooltipContainer-right .tooltip:after,
+.tooltipContainer-bot .tooltip:after,
+.tooltipContainer-left .tooltip:after {
+  content:"\25B8";
+  display:block;
+  font-size:2em;
+  height:0;
+  line-height:0;
+  position:absolute;
+}
+/*Top ToolTip*/
+.tooltipContainer .tooltip:after {
+  color:#2a2a2a;
+  bottom:0;
+  left:50%;
+  margin-left:-0.3em;
+  text-align:center;
+  text-shadow:1px 0 2px #000000;
+  -o-transform:rotate(90deg);
+  -moz-transform:rotate(90deg);
+  -khtml-transform:rotate(90deg);
+  -webkit-transform:rotate(90deg);
+}
+/*Bottom ToolTip*/
+.tooltipContainer-bot .tooltip:after{
+  bottom:auto;
+  color:#4f4f4f;
+  left:50%;
+  margin-left:-0.3em;
+  top:0;
+  text-align:center;
+  text-shadow:none;
+  -o-transform:rotate(-90deg);
+  -moz-transform:rotate(-90deg);
+  -khtml-transform:rotate(-90deg);
+  -webkit-transform:rotate(-90deg);
+}
+/*Right ToolTip*/
+.tooltipContainer-left .tooltip:after {
+  color:#222222;
+  right:-0.375em;
+  top:10px;
+  margin-top:-.05em;
+  text-shadow:0 1px 2px #000000;
+  -o-transform:rotate(0);
+  -moz-transform:rotate(0);
+  -khtml-transform:rotate(0);
+  -webkit-transform:rotate(0);
+}
+/*Left ToolTip*/
+.tooltipContainer-right .tooltip:after {
+  color:#222222;
+  left:-0.375em;
+  top:10px;
+  margin-top:.1em;
+  text-shadow:0 -1px 2px #000000;
+  -o-transform:rotate(180deg);
+  -moz-transform:rotate(180deg);
+  -khtml-transform:rotate(180deg);
+  -webkit-transform:rotate(180deg);
+}
+
+/*-------- END DEFAULT TOOLTIP STYLES ---------*/
+
+/*-------- TOOLTIP OVERRIDES/CUSTOMIZATION -----------*/
+/*Item Analysis Tooltip Overrides*/
+.data-summary tr:hover .tooltipContainer-bot .tooltip,
+.data-summary-vert tr:hover .tooltipContainer-bot .tooltip{
+  display: block;
+}
+.data-summary .tooltipContainer-bot {
+ position: absolute;
+ bottom: 3px;
+ left: 50%;
+ margin-left: -8px;
+}
+
+
+/* // ITEM ANALYSIS // */
+/* Item Analysis Data Summary Reports */
+.reportSummary .data-summary-container {
+ float: left;
+ clear: none;
+}
+
+.reportSummary .data-summary,.reportSummary .data-summary-vert {
+ float: left;
+ position: relative;
+ margin: 0 12px 0 0;
+}
+
+.reportSummary h3 {
+ font-weight: normal;
+ margin: 9px 0;
+}
+
+.reportSummary .data-summary tr {
+ float: left;
+ border: 1px solid;
+ margin: 1px 0 0 -1px;
+}
+
+.reportSummary .data-summary th {
+ font-weight: normal;
+ font-size: 120%;
+ padding: 16px 0;
+ float: left;
+ display: block;
+ width: 100%;
+ text-align: center;
+}
+
+.reportSummary .data-summary td {
+ border-top: 1px dotted;
+ display: block;
+ float: left;
+ font-size: 80%;
+ height: 30px;
+ padding: 5px 0 18px;
+ position: relative;
+ text-align: center;
+ width: 100%;
+}
+
+/*changes to item analysis summary boxes*/
+.data-summary table {
+ min-height: 98px;
+ min-width: 120px;
+ border: none;
+}
+
+.data-summary-vert table {
+ min-height: 102px;
+ min-width: 120px;
+ display: block;
+ border: 1px solid;
+ padding: 2px;
+ -moz-box-sizing: border-box;
+ -webkit-box-sizing: border-box;
+ box-sizing: border-box;
+}
+
+.data-summary-vert th {
+ padding: 3px;
+ min-width: 1.5em;
+ text-align: center;
+ padding: 3px 1px 1px;
+ font-size: 120%;
+ vertical-align: baseline;
+}
+
+.data-summary-vert td {
+ text-align: left;
+ padding: 3px 3px 1px;
+ font-size: 80%;
+ vertical-align: baseline;
+}
+
+.data-summary table tr:hover,.data-summary-vert table tr:hover {
+ cursor: help;
+}
+
+/* end Item Analysis Data Summary Reports */
+.runReportContainer {
+ margin: 0 0 20px;
+ padding: 10px 11px;
+ position: relative;
+ top: -12px;
+}
+
+.previousReports ul {
+ margin: 5px 24px;
+}
+
+.previousReports li {
+ margin: 4px 0;
+}
+
+.previousReports .previousReports linear {
+ border-bottom: 1px dotted;
+ padding: 5px 0;
+ display: block;
+ margin-right: 10px;
+}
+
+.reportTitle {
+ border-bottom: 1px solid;
+ padding-bottom: 10px;
+}
+
+.questionDetails .searchResultList-sortOptions {
+ display: none;
+}
+
+.questionDetails .reportTitle {
+ margin: 10px 0;
+}
+
+.reportTitle h2 {
+ margin: 10px 0 5px;
+}
+
+.reportTitle .actions {
+ float: right;
+ margin-top: -30px;
+}
+
+.reportSummary {
+ position: relative;
+ border-bottom: none;
+ width: 100%;
+ margin-bottom: 10px;
+}
+
+.questionDetails .reportSummary {
+ padding: 0;
+}
+
+.reportSummary.answerOptions {
+ margin-top: 20px;
+}
+
+.answerOptions h4 {
+ margin: 20px 0;
+}
+
+.answerOptions table {
+ margin: 20px 0;
+ border-collapse: collapse;
+ min-width: 400px;
+ max-width: 800px;
+}
+
+.answerOptions table td {
+ padding: 5px;
+ border: 1px solid;
+}
+
+.interrogativesTable td:first-child,.phraseTable td:first-child,.calculatedNumeric td:first-child
+ {
+ width: 150px;
+}
+
+.questionDetails .reportTable table {
+ min-width: 400px;
+ height: auto;
+ margin: 10px 0;
+ border: 1px solid;
+}
+
+.reportTable table {
+ border: 1px solid;
+}
+
+.questionDetails .reportTable th,.questionDetails .reportTable td,.matching th,.matching td
+ {
+ padding: 5px 10px;
+ vertical-align: top;
+ border: 1px solid;
+ padding: 15px 10px;
+}
+
+.matchingNumber
+{
+ display: inline-block;
+ vertical-align: top;
+}
+
+.orderCanvasWide
+{
+ width: 100%;
+}
+
+.questionDetails .reportTable th,.matching th {
+ padding: 10px 15px;
+ vertical-align: middle;
+ border: 1px solid;
+}
+
+.matching .lastOption td {
+ border-bottom: 4px solid;
+}
+
+.reportKey {
+ display: inline-block;
+ border: 1px solid;
+ margin: 20px 0;
+ padding: 10px 8px;
+}
+
+.reportKey h3 {
+ margin: 0;
+}
+
+.reportKey div {
+ font-weight: bold;
+ margin: 4px 0 0 16px;
+}
+
+.ordering table td img {
+ margin: 0 5px;
+}
+
+.calculated {
+ margin-top: 20px;
+ clear: both;
+ float: left;
+}
+
+ul.key {
+ margin: 20px 0;
+ width: 100%;
+}
+
+ul.key li {
+ float: left;
+ margin-right: 10px;
+ padding-left: 17px;
+ width: auto;
+}
+
+.smallCell ul {
+ width: 50px;
+}
+
+li.recommended,li.changed,li.notallgraded {
+ display: block;
+ float: left;
+ margin: 0;
+ height: 16px;
+}
+
+.smallCell li.recommended,.smallCell li.changed,.smallCell li.notallgraded,.questionTextId li.recommended,.questionTextId li.changed,.questionTextId li.notallgraded
+ {
+ width: 16px;
+}
+
+.smallCell li.recommended,.smallCell li.changed,.smallCell li.notallgraded
+ {
+ float: right;
+}
+
+li.recommended {
+ background: url('/images/ci/icons/item_analysis_recommended.png')
+  no-repeat;
+}
+
+li.changed {
+ background: url('/images/ci/icons/item_analysis_changed.png') no-repeat;
+}
+
+li.notallgraded {
+ background: url('/images/ci/icons/item_analysis_allgraded.png')
+  no-repeat;
+}
+
+.previousReports a:hover {
+ text-decoration: underline;
+}
+
+.reportKey h4 {
+ margin: 0px;
+ padding: 10px 0 0px 25px;
+}
+
+/*Item Analysis Fiter layout/design */
+.questionFilter div div {
+ float: left;
+ margin-right: 20px;
+ padding-right: 20px;
+ border-right: 1px solid;
+}
+
+.questionFilter div div:last-child {
+ padding-top: 10px;
+ border: none;
+}
+
+.answerBlock {
+ width: 100%;
+ margin-bottom: 20px;
+}
+
+.answerBlock span{
+ white-space: nowrap; /*LRN-60904*/
+}
+
+.answerValueStyle {
+ width: 400px;
+ height: 45px;
+ padding: 4px;
+ overflow: auto;
+ vertical-align: top;
+}
+
+/* // FILE PICKER STYLES // */
+
+/* Remove Learn background and padding around container */
+body.filePickerWidget {
+  background: url(none);
+}
+
+.filePickerWidget .locationPane {
+  margin-top: 0px;
+  padding-bottom: 60px;
+}
+
+.filePickerWidget .contentPaneWide {
+  margin: 0px;
+  background: url(none);
+}
+.filePickerWidget .contentBox,
+.filePickerWidget #content {
+  border: 0px;
+  box-shadow: none;
+  border-radius: 0px;
+}
+
+/*** Breadcrumbs Re-styling to Demonstrate File System Navigation ***/
+.pathFolder {
+  background-image: url("/images/ci/icons/tiny-folder.png");
+  background-position: left top;
+  background-repeat: no-repeat;
+ padding-left: 20px !important;
+ display: inline-block;
+}
+
+.pathSlash {
+ padding-left: 5px !important;
+ padding-right: 5px !important;
+ display: inline-block;
+}
+
+.pathFolder a {
+ color: #0C80AC;
+ text-decoration: underline;
+}
+
+.pathfolder:before {
+ content: "after";
+ margin: 0 4px;
+}
+
+/*** Tab Navigation Structure for Picker ***/
+#tabsBar {
+
+}
+
+.tabsBar {
+ min-height: 47px;
+ background: #D1EAEF;
+ -webkit-border-top-left-radius: 2px;
+ -webkit-border-top-right-radius: 2px;
+ -moz-border-radius-topleft: 2px;
+ -moz-border-radius-topright: 2px;
+ border-top-left-radius: 2px;
+ border-top-right-radius: 2px;
+ border-bottom: 1px solid #BBBBBB;
+}
+
+.tabsBar a {
+ text-decoration: none;
+}
+
+.tabsBar #tabs {
+ float: left;
+ height: 47px;
+ display: inline;
+}
+
+.tabsBar .tabs {
+ height: 47px;
+}
+
+.tabsBar .localViewToggle {
+ -webkit-border-top-right-radius: 2px;
+ -moz-border-radius-topright: 2px;
+ border-top-right-radius: 2px;
+ float: right;
+}
+/*** Navigate Top-level Content Zones ***/
+img.zoneIcon {
+ margin: 0 5px;
+}
+
+/*** Quick Search for All Content ***/
+#contentSearch {
+ background: transparent;
+ padding: 5px;
+ white-space: nowrap;
+}
+
+.contentInput,.locationInput {
+ -webkit-box-shadow: inset 0px 0px 2px 0px #666;
+ -moz-box-shadow: inset 0px 0px 2px 0px #666;
+ box-shadow: inset 0px 0px 2px 0px #666;
+ border: 1px solid #ccc;
+ background: #f7f7f7;
+ padding: 3px 1px;
+ outline: none;
+ display: inline;
+ margin: 0;
+ -webkit-border-radius: 2px;
+ -moz-border-radius: 2px;
+ border-radius: 2px;
+}
+
+#contentSearch .contentInput input[type="text"], .locationInput input[type="text"]
+ {
+ border: 0;
+ background: transparent;
+ padding: 0;
+ outline: none;
+ height: 22px;
+ line-height: 22px;
+}
+
+#contentSearch .contentInput, .locationInput {
+ margin-right: 4px;
+ margin-left: 10px;
+}
+/*
+.locationInput input[type="text"] {
+  width: 90px;
+}
+*/
+
+/*** This Section Will Contain Several Content Navigation and Viewing Functions ***/
+#contentActions {
+ margin: 0 0 10px 0;
+ display: block;
+}
+
+/*** Navigate to Parent Folder ***/
+#levelUp {
+ margin: 2px 0;
+}
+
+#levelUp button {
+ padding: 5px 7px 5px 5px;
+ cursor: pointer;
+}
+
+#levelUp button::-moz-focus-inner {
+ padding: 0;
+ border: 0
+}
+
+/*** Jump to... ***/
+#editablePath, #quickPath {
+ display: inline-block;
+ background: #e7e7e7;
+ background-image: -moz-linear-gradient(100% 100% 90deg, #ffffff, #dddddd);
+ background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(#dddddd),
+  to(#ffffff) );
+ -ms-filter:
+  "progid:DXImageTransform.Microsoft.gradient(startColorstr=#dddddd, endColorstr=#ffffff";
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#dddddd,
+  endColorstr=#ffffff );
+ -webkit-box-shadow: inset 0px 2px 0px 0px #ccc;
+ -moz-box-shadow: inset 0px 2px 0px 0px #ccc;
+ box-shadow: inset 0px 2px 0px 0px #ccc;
+ -webkit-border-top-left-radius: 4px;
+ -webkit-border-top-right-radius: 4px;
+ -moz-border-radius-topleft: 4px;
+ -moz-border-radius-topright: 4px;
+ border-top-left-radius: 4px;
+ border-top-right-radius: 4px;
+ border: 0;
+ overflow: hidden;
+}
+
+#quickPath {
+ padding: 0 0 0 5px;
+}
+
+.linkables {
+ display: table;
+ width: 100%;
+ border-spacing: 5px;
+}
+
+.linkables .link {
+ display: table-cell;
+ vertical-align: top;
+ white-space: inherit;
+}
+
+.linkables .folder-nav-up {
+ width: 1%;
+}
+
+#quickPath ol li {
+ display: inline-block;
+ margin: 4px 0;
+}
+
+#quickPath ol li.folderIncluder,#quickPath ol li.folderCreator {
+ margin: 0;
+}
+
+.checkmark-btn {
+ width: 22px;
+ height: 20px;
+ padding: 0 !important;
+ margin-left: 10px;
+ vertical-align: top;
+}
+
+.checkmark-btn.mark-inactive {
+ background: #fff url(../../../images/cs/icons/include-folder-sprite.png)
+  3px -29px no-repeat !important;
+ filter: progid:DXImageTransform.Microsoft.gradient(enabled=false) !important;
+}
+
+.checkmark-btn.mark-active {
+ background: #fff url(../../../images/cs/icons/include-folder-sprite.png)
+  3px 3px no-repeat !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false) !important;
+ -webkit-box-shadow: inset 0px 0px 2px 1px #999;
+ -moz-box-shadow: inset 0px 0px 2px 1px #999;
+ box-shadow: inset 0px 0px 2px 1px #999;
+}
+
+
+/*** Add a New Button Style for Include Folder Toggle ***/
+.linkables .button-5 {
+ padding: 3px 8px;
+ -webkit-border-radius: 2px;
+ -moz-border-radius: 2px;
+ border-radius: 2px;
+ color: #333;
+ font-size: 95%;
+ text-shadow: 0 1px 0 #eee;
+ background: -moz-linear-gradient(100% 100% 90deg, #f9f9f9, #e7e7e7);
+ background: -webkit-gradient(linear, left top, left bottom, color-stop (   0%,
+  #f9f9f9), color-stop(100%, #e7e7e7) );
+ background-position: -10px -10px\9;
+ background-image: none\9;
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f9f9f9,
+  endColorstr=#e7e7e7 );
+ border: 1px solid #ccc;
+ display: inline-block;
+ box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.3) inset;
+ outline: none;
+ cursor: pointer;
+}
+
+.linkables .button-5::-moz-focus-inner {
+ padding: 0;
+ border: none;
+}
+
+.pressed {
+ background: #fff url(../../../images/ci/icons/diag-thick-bg.png) top
+  left repeat !important;
+ -webkit-box-shadow: inset 0px 0px 3px 1px #999;
+ -moz-box-shadow: inset 0px 0px 2px 1px #ccc;
+ box-shadow: inset 0px 0px 3px 1px #999;
+}
+
+/*** Storage Quota Guage ***/
+#storageQuota {
+ font-size: 95%;
+ color: #666;
+ padding-left: 110px;
+ position: relative;
+ margin-top: 8px;
+}
+
+#storageQuota strong {
+ color: #333;
+}
+
+.quotaGauge {
+ width: 100px;
+ height: 7px;
+ line-height: 7px;
+ font-size: 7px;
+ border: 1px solid #333;
+ background-color: #e7e7e7;
+ position: absolute;
+ top: 3px;
+ left: 0px;
+}
+
+.quotaGauge div {
+ height: 7px;
+ line-height: 7px;
+ background-image: -moz-linear-gradient(100% 100% 90deg, #00ADD0, #0189A4);
+ background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(#00ADD0),
+  to(#0189A4) );
+ -ms-filter:
+  "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00ADD0, endColorstr=#0189A4";
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00ADD0,
+  endColorstr=#0189A4 );
+}
+
+/*
+  LEVEL ONE
+*/
+ul.dropdown {
+ position: relative;
+ height: 47px;
+ -webkit-border-top-left-radius: 2px;
+ -moz-border-radius-topleft: 2px;
+ border-top-left-radius: 2px;
+}
+
+ul.dropdown li {
+ font-weight: bold;
+ float: left;
+ zoom: 1;
+ background: transparent;
+ height: 47px;
+}
+
+ul.dropdown>li {
+ border-right: 1px solid #BBBBBB;
+ box-shadow: -1px 0px 0px #EEEEEE inset;
+}
+
+ul.dropdown>li:first-child {
+ border-left: none;
+}
+
+ul.dropdown>li:first-child,ul.dropdown>li:first-child>a {
+ -webkit-border-top-left-radius: 2px;
+ -moz-border-radius-topleft: 2px;
+ border-top-left-radius: 2px;
+}
+
+ul.dropdown a:hover {
+ color: #000;
+}
+
+ul.dropdown a:active {
+ color: #ffa500;
+}
+
+ul.dropdown li a {
+ display: block;
+ color: #01869E;
+ height: 47px;
+ line-height: 46px;
+ font-weight: normal;
+}
+
+ul.dropdown > li > a {
+ padding: 0 32px;
+}
+
+ul.dropdown li:hover ul li a {
+ padding: 0 12px 0px 4px;
+}
+
+ul.dropdown li.active {
+ background: #ffffff;
+ border-bottom: 1px solid #FFFFFF;
+}
+
+ul.dropdown li.active a {
+  font-weight: bold;
+  color: #000000;
+}
+
+ul.dropdown li#zoneChooser > a {
+ padding: 0px 12px 0px 4px;
+}
+
+ul.dropdown li#uploadType > a {
+ padding: 0px 12px 0px 20px;
+}
+
+ul.dropdown li#zoneChooser > a:after, ul.dropdown li#uploadType > a:after {
+ content: "";
+ background-image: url('../../../images/ci/icons/tab-expand-chevron.png');
+ background-repeat: no-repeat;
+ display: inline-block;
+ width: 20px;
+ height: 9px;
+ margin-left: 8px;
+}
+
+ul.dropdown li.hover,ul.dropdown li:hover {
+ background: #F6F6F6;
+ color: #000000;
+ position: relative;
+}
+
+ul.dropdown>li.hover,ul.dropdown>li:hover {
+ z-index: 99;
+}
+
+ul.dropdown li.hover a {
+ color: black;
+ z-index: 999;
+}
+
+ul.dropdown li.active:hover {
+ background: #ffffff;
+}
+
+/*
+  LEVEL TWO
+*/
+ul.dropdown ul {
+ visibility: hidden;
+ position: absolute;
+ top: 100%;
+ left: -1px;
+ z-index: 100;
+ border: 1px solid #ccc;
+ border-bottom: 0;
+ min-width: 200px;
+}
+
+ul.dropdown>li:hover>ul,
+ul.dropdown>li:focus>ul {
+ z-index: 100;
+ top: 46px;
+}
+
+ul.dropdown ul li {
+ font-weight: normal;
+ background: #f6f6f6;
+ color: #000;
+ border-bottom: 1px solid #ccc;
+ float: none;
+ padding: 0;
+ white-space: nowrap;
+ display: block;
+}
+
+ul.dropdown ul li a {
+ background: none;
+}
+
+ul.dropdown li#uploadType ul li a {
+ padding: 0px 12px 0px 20px;
+}
+
+ul.dropdown ul li > a.hover, ul.dropdown ul li > a:hover {
+ background: #ffffff;
+ padding: 0;
+}
+
+#uploadEngine {
+ border: 0;
+}
+
+#uploadEngine #dataCollectionContainer {
+ margin: 0 -10px;
+ padding: 0;
+}
+
+#legalAgreement {
+ border: 1px solid #CCCCCC;
+ height: 80%;
+ margin: 15px;
+ overflow: auto;
+ padding: 8px;
+}
+
+#legalButtons {
+ margin-right: 15px;
+ margin-left: 15px;
+}
+
+/* Adjustments to splashTable container for Cloud Settings */
+#cloudSettingsForm .stepcontent .label {
+ width: 34%;
+ min-width: 0px;
+ max-width: none;
+}
+
+#cloudSettingsForm .stepcontent .field {
+ width: auto;
+}
+
+#socialProfileSettings .splashTable tr>td:first-child,#cloudSettingsForm .splashTable tr>td:first-child
+ {
+ width: 33%;
+}
+
+/* // NEWLY-INTEGRATED UTILITY CLASSES // */
+.u_nopad {
+ padding: 0 !important;
+}
+
+.u_nowrap {
+ white-space: nowrap !important;
+}
+
+.insideContainer {
+ padding: 20px;
+}
+
+.profileCardAvatarThumb a {
+
+}
+
+.profileCardAvatarThumb img {
+  height: 18px;
+  width: 18px;
+  border: 1px solid #ddd;
+  display: inline-block;
+  padding: 1px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+  background: #fff;
+  background: rgba(255, 255, 255, .8);
+}
+
+.avatar {
+    max-height: 140px;
+    width: auto;
+}
+
+/*Skip Link top nav*/
+
+.hideoff.skipLink {
+  opacity: 0;
+  background: rgba(0,0,0,.1);
+}
+
+#topNavSkipLink {
+  color: #fff;
+  font-size: 11px;
+  top: -4px;
+  left:9px;
+  padding: 9px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 10px\0/; /*IE*/
+}
+
+.skipLink {
+  color: #fff;
+  position: absolute;
+  width: 140px!important;
+  padding: 9px;
+  background: #333;
+  background: rgba(0,0,0,.7);
+  text-align: center;
+  font: normal 11px/1.4 Georgia, serif;
+  text-transform: uppercase;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  top: 9px;
+  left: 9px;
+  opacity: 1;
+  -moz-transition: all .3s ease-in-out;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  z-index: 1000;
+  font-size: 10px\0/; /*IE*/
+}
+
+.skipLink:focus {
+  outline: 0;
+}
+
+div.skipLink {
+  background: transparent;
+  padding: 0;
+  height: 0;
+  width: 0;
+  overflow: visible;
+  z-index: 10000;
+}
+
+.abutton {
+ text-decoration: none;
+ background-color: transparent;
+ padding: 0;
+ border: none;
+}
+
+/* Note: The case I was fixing just needed .abutton for this, but all these other buttons do not switch the mouse pointer properly either.
+If we have a consistent rule that 'everything clickable should have the cursor:pointer style' then please add these classes to this style:
+   .genericButton:hover,.button-1:hover,.button-2:hover,.button-3:hover,.button-4:hover,
+*/
+.abutton:hover {
+ cursor: pointer;
+}
+
+
+/* // BEGIN AX Quick Links // */
+
+#quick_links_wrap {
+  position: absolute;
+z-index:1111;
+  top: 68px;
+  right: 100%;
+  margin-right: -20px;
+  font-size: 0.8em;
+  border-left: 0;
+  border-bottom: 0;
+  -moz-border-radius: 0 4px 0 0;
+  -webkit-border-radius: 0 4px 0 0;
+  border-radius: 0 4px 0 0;
+  width: auto;
+  white-space: nowrap;
+  height: 21px;
+  line-height: 20px;
+    background: rgba(0, 0, 0, 0.2);
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#26000000, endColorstr=#26000000 );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#26000000, endColorstr=#26000000 );
+  display: inline-block;
+}
+
+#quick_links_wrap:hover,
+#quick_links_wrap.quick_link_wrap_focus {
+  margin-right: auto;
+  right: auto;
+  left: -5px;
+  background: #333;
+  background: rgba(0, 0, 0, 0.6);
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#62000000, endColorstr=#62000000 );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#62000000, endColorstr=#62000000 );
+}
+
+#quick_links_wrap a {
+  display: block;
+  height: 21px;
+  line-height: 21px;
+  background-image: url(/images/console/icons/ax-links.png);
+  background-repeat: no-repeat;
+  background-position: right 3px;
+  padding: 0 21px 0 7px;
+  color: #FAF9F6;
+}
+
+.ax-content {
+  display: table;
+  width: 100%;
+}
+
+.content-lite {
+  display: table-cell;
+  width: 70%;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+  -webkit-border-radius: 5px 0 0 5px;
+  -moz-border-radius: 5px 0 0 5px;
+  border-radius: 5px 0 0 5px;
+  background: #fff;
+}
+
+.content-lite h2 {
+  font-size: 1.2em;
+  font-weight: normal;
+  margin-bottom: 10px;
+  display: block;
+  background: #e7e7e7;
+  padding: 4px 8px;
+}
+
+.content-lite h4 {
+
+}
+
+.content-lite ul.shortcut-list {
+  list-style: none;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+.content-lite ul.shortcut-list li {
+  margin-bottom: 6px;
+}
+
+.content-lite ul.shortcut-list a {
+  text-decoration: underline;
+}
+
+.shortcut-list {
+
+}
+
+#quick_links_headings_list>ul {
+  clear: both;
+  margin-top: 10px;
+  margin-left: 12px;
+}
+
+#quick_links_headings_list ul {
+  margin-left: 20px !important;
+  margin-top: 5px !important;
+}
+
+.quick_links_header_h1 {
+
+}
+
+.quick_links_header_h2 {
+  margin-left: 3%;
+}
+
+.quick_links_header_h3 {
+  margin-left: 6%;
+}
+
+.quick_links_header_h4 {
+  margin-left: 9%;
+}
+
+.quick_links_header_h5 {
+  margin-left: 12%;
+}
+
+.quick_links_header_h6 {
+  margin-left: 15%;
+}
+
+.legend {
+  display: table-cell;
+  width: 30%;
+  padding: 20px;
+}
+
+.legend h2 {
+  font-size: 1.2em;
+  font-weight: normal;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.legend ul {
+  list-style: none;
+  margin-left: 0;
+}
+
+.legend ul li {
+  margin-bottom: 12px;
+  padding: 9px;
+  border: 1px solid #ccc;
+  background: white;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+}
+
+.legend .keycombo {
+  display: table;
+  width: 100%;
+  vertical-align: middle;
+}
+
+.legend span.presskey {
+  display: inline-block;
+  margin: 0 0 3px;
+  width: 36px;
+  height: 30px;
+  line-height: 30px;
+  overflow: hidden;
+  text-align: center;
+  border: 1px solid #333;
+  background: #666;
+  color: white;
+  text-transform: uppercase;
+  font-size: 80%;
+  font-weight: normal;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+.legend span.presskey.alpha {
+  font-weight: bold;
+}
+
+/* // END AX Quick Links // */
+
+.blockReceipt {
+ display: block !important;
+}
+
+.hideoff {
+ position: absolute;
+ overflow: hidden;
+ left: -10000px;
+ top: -1000px;
+ /*width: 1px;
+ height: 1px;*/
+  width: 0; /*0 to avoid FF outline*/
+ height: 0; /*0 to avoid FF outline*/
+
+}
+
+.hideoff[tabindex="0"]{top:auto;}
+
+/*Input type="file" */
+/* Styles cannot be applied to input type="file" to make it blend  in with the rest of the ui.
+ * Setting its opacity to 0 and laying it over the conventional looking button.
+ */
+
+.fileInputWrapper {
+  float:left;
+  position:relative;
+  overflow:hidden;
+  padding:0 3px 0 0;
+  margin-right:9px;
+  *top:-5px;
+}
+
+.fileInputWrapper input.hiddenInput {
+  position:absolute;
+  top:0;
+  right:0;
+  z-index:2;
+  padding:0;
+  opacity:0;
+  filter:alpha(opacity=0);
+  text-align:right;
+  font-size:210%;
+}
+
+.fileInputWrapper input[type="file"] {
+  filter:alpha(opacity=0)!important
+}
+
+.fileInputWrapper input.visibleInput {
+  position:relative;
+  right:0;
+  top:0;
+  z-index:1;
+}
+
+.hideme {
+ display: none !important;
+}
+
+.hidden {
+ display: none;
+}
+
+.clearfloats {
+ clear: both;
+}
+
+/*** Container Tabs ***/
+.containerTabs li a  {
+  cursor:pointer;
+}
+
+.containerTabs li.active a {
+  cursor:default;
+}
+
+.inlineContextMenu a.browse {
+  font-weight: normal;
+   word-break: normal;
+   box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.3) inset;
+   border: 1px solid #ccc;
+   border-color: #888;
+  display: inline-block;
+}
+
+.inlineContextMenu.inlineContextMenu-hide {
+ display: none;
+}
+
+.contentList .details .contextItemDetailsHeaders
+{
+    background:transparent;
+    font-size:inherit;
+    padding: 2px 0 2px 6px;
+    font-weight: normal;
+     word-break: normal;
+     color:#555;
+}
+
+.contextItemDetailsHeaders > .detailsValue
+{
+    display: inline-block;
+    margin: 0 0 0 10px;
+}
+
+.minWidthLabel
+{
+  min-width: 65px;
+}
+
+/** these styles put some separation between the buttons in the review step */
+span.reviewButtons
+{
+  display: inline;
+}
+span.reviewButtons a
+{
+  margin-right: 5px
+}
+
+.inventoryListCardView li {
+ display: inline;
+ float: left;
+ padding: 3px;
+}
+
+.inventoryListCardView div.block {
+ display: block;
+ padding: 10px;
+ border:1px solid #E1E1E1;
+ background-color: #FAFAFA;
+ width: 200px;
+ height: 130px;
+ overflow: hidden;
+ margin: 3px;
+ border-radius:3px;
+}
+
+.inventoryListCardView div.block div {
+ display: block;
+}
+
+.noImgRumble.rumble_top, .noImgRumble.rumble {
+ background: none;
+}
+
+
+.inventoryListCardView div.smallCell input[type="checkbox"] {
+ /* If we want to hide checkboxes by default, this can be display:none */
+ display: block;
+}
+
+.inventoryListCardView div.smallCell input[type="checkbox"]:checked,
+.inventoryListCardView div.block:hover div.smallCell input[type="checkbox"] {
+ display: block;
+}
+
+.inventoryListCardView div.block div.smallCell {
+ float: left;
+ padding: 6px 0 0 0;
+ width: 20px;
+}
+
+.inventoryListCardView div.block div.inlineMenuItems {
+
+}
+
+.inventoryListCardView div.block div.inlineMenuItems ul.inlineMenuItems li {
+ padding: 0 5px 0 0;
+}
+
+.inventoryCardViewToggle {
+ float: right;
+ margin: 0 0 0 8px;
+}
+
+.inventoryCardViewToggle a.cardView, .inventoryCardViewToggle a.tableView {
+ padding: 1px 3px;
+ color: #999999;
+}
+
+.inventoryCardViewToggle a.cardView.active, .inventoryCardViewToggle a.tableView.active {
+ color: #000000;
+}
+
+.inventoryCardViewSorting {
+ margin: 0 10px 0 0;
+ float: right;
+}
+
+.inventoryCardViewSorting .cardSortTitle, .inventoryCardViewSorting .cardSortOrder, .inventoryCardViewSorting .cardSortLabel {
+ float: left;
+}
+
+.inventoryCardViewSorting .cardSortLabel {
+ padding: 2px 6px;
+}
+
+.inventoryCardViewSorting a.sortColumnMenu {
+ border-radius: 2px 0 0 2px;
+}
+
+.inventoryCardViewSorting a.sortOrderMenu {
+ border-radius: 0 2px 2px 0;
+ border-width: 1px 1px 1px 0;
+}
+
+.inventoryCardViewSorting a.sortColumnMenu:after, .inventoryCardViewSorting a.sortOrderMenu:after {
+ height: 4px;
+ vertical-align: middle;
+ content: "";
+ display: inline-block;
+ border-left: 4px solid transparent;
+ border-right: 4px solid transparent;
+ border-top: 4px solid #000000;
+ margin-top: 4px;
+ opacity: 0.3;
+}
+
+.inventoryCardViewSorting a.sortColumnMenu:hover:after, .inventoryCardViewSorting a.sortOrderMenu:hover:after {
+ opacity: 1;
+}
+
+.inventoryListSortColumns li, .inventoryListSortOrder li {
+}
+
+.inventoryListSortColumns li:hover, .inventoryListSortOrder li:hover {
+}
+
+.inventoryListCardView .inventoryListCardHoverText {
+ /* The hover-text cell is hidden and copied into the title of the card's span in inventoryList.CardController*/
+ display:none !important;
+}
+
+.inventoryListCardView ul.inlineMenuItems {
+  border-top:1px solid #E1E1E1;
+  margin: 0px -10px;
+}
+
+.inventoryListCardView ul.inlineMenuItems li{
+ min-height: 30px;
+ padding: 0;
+ width: 33.3%
+}
+
+/* For inline menus with only 1 or 2 items, make the menu items wider instead of assuming 3 items (33% width)*/
+.inventoryListCardView ul.inlineMenuItems_1_0 li{
+ width: 100%
+}
+
+.inventoryListCardView ul.inlineMenuItems_2_0 li{
+ width: 50%
+}
+
+.inventoryListCardView ul.inlineMenuItems li a{
+ padding: 6px 0 12px;
+ display: block;
+ text-align: center;
+ white-space: nowrap;
+ text-overflow: ellipsis;
+ overflow: hidden;
+ height: auto!important;
+}
+
+.inventoryListCardView ul.inlineMenuItems li a.cmimg, .inventoryListCardView ul.inlineMenuItems li a.cmimg img {
+ height: 0;
+ width: auto;
+}
+
+.inventoryListCardView .cardPiece20 {
+ height: 20px;
+ max-height: 20px;
+ overflow: hidden;
+ padding: 0 0 0 18px;
+}
+
+.inventoryListCardView .cardPiece30 {
+ height: 30px;
+ max-height: 30px;
+ overflow: hidden;
+ padding: 0 0 0 18px;
+}
+
+.inventoryListCardView .cardPiece40 {
+ height: 40px;
+ max-height: 40px;
+ overflow: hidden;
+ padding: 0 0 0 18px;
+}
+
+.inventoryListCardView .cardPiece50 {
+ height: 50px;
+ max-height: 50px;
+ overflow: hidden;
+ padding: 0 0 0 18px;
+}
+
+.inventoryListCardView .cardPiece60 {
+ height: 60px;
+ max-height: 60px;
+ overflow: hidden;
+ padding: 6px 0 0 0;
+}
+
+.inventoryListCardView .cardPiece70 {
+ height: 70px;
+ max-height: 70px;
+ overflow: hidden;
+ padding: 6px 0 0 0;
+}
+
+.inventoryListCardView .cardPiece80 {
+ height: 80px;
+ max-height: 80px;
+ overflow: hidden;
+ padding: 6px 0 0 0;
+}
+
+.inventoryListSortOrder, .inventoryListSortColumns {
+ background: #e1e1e1;
+ display: inline-table;
+ position: relative;
+ border: 1px solid #aaaaaa;
+}
+
+.inventoryListSortOrder li a , .inventoryListSortColumns li a {
+ width: 100%;
+ display: block;
+}
+
+/* styling for "empty list" message */
+.noItems.container-empty {
+  padding-top: 90px;
+  text-align: center;
+  position: relative;
+}
+
+.noItems.container-empty .arrow-left, .noItems.container-empty .arrow-right {
+  position: absolute;
+  width: 25%;
+  height: 150px;
+  top:0;
+  opacity: .3;
+  filter: alpha(opacity=30);
+}
+
+.noItems.container-empty .arrow-left {
+  background: transparent url("/images/ci/misc/overlay_arrow_left.png") right center no-repeat;
+  background-size: 90% 70%;
+  left: 0;
+  background-position: left center \0/;
+}
+
+.noItems.container-empty .arrow-right {
+  background: transparent url("/images/ci/misc/overlay_arrow_right.png") left center no-repeat;
+  background-size: 90% 70%;
+  right: 0;
+  background-position: right center \0/;
+}
+
+.noItems.container-empty .main-message {
+  text-align: center;
+  width: 45%;
+  margin: 0 auto 12px;
+}
+
+.noItems.container-empty .secondary-message {
+  text-align: center;
+  width: 45%;
+  margin: 0 auto;
+}
+
+
+/* drag and drop file for file picker */
+#globalNavPageContentArea .dropzone {
+  margin: 10px;
+  font-weight: bold;
+  line-height: 1.3em;
+  border: 4px dashed;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#globalNavPageContentArea #dropzone.in {
+  line-height: 200px;
+  font-size: larger;
+}
+
+#globalNavPageContentArea .dropzone.hover {
+  color: #fff;
+  background: #c56fd5;
+  border: 4px dashed #c56fd5;
+}
+
+#globalNavPageContentArea .dropzone.fade {
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  opacity: 1;
+}
+/* @end drag and drop file for file picker */
+
+/*there are 2 elements that share a dropzone class.  Drap and drop marker in TOC, and the drag and drop file upload (above).  This style fixes the TOC dropzone*/
+
+body > .dropzone[style*="position: absolute;"] {
+    height: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#treeTableBody img[src*="rempty"] {
+    opacity: 0;
+    width: 0px;
+}
+
+
+/*backport css for better ally icon placement */
+#content .vtbegenerated p {
+    position: relative;
+}
+
+#content .vtbegenerated p {
+    margin-bottom: 1em;
+}

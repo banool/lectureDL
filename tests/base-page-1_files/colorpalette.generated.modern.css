@@ -1,0 +1,189 @@
+/*Content Frame background color / text color / background image*/
+#contentFrame,
+#schemePreview, 
+body, 
+.topFrame,
+.paneTabs ul li.active, 
+.paneTabs ul li,
+.wizardBody .containerWizard {
+	background: url(../lms-portal-bg.jpg) no-repeat 0 0;
+	background-color: #FAFAFC;
+	color: #000000;
+}
+/*Content area background color / text color / background image */
+#contentArea,
+#schemePreviewBody,
+.container {        
+	background-color: #FAFAFC;
+	color: #111111;
+}
+
+/*Primary button background / text color*/
+#primaryButton, 
+input[type="submit"].submit,
+.mainButton a, .mainButton a:hover, .mainButton a:focus,
+.mainButton a, .actionBarMicro .mainButton a:hover, .actionBarMicro .mainButton a:focus,
+.rumble .mainButton > a, .rumble_top .mainButton > a:focus, 
+.rumble .mainButton > a:hover, .rumble_top .mainButton > a:focus, 
+.rumble .mainButton > a:hover, .rumble_top .mainButton > a:focus,
+.button-1, .button-1-img, .button-1:hover, .button-1-img:hover, .button-1:focus, .button-1-img:focus,
+input.submit[type="submit"]:hover, input.submit[type="submit"]:focus {
+	background-color: #0099B6;
+	border-color: #0099B6;
+	color: #FFFFFF;
+}
+
+/*Secondary button background / text color*/
+#secondaryButton, 
+.button-2, .button-2-img, .button-2:hover, .button-2-img:focus, .button-2:hover, .button-2-img:focus {
+	background: #EFEFEF;
+	border-color: #EFEFEF;
+	color: #000000;
+}
+
+/*Page Header background color / text color / background image */
+#pageHeader, 
+#schemePreviewHead,
+div.pageTitle,
+div#lightboxContent h2 {
+	background: #DEDEDE ;
+	border-color: #DEDEDE;
+	color: #000000;
+	text-shadow: none;
+}
+
+.pageTitle p,
+.pageTitle p.helptext,
+.version {
+	color: #000000;
+	opacity:.8;
+	filter: Alpha(Opacity=80);
+}
+
+/*Action bar background / text color*/
+#actionBarBrand,
+.actionBar, 
+.contentPaneWide .actionBar,
+div.actionBar ul, 
+div.localViewToggle,
+.actionBarMicro {
+	background: #DEDEDE  url(../reorder_bg.png) repeat 0 0 ;
+	border-color: #DEDEDE;
+}
+
+/*Action bar primary button background / text color*/
+#primaryActionBrand, 
+.mainButton > a, 
+.mainButton > a:hover, 
+.mainButton > a:focus,
+.mainButton h2 > a,
+.mainButton h2 > a:hover, 
+.mainButton h2 > a:focus, 
+li.mainButton > a,
+li.mainButton:hover > a,
+li.mainButton:focus > a,
+li.mainButton:hover h2 > a,
+li.mainButton:focus h2 > a,
+.actionBarMicro .mainButton > a, 
+.actionBarMicro .mainButton > a:hover, 
+.actionBarMicro .mainButton > a:focus {
+	background-color: #777777;
+	border-color: #777777;
+	color: #E9E9E9;
+}
+
+/*Action bar Secondary button background / text color*/
+#secondaryActionBrand, 
+.secondaryButton > a, 
+.secondaryButton > a:hover,
+.secondaryButton > a:focus, 
+.secondaryButton h2 > a,
+.secondaryButton h2 > a:hover, 
+.secondaryButton h2 > a:focus {
+	background-color: #777777;
+	border-color: #777777;
+	color: #E9E9E9;
+}
+
+/*Top Frame Text Color */
+#topFrame, 
+.topGlobalLinks ul li,
+.topGlobalLinks a,
+.topGlobalLinks a:hover,
+.topGlobalLinks a:focus,
+.hotItems,
+.hotSpots a,
+.hotSpots li:after,
+.hotSpots a:hover  {
+	color: #CCCCCC;
+}
+
+
+/*Top Frame Background Color / Background Image*/
+#topFrame, 
+.bgBanner {
+	background-color: #003366;
+	border-color:transparent;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+div.topTabs-compact {
+	background: #003366;
+	border-color:transparent;
+}
+
+/*Top Tab Color/Background Color*/
+#topTab, 
+table.appTabs tbody tr td a, 
+div.topTabs-compact table.appTabs tr td a,
+table.appTabs tbody tr td a:hover, 
+div.topTabs-compact table.appTabs tr td a:hover,
+table.appTabs tbody tr td a:focus, 
+div.topTabs-compact table.appTabs tr td a:focus {   
+	color: #FFFFFF;
+	background-color:transparent;
+	border-color:transparent;
+}
+
+/*Top Tab Active Tab Color/Background Color*/
+#topTabActive, 
+table.appTabs tbody tr td.active a, 
+table.appTabs tbody tr td.active a:hover, 
+table.appTabs tbody tr td.active a:focus,
+div.topTabs-compact table.appTabs tr td.active a, 
+div.topTabs-compact table.appTabs tr td.active a:hover, 
+div.topTabs-compact table.appTabs tr td.active a:focus {
+	color: #FFF4BF;
+	background-color:transparent;  
+	border-color:transparent;
+}
+
+/*Global Nav links*/
+/**/
+.nav-link, .nav-link:hover, .nav-link:focus {
+	background: rgb(0, 0, 0, 0.2);
+}
+
+/*Module colors*/
+#moduleTitle, 
+.portlet h2, .portlet h2 span.reorder
+{
+	background-color:transparent;
+	color: #444444;
+}
+.portlet h2 a
+{
+	background-color: transparent;
+	color: #444444;
+}
+#moduleBorder, #moduleBody, 
+.portlet
+{
+	border-top-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-right-color: #CCCCCC;
+	background-color: #EFEDE3;
+	color: #444444;    
+}

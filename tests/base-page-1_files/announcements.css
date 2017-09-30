@@ -1,0 +1,12 @@
+/*
+announcements.css - 
+(c) copyright 2001ff., Blackboard, Inc.
+*/
+ h3.announcementListHeader {
+
+  border-top:2px solid #eee;font-size:110%;padding:6px 6px 6px 20px;
+ }
+
+ div.announcementListItem {
+  margin:0pt 0pt 0pt 18px;
+ }

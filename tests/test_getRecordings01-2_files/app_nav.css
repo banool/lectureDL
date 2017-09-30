@@ -1,0 +1,413 @@
+/* @group TOP FRAME
+----------------------------------------------- */
+
+/* @group TOP FRAME LAYOUT */
+
+/*Branding image container.*/
+
+/*Application tabs (top frame)*/
+
+table.bouncer {
+	width: 100%;
+}
+	
+table.bouncer td {
+	padding:0;
+}
+
+.brandingImgWrap {
+	overflow:hidden;
+}
+
+/*Branding image is hidden when compact tabs are used*/
+.topTabs-compact .bannerImage, .topTabs-compact .brandingImgWrap {
+	display:none;
+}
+
+/*Regular tabs*/
+.topTabs {
+	position: relative; 
+	overflow-y:hidden;
+	height: 86px;
+	
+}
+
+/*Compact tabs*/
+.topTabs-compact {
+	position:relative;
+}
+
+/*Center aligned tabs*/
+.topTabs .tabWrapper-center .appTabs, .topTabs-compact .tabWrapper-center .appTabs {
+	margin: 0 auto;
+}
+
+/*Right aligned tabs.*/
+.topTabs .tabWrapper-right .appTabs, .topTabs-compact .tabWrapper-right .appTabs {
+	float: right;
+}
+  
+#topFrame /*@branding - do not remove*/,
+/*---*/
+.bgBanner {
+  background-color: #555;
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+  color:#CCCCCC;
+}
+
+.brandingImgWrap {
+  height:42px;
+}
+
+.brandingImgWrap a {
+  display: inline-block;
+  position: absolute;
+}
+
+.brandingImgWrap a:focus {
+  outline-color: #CCC;
+}
+
+.bannerImage {
+  max-height: 35px;
+
+}
+
+.brandingImgWrap img[src*="header_institution"] {
+	left: 12px;
+	max-height: 60px;
+	position: absolute;
+	top: 0;
+}
+
+/*Branding image, hot spots and hot links are hidden when compact tabs are used*/
+.topTabs-compact .bannerImage, .topTabs-compact .brandingImgWrap, .topTabs-compact .hotItems {
+  display:none;
+}
+
+/*Regular tabs*/
+.topTabs {
+  padding: 0;
+  height: 89px;
+  background-color: #555; /*@pal*/
+  -moz-box-shadow: 0 -6px 17px #333 inset; /*@pal*/
+  -webkit-box-shadow: 0 -6px 17px #333 inset; /*@pal*/
+ 	box-shadow: 0 -6px 17px #333 inset; /*@pal*/
+
+
+}
+
+/*Compact tabs*/
+.topTabs-compact {
+  height: 52px;
+}
+
+/*Tab wrapper*/
+.tabWrapper-left, .tabWrapper-center, .tabWrapper-right {
+  width: auto;
+  padding: 0 28px;
+}
+
+/*Table that contains application tabs*/
+/*Regular tabs*/
+.appTabs {
+  width: auto;
+  position: relative;
+}
+
+.topTabs-compact .tabWrapper-left, .topTabs-compact .tabWrapper-center, .topTabs-compact .tabWrapper-right {
+    padding-top: 24px;
+}
+
+/* @end */
+
+/* @group APPLICATION TABS */
+
+/*Application tabs*/
+/*Regular tabs*/
+.appTabs a {
+  font-size:110%;
+  text-align:center;
+  display:block;
+  text-decoration:none;
+  padding: 10px 1.2em 19px;
+  color:#efefef;
+  color:rgba(255,255,255,0.9);
+  z-index:100;
+  white-space:nowrap;
+  position: relative;
+  border: 1px solid transparent;
+  border-width: 1px 1px 0;
+  -moz-border-radius: 3px 3px 0 0;
+  -webkit-border-radius: 3px 3px 0 0;
+  border-radius: 3px 3px 0 0;
+}
+
+/*@branding - do not remove*/
+#topTab {
+  background: transparent;
+  color:#efefef;
+}
+
+.appTabs a span {
+  border-bottom: 1px dotted transparent;
+  padding-bottom: 1px;
+}
+
+.topTabs-compact .appTabs a span {
+  padding-bottom: 0;
+}
+
+
+.appTabs a:hover, .appTabs a:focus {
+  color:#fff;
+}
+
+.appTabs a:hover span, .appTabs a:focus span {
+  border-bottom: 1px double #FFF;
+
+}
+
+/*@branding - do not remove*/
+#topTabActive,
+.appTabs .active a, .appTabs .active a:hover, .appTabs .active a:focus {
+  color:#FFF4BF;
+  font-weight:bold;
+  text-shadow: 0 0 6px #000;
+  z-index:100;
+}
+
+.appTabs .active a  span, .appTabs .active a:hover span, .appTabs .active a:focus span {
+  border: 0;
+}
+
+.appTabs .active .hideoff,
+.appTabs .active a:hover .hideoff,
+.appTabs .active a:focus .hideoff,
+.toppTabs-compact .appTabs .active .hideoff, 
+.toppTabs-compact .appTabs .active a:hover .hideoff,
+.toppTabs-compact .appTabs .active a:focus .hideoff {
+  bottom: 0;
+  border-left:12px solid transparent;
+  border-right:12px solid transparent;
+  border-top:0;
+  border-bottom:12px solid #EFEDE3;
+  margin-left: -12px;
+  bottom: 0px;
+  line-height: 0;
+  left: 50%;
+  top: auto;
+  color: transparent;
+  font-size: 0;
+  z-index: 100;
+
+}
+
+.topTabs-compact .appTabs .active .hideoff, 
+.topTabs-compact .appTabs .active a:hover .hideoff,
+.topTabs-compact .appTabs .active a:focus .hideoff {
+  border-width: 0 7px 7px;
+  margin-left: -7px;
+}
+
+
+
+
+.topTabs-compact .appTabs a, 
+.topTabs-compact  .appTabs .active a:hover, 
+.topTabs-compact  .appTabs .active a:focus {
+	font-size: 95%;
+	padding: 0.4em 1em .7em;
+}
+
+
+/*Rounding options*/
+.round1 a {
+	-moz-border-radius:3px 3px 0 0;
+	-webkit-border-radius:3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+  }
+
+.round2 a {
+	-moz-border-radius:12px 12px 0 0;
+	-webkit-border-radius:12px 12px 0 0;
+	border-radius:12px 12px 0 0;
+}
+
+/* @end */
+
+
+/* @group TOP FRAME LINKS (HOME, HELP, LOGOUT)
+----------------------------------------------- */
+
+/*Top frame links*/
+
+.topGlobalLinks {
+    background-color: rgba(0,0,0, 0.15);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000020, endColorstr=#33000020";
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000020, endColorstr=#33000020);
+}
+
+.topGlobalLinks ul {
+    z-index: 1001
+}
+
+.topGlobalLinks  ul li {
+    color: #ccc;
+    display: inline-block;
+    margin: 0  0 0 -4px;
+}
+
+.topGlobalLinks ul li:first-child {
+    margin: 0;
+}
+
+.topGlobalLinks a {
+    display: inline-block;
+    color: #ccc;
+    text-align: left;
+    padding: 3px 5px;
+    text-indent: -10000px;
+    min-width: 18px;
+    overflow: hidden;
+    background: none!important;
+}
+
+.topGlobalLinks a .link-icon {
+    background-image: url(images/utilicons_sprite_rev.png);
+    background-repeat: no-repeat;
+    display: block;
+    float: right;
+    height: 16px;
+    width: 16px;
+    overflow: hidden;
+}
+
+.topGlobalLinks .home .link-icon {
+    background-position: -129px 0
+}
+
+.topGlobalLinks .home:hover .link-icon,
+.topGlobalLinks .home:focus .link-icon {
+    background-position: -129px -16px
+}
+
+.topGlobalLinks .logout .link-icon {
+    display: none
+}
+
+.topGlobalLinks .logout {
+    text-indent: 0;
+    padding: 2px 9px;
+    width: auto!important;
+}
+
+.topGlobalLinks .help .link-icon {
+    background-position: -145px 1px
+}
+
+.topGlobalLinks .help:hover .link-icon,
+.topGlobalLinks .help:focus .link-icon  {
+    background-position: -145px 1px
+}
+
+.topGlobalLinks a:hover,
+.topGlobalLinks a:focus {
+    color: #eee;
+    background-color: rgba(0,0,0, 0.25)!important;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#44000025, endColorstr=#44000025";
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#44000025, endColorstr=#44000025);
+}
+
+/* @end TOP FRAME LINKS*/
+
+/* @group TOP FRAME HOT ITEMS
+----------------------------------------------- */
+
+.hotItems {
+    position: relative;
+    margin-right: 3px;
+    width: 240px;
+    min-height: 28px;
+    color: #ddd;
+    text-align: center;
+    background-color: rgba(0,0,0, 0.20);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000020, endColorstr=#33000020";
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000020, endColorstr=#33000020);
+}
+
+.hotSpots {
+    max-height: 46px;
+    overflow: auto;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    padding: 3px 3px 5px;
+}
+
+.hotSpots li {
+    display: inline-block;
+    display: inline\9;/*IE8*/
+    padding: 0 0 2px;
+}
+
+.hotSpots a {
+    text-decoration: underline;
+    background: transparent;
+    color: #ddd;
+    display: inline-block;
+    padding: 0 6px 0 0;
+}
+
+.hotSpots li:after {
+    content: "\2022";
+    color: #999999;
+    position: relative;
+    right: 1px;
+}
+
+.hotSpots li:last-child:after {
+    content: none
+}
+
+.hotSpots a:hover,
+.hotSpots a:focus {
+    color: #eee;
+}
+
+/* @end TOP FRAME HOT*/
+
+/* // GLOBAL NAV // */
+/* these styles override the icons set on the Customize Brand page. This is specific to the 2012 theme */
+.bottom-buttons-home a.home {
+  background: transparent
+              url('/images/ci/mybb/mybb_nav_bottombuttons_sprite.png ') no-repeat
+              50% 6px;
+}
+
+.bottom-buttons-help a.help {
+  background: transparent
+              url('/images/ci/mybb/mybb_nav_bottombuttons_sprite.png ') no-repeat
+              50% -13px;
+}
+
+.bottom-buttons-logout a.logout {
+  background: transparent
+              url('/images/ci/mybb/mybb_nav_bottombuttons_sprite.png ') no-repeat
+              50% -33px;  
+}
+
+.global-nav-bar a.logout-link, .global-nav-bar a.logout-link:hover, .global-nav-bar a.logout-link:focus {
+  background-image: url('/images/ci/mybb/mybb_nav_logout.png');
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+}
+
+.global-nav-bar a.logout-link:hover, .global-nav-bar a.logout-link:focus {
+  background-position: 50% -22px;
+}
+/* // end GLOBAL NAV // */
+
+/* @end TOP FRAME */
+
