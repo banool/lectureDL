@@ -65,6 +65,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import (
     NoSuchElementException,
     ElementNotVisibleException,
+    StaleElementReferenceException,
     WebDriverException,
 )
 
@@ -72,6 +73,7 @@ import datetime
 import functools
 import getpass
 import os.path
+import random
 import time
 import urllib
 import re
@@ -108,7 +110,9 @@ LECTURE_TAB_STRINGS = ["Lecture Recordings", "Lecture Capture", "Lectures",
                        "lectures", "Lecture capture", "Recordings",
                        "recordings", "Capture", "capture"]
 # These must be exact matches:
-INTERMEDIATE_LECTURE_CAPTURE_NAMES = ['Lecture Capture', 'Lecture-Capture']
+INTERMEDIATE_LECTURE_CAPTURE_NAMES = [
+    'Lecture Capture', 'Lecture-Capture', 'Lecture Recordings',
+]
 LECTURE_FOLD_NAME = settings['lecture_subfolder_name']
 SUBJ_NAMES = settings['subject_names']
 FOLDER_ERROR = (" doesn\'t exist.\nWould you like to use the Downloads" +
@@ -474,12 +478,17 @@ def getLectureList(driver):
 def getPastIntermediateRecordingsPage(driver):
     # Try to get past an intermediate page if there is one.
     for i in INTERMEDIATE_LECTURE_CAPTURE_NAMES:
-        with suppress(IndexError):
-            w = driver.find_elements_by_link_text(i)[0]
+        with suppress(IndexError, StaleElementReferenceException):
+            # You'd be surprised at how effective this is, it can break some
+            # pretty nasty loops that happen because of same-name links.
+            # The only potentialy problem is the chance of timing out after
+            # a string of bad / unlucky choices. TODO: There is probably a
+            # better way to do this with generators or static vars or something.
+            w = random.choice(driver.find_elements_by_link_text(i))
             w.click()
 
 
-@retry_until_result('Getting past intermediate page / waiting for Echocenter to load...')
+@retry_until_result('Getting past intermediate page / waiting for Echocenter to load...', max_retries=40)
 def getToEchoCenter(driver):
     getPastIntermediateRecordingsPage(driver)  # This one sleep internally.
     return getLectureList(driver)
