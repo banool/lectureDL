@@ -436,17 +436,7 @@ def download_lecture(dl_link, output_name, pretty_name, sizeLocal):
     f.close()
 
 
-def download_lectures_for_subject(driver, subject,  current_year, week_day,
-                                  dates_list, download_mode, uni_folder, q):
-    downloaded = []
-    skipped = []
-    subjCode, name, link, sub_num = subject
-    print(f"\nNow working on {subjCode}: {name}")
-
-    # Go to subject page and find Lecture Recordings page.
-    driver.get(link)
-
-    main_window = driver.current_window_handle
+def getRecordingsPage(driver):
     link_num = 0
     while True:
         try:
@@ -491,6 +481,21 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
         except NoSuchElementException:
             print("Slow connection, waiting for echocenter to load... ")
             time.sleep(0.5)
+    return (recs_list, recs_ul)
+
+
+def download_lectures_for_subject(driver, subject,  current_year, week_day,
+                                  dates_list, download_mode, uni_folder, q):
+    downloaded = []
+    skipped = []
+    subjCode, name, link, sub_num = subject
+    print(f"\nNow working on {subjCode}: {name}")
+
+    # Go to subject page and find Lecture Recordings page.
+    driver.get(link)
+
+    main_window = driver.current_window_handle
+    recs_list, recs_ul = getRecordingsPage(driver)
 
     # setup for recordings
     multiple_lectures = False
@@ -830,7 +835,7 @@ def main():
         if res:
             downloaded, skipped = res
             all_downloaded += downloaded
-            all_skipped += skipped if skipped else []
+            all_skipped += skipped
     # Done , close the browser.
     print("All links have been collected, waiting for downloads to complete...")
     driver.quit()
