@@ -8,8 +8,8 @@ settings = {
     'password': os.environ['CLAIREPASS'],
     'date_range': '8-12',
     'lecture_subfolder_name': 'Lectures',
-    'uni_location': os.path.join(os.path.expanduser('~'), 'Downloads/claire'),
-    'auto_create_folders': True,
+    'uni_location': os.path.join(os.path.expanduser('~'), 'Dropbox/uni2017/other/claire'),
+    'auto_create_subfolders': True,
     # Ignored if 'auto_create_folders' is False.
     'default_auto_create_format': '{code} - {name}',
     'subject_choices': '',

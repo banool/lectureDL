@@ -490,7 +490,7 @@ def getPastIntermediateRecordingsPage(driver):
 
 @retry_until_result('Getting past intermediate page / waiting for Echocenter to load...', max_retries=40)
 def getToEchoCenter(driver):
-    getPastIntermediateRecordingsPage(driver)  # This one sleep internally.
+    getPastIntermediateRecordingsPage(driver)
     return getLectureList(driver)
 
 
@@ -605,7 +605,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
         subjectFolder = getSubjectFolder(lec.subjCode, uni_folder)
     except NameError:
         # If the user wants to automatically create the folders, do so.
-        if settings['auto_create_folders']:
+        if settings['auto_create_subfolders']:
             subjectFolder = settings['default_auto_create_format'].format(
                 code=subjCode, name=name)
             os.mkdir(subjectFolder)
