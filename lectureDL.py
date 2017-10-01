@@ -161,7 +161,7 @@ def getSubjectFolder(fname, uni_folder):
     print(f"Fname: {fname}, subjectCode: {subjectCode}")
     # Using the subject code to find the appropriate folder.
     for i in listdir(uni_folder):
-        if subjectCode in i or subjectCode.upper() in i:
+        if subjectCode.lower() in i.lower():
             subjectFolder = i
             break
     try:
@@ -608,7 +608,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
         if settings['auto_create_subfolders']:
             subjectFolder = settings['default_auto_create_format'].format(
                 code=subjCode, name=name)
-            os.mkdir(subjectFolder)
+            os.mkdir(os.path.join(uni_folder, subjectFolder))
             print('Made folder: ' + subjectFolder)
         else:
             print(FOLDER_NAME_ERROR)

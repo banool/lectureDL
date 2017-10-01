@@ -6,7 +6,7 @@ from settings_base import _settings_base, getLectureName
 settings = {
     'username': 'channon',
     'password': os.environ['CLAIREPASS'],
-    'date_range': '8-12',
+    'date_range': '1-12',
     'lecture_subfolder_name': 'Lectures',
     'uni_location': os.path.join(os.path.expanduser('~'), 'Dropbox/uni2017/other/claire'),
     'auto_create_subfolders': True,
