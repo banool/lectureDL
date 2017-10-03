@@ -615,7 +615,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
             os.mkdir(os.path.join(uni_folder, subjectFolder))
             print('Made folder: ' + subjectFolder)
         else:
-            print(FOLDER_NAME_ERROR)
+            print(FOLDER_NAME_ERROR, file=sys.stderr)
             sys.exit(1)
 
     # assign filenames
@@ -815,6 +815,7 @@ def main():
                                   chrome_options=chrome_options)
     except:
         print('Couldn\'t start Chrome!', file=sys.stderr)
+        sys.exit(1)
 
     # Login
     print("Starting login process")

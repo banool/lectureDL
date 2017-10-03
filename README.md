@@ -42,6 +42,7 @@ lectureDL is written in [Python 3](http://python.org/downloads) and uses the [Se
     - Go to the line `driver = webdriver.Chrome('ChromeDriver/chromedriver 2.31', chrome_options=chrome_options)` and change it to `driver = webdriver.Chrome('chromedriver', chrome_options=chrome_options)`
     - In the future you might need to download a new Chromedriver, so make sure you keep track of which is which (perhaps by renaming it to `chromedriver <version>`, like `chromedriver2.32`).
 - Edit the settings. See the [**Configuration**](#Configuration) section.
+- Make sure your clock is correct. If it is the wrong day, the script will crash.
 
 ### MacOS
 Prerequsities:
