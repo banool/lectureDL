@@ -100,10 +100,11 @@ except ImportError as e:
     settings = defaultdict(lambda: None, {
         # These are the defaults for when settings isn't defined.
         'uni_location': os.path.join(os.path.expanduser('~'), 'Downloads'),
+        'lecture_subfolder_name': 'Lectures',
         'auto_create_subfolders': True,
         'default_auto_create_format': '{code} - {name}',
     })
-    getLectureName = lambda lec: f"{lec.subjName} - L{lec.recNum:02}"
+    getLectureName = lambda lec: f'{lec.subjCode} Week {lec.week:02} Lecture {lec.lecOfWeek}'
     print('Will download to ' + str(settings['uni_location']))
     print('Will automatically create the subject folders.')
     print('Default folder and lecture names will be used.')
@@ -116,7 +117,7 @@ LECTURE_TAB_STRINGS = ["Lecture Recordings", "Lecture Capture", "Lectures",
 INTERMEDIATE_LECTURE_CAPTURE_NAMES = [
     'Lecture Capture', 'Lecture-Capture', 'Lecture Recordings',
 ]
-LECTURE_FOLD_NAME = settings['lecture_subfolder_name']
+LECTURE_FOLDER_NAME = settings['lecture_subfolder_name']
 SUBJ_NAMES = settings['subject_names']
 FOLDER_ERROR = (" doesn\'t exist.\nWould you like to use the Downloads" +
                 " folder instead? ")
@@ -623,29 +624,22 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
     # updating earlier values etc
     for lec in lectures_list:
 
-        # DAVE_PERSONAL_PREFERENCE
         filename = getLectureName(lec)
-        # filename = lec.subjCode + " Week " + str(weekNum).zfill(2) + " Lecture"
-
-
-        # if multiple_lectures == True: Don't worry about this, wasn't implemented properly in the first place.
-        # This line would determine whether to append the lecture number to the file name.
-        # filename = filename + " " + str(lecNum)
 
         if download_mode == "audio":
             filename_with_ext = filename + ".mp3"
-            folder = audio_folder
+            folder = audio_folder  # TODO this audio folder thing is a bit dumb.
         else:
             filename_with_ext = filename + ".m4v"
             folder = uni_folder
 
-        file_path = os.path.join(folder, subjectFolder, LECTURE_FOLD_NAME,
+        file_path = os.path.join(folder, subjectFolder, LECTURE_FOLDER_NAME,
                                  filename_with_ext)
 
         if not os.path.isdir(os.path.join(folder, subjectFolder,
-                                          LECTURE_FOLD_NAME)):
-            print("Making {} folder for {}".format(LECTURE_FOLD_NAME, folder))
-            os.makedirs(os.path.join(folder, subjectFolder, LECTURE_FOLD_NAME))
+                                          LECTURE_FOLDER_NAME)):
+            print("Making {} folder for {}".format(LECTURE_FOLDER_NAME, folder))
+            os.makedirs(os.path.join(folder, subjectFolder, LECTURE_FOLDER_NAME))
 
         lec.fName = filename
         lec.fPath = file_path
