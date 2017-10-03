@@ -97,10 +97,16 @@ try:
     )
 except ImportError as e:
     print(f'Couldn\'t import a settings file: {str(e)}')
-    settings = defaultdict(lambda: None)
-    # Default download location.
-    settings['uni_location'] = os.path.join(os.path.expanduser('~'), 'Downloads')
+    settings = defaultdict(lambda: None, {
+        # These are the defaults for when settings isn't defined.
+        'uni_location': os.path.join(os.path.expanduser('~'), 'Downloads'),
+        'auto_create_subfolders': True,
+        'default_auto_create_format': '{code} - {name}',
+    })
     getLectureName = lambda lec: f"{lec.subjName} - L{lec.recNum:02}"
+    print('Will download to ' + str(settings['uni_location']))
+    print('Will automatically create the subject folders.')
+    print('Default folder and lecture names will be used.')
 
 # These are partial matches, so the best matches should appear first:
 LECTURE_TAB_STRINGS = ["Lecture Recordings", "Lecture Capture", "Lectures",
@@ -115,7 +121,8 @@ SUBJ_NAMES = settings['subject_names']
 FOLDER_ERROR = (" doesn\'t exist.\nWould you like to use the Downloads" +
                 " folder instead? ")
 FOLDER_NAME_ERROR = ("There is a name mismatch between the subjects list and" +
-                     " the folder names.")
+                     " the folder names.\nYou might want to try the " +
+                     "'auto_create_subfolders' option in the settings.")
 
 
 class Lecture(object):
@@ -138,7 +145,7 @@ class Lecture(object):
         return strFormat + f" Lecture {self.lecOfWeek}"
 
 
-def check_uni_folder(uni_folder):
+def check_uni_folder(uni_folder, home_dir):
     '''
     @param: uni_folder - pathname generated using os.path
     '''
@@ -781,7 +788,7 @@ def consume_dl_queue(q):
 def main():
     # Setup download folders
     home_dir = os.path.expanduser("~")
-    uni_folder = check_uni_folder(settings['uni_location'])
+    uni_folder = check_uni_folder(settings['uni_location'], home_dir)
 
     print("Welcome to", sys.argv[0])
 
