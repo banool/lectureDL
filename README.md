@@ -1,62 +1,91 @@
-# lectureDL
+# Unimelb Lecture Downloader
 
-## Differences in this fork from original
-First, huge praise to @larryhudson for a super handy script. Many of my changes here are preference based, this fork mainly serves as a place for me to fiddle with the script :) Anyway, here's a list of most of the changes:
+This is a program that allows you to easily download all your lectures for
+all your subjects. It does this by piloting the browser and navigating
+through the LMS on your behalf.
 
-- A progress indicator for each download.
-- Hides the password while the user enters it.
-- Detects when a download isn't fully completed, and if so download it again.
-- Makes sure echocenter and the list of subjects are fully loaded (on my slow slow slow connection the script would jump the gun on this). This is done by catching the exception for when a css element isn't found. Makes the already great script even more robust.
-- Makes the weeks print 01 instead of 1.
-- Facilitates automated running of the script with variables modifiable at the top of the file.
-- Changes download location to be subject specific. Meaning for a COMP30020 lecture, the script will download it to COMP30020/lectures/lecture name.m4v. This is of course purely a taste based thing.
-- Fixes a few bugs by introducing more duck typing. This led to improvements like automatic scrolling when the list of lectures was too long as well as gathering download links significantly faster.
-- Added support for partial downloads. Should hopefully be cross platform since I didn't end up using any external libraries.
+## What it does:
+- Logs in to the Unimelb LMS.
+- Builds a list of the subjects.
+- For each subject, navigates through to the Echocenter (Lecture Capture System).
+- Builds a list of the lectures.
+- For each lecture, queue up a download. The lectures are downloaded in a separate thread while the main thread continues to collect links by navigating through the LMS.
+- Downloads all of the queued downloads to the appropriate folders.
 
-The whole thing was pretty perfect from the start, so my list of possible improvements here will be short:
+## Features
+The lecture downloader is able to:
 
-- Restructure the code into functions for each abstract task and then have a main which calls these. Would be nice for readability and maintainability's sake.
-- Way down the line it would be nice to have a way for it to handle future semesters that don't involve hardcoding date values. Problem for another time!
+- ~ Download only some of your subjects.
+- ~ Download video or audio copies of the lectures.
+- ~ Download specific weeks.
+- ~ Download from the current week onwards.
+- ~ Choose where to download the lectures to.
+- ~ Autogenerate folders for each subject.
+- ~ Assign week numbers based on date and appends lecture numbers if there are more than one lecture per week - formatted eg. "LING30001 Week 1 Lecture 02.m4v"
+- Find pre-existing folders for each subject (given appropriate naming, see the **Naming your folders** section below).
+- Skip lectures that you've already downloaded.
+- Resume downloads that were cancelled partway through.
+- Display a progress bar as you download each lecture.
+- ~ Read the username and password from the settings file.
+- ~ Run in headless mode (where the Chrome window is hidden).
+- ~ Run with different settings files with minimal modification, for example if you are both a student and a tutor and you want to download the lectures for both.
 
-Again, enormous thanks to @larryhudson for making that something that everybody's always wanted, and for it being so easy to use!
+The features with the `~` are configurable through the settings file(s).
 
 ## Setup:
 lectureDL is written in [Python 3](http://python.org/downloads) and uses the [Selenium library](http://selenium-python.readthedocs.io) coupled with [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/).
 
-The easiest way to install selenium is with pip:
-	`pip3 install selenium`
+### Pre-installation steps
+- Make sure you have Chrome installed.
+- Get the latest Chromedriver for your system from [here.](https://sites.google.com/a/chromium.org/chromedriver/downloads) You might have to modify the code to point to this Chromedriver. For some easy instructions:
+    - Download Chromedriver and drag it into this folder.
+    - Go to the line `driver = webdriver.Chrome('ChromeDriver/chromedriver 2.31', chrome_options=chrome_options)` and change it to `driver = webdriver.Chrome('chromedriver', chrome_options=chrome_options)`
+    - In the future you might need to download a new Chromedriver, so make sure you keep track of which is which (perhaps by renaming it to `chromedriver <version>`, like `chromedriver2.32`).
+- Edit the settings. See the [**Configuration**](#Configuration) section.
 
-To run lectureDL, download the zip file for this repository and execute the script with Python 3 from inside the directory:
-	`python3 lectureDL.py`
+### MacOS
+Prerequsities:
 
-Note: I'd recommend hiding subjects that are not active this semester because the script may try to find lecture recordings for past semesters.
+- Make sure you have [brew](https://brew.sh) installed.
+- Python 3.6 or greater. It's easiest to install this with the installer from [https://www.python.org](https://www.python.org).
+
+Setup instructions:
+```
+python3.6 -m venv myvenv
+source myvenv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+python lectureDL.py  # Success!!!
+```
+
+### Linux
+These steps have been tested on Ubuntu 16.04, adapt accordingly to your system.
+
+Prerequsities:
+- Python 3.6 or greater. Follow the instructions in [this](https://askubuntu.com/questions/865554/how-do-i-install-python-3-6-using-apt-get) Stack Overflow article.
+
+Setup instructions:
+```
+# Install Python 3.6 virtualenv stuff
+sudo apt-get install python3.6-venv
+# Now just follow the MacOS instructions
+```
+
+## Configuration
+TODO
+
+## Additional notes
+
+### Differences in this fork from original
+See the file `other/initial_differences.md`. There have been many more improvements since that markdown file was written.
+
+### To do list
+See the file `other/todo.md`.
+
+### Setup for a new semester
+See the file `other/heads_up_2017_07_29.md`.
+
+### Improving reliability
+Note: I'd recommend hiding subjects that are not active this semester because the script may try to find lecture recordings for past semesters. These days this is probably not necessary, but if you're having issues this might help.
 
 ![Subject list](img/subj_list_screenshot.png?raw=true "Click on the gear to hide subjects")
-
-## What it does:
-* Logs in to Unimelb LMS system
-* Builds list of subjects
-* For each subject, navigate through to echo system
-* Builds list of lectures
-* For each lecture, builds filename based on subject number and date and downloads
-
-## Features:
-* Assigns week numbers based on date and appends lecture numbers if there are more than one lecture per week - formatted eg. "LING30001 Week 1 Lecture 02.m4v"
-* Skips if file already exists
-* Can download either video files or audio files
-* Allows user to choose specific subjects and to only download lectures for specific weeks
-
-## To do list:
-* Allow user to choose download folder
-* Replace list system (eg. to_download) with class and attributes?
-* **See the separate file `Todo list.md`.**
-
-## Update as of 2017-07-29, copied from lectureDL.py
-If you're modifying this in the future, know first off that the code was not designed with easy future use, nor abstraction in general, in mind. I've made it a bit better but it's still messy. Assuming you've got the required directory structure in place (check out the video_folder variable), you'll have to:
-
-1. Change the current year and semester if necessary.
-2. Change the variables representing the start of the semester (such as start_week0 and current_date) for this semester.
-3. Manually download the latest ChromeDriver and change the driver variable accordingly.
-4. Perhaps change / comment out the default variables (e.g. input_user).
-
-While it might be worth it, I feel like it'd be a fair bit of work to refactor this project to be "Good TM", after which you could start adding extra features. Like imagine trying to catch a selenium error and closing chrome if one is encountered, it'd be like a million try/excepts. So yeah, maybe one day. Still it wasn't too hard to get it working again.
