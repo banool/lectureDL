@@ -32,6 +32,10 @@ The lecture downloader is able to:
 
 The features with the `~` are configurable through the settings file(s).
 
+**Note that you do not *need* to use a settings file, you can run the program
+without the settings file and it will just fall back to defaults and ask you
+the required information.**
+
 ## Setup:
 lectureDL is written in [Python 3](http://python.org/downloads) and uses the [Selenium library](http://selenium-python.readthedocs.io) coupled with [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/).
 
@@ -71,6 +75,10 @@ Setup instructions:
 sudo apt-get install python3.6-venv
 # Now just follow the MacOS instructions
 ```
+
+## How to use
+TODO youtube vid
+Emphasise that you need to bring the terminal back up to the front. Don't enter the password manually.
 
 ## Configuration
 TODO
