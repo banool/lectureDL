@@ -1,1 +1,1 @@
-from settings_claire import *
+from settings_example import *

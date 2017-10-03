@@ -34,7 +34,7 @@ The features with the `~` are configurable through the settings file(s).
 
 **Note that you do not *need* to use a settings file, you can run the program
 without the settings file and it will just fall back to defaults and ask you
-the required information.**
+for any required information.**
 
 ## Setup:
 lectureDL is written in [Python 3](http://python.org/downloads) and uses the [Selenium library](http://selenium-python.readthedocs.io) coupled with [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/).
@@ -45,7 +45,7 @@ lectureDL is written in [Python 3](http://python.org/downloads) and uses the [Se
     - Download Chromedriver and drag it into this folder.
     - Go to the line `driver = webdriver.Chrome('ChromeDriver/chromedriver 2.31', chrome_options=chrome_options)` and change it to `driver = webdriver.Chrome('chromedriver', chrome_options=chrome_options)`
     - In the future you might need to download a new Chromedriver, so make sure you keep track of which is which (perhaps by renaming it to `chromedriver <version>`, like `chromedriver2.32`).
-- Edit the settings. See the [**Configuration**](#Configuration) section.
+- Edit the settings. See the **Configuration** section.
 - Make sure your clock is correct. If it is the wrong day, the script will crash.
 
 ### MacOS
@@ -97,4 +97,4 @@ See the file `other/heads_up_2017_07_29.md`.
 ### Improving reliability
 Note: I'd recommend hiding subjects that are not active this semester because the script may try to find lecture recordings for past semesters. These days this is probably not necessary, but if you're having issues this might help.
 
-![Subject list](img/subj_list_screenshot.png?raw=true "Click on the gear to hide subjects")
+![Subject list](other/subj_list_screenshot.png?raw=true "Click on the gear to hide subjects")
