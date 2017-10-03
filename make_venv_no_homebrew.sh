@@ -72,8 +72,8 @@ make_venv() {
 warning() {
     echo ---------------------------------------------------------------------
     echo WARNING! IF YOU DO NOT USE HOMEBREW:
-    echo THIS SCRIPT INSTALLS HOMEBREW IF IT IS NOT INSTALLED. 
-    echo  
+    echo THIS SCRIPT INSTALLS HOMEBREW IF IT IS NOT INSTALLED.
+    echo
     echo IT DOES THIS SO THAT IT CAN UPGRADE PYENV. PYENV IS UPGRADED
     echo TO ENSURE PYTHON 3.6 CAN BE INSTALLED INTO A PYTHON VIRTUAL
     echo ENVIRONMENT. THIS IS BECAUSE THE PROGRAM USES FEATURES ONLY AVAILABLE
@@ -91,6 +91,8 @@ warning() {
             update_pyenv
             make_venv
         fi
+    else
+        echo Okay, exiting...
     fi
     echo FINISHED \:\) HAVE A GREAT DAY\!
 }
