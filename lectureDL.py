@@ -72,20 +72,17 @@ from selenium.common.exceptions import (
 import datetime
 import functools
 import getpass
+import os
 import os.path
 import random
+import re
+import sys
 import time
 import urllib
-import re
 
 from collections import defaultdict
 from contextlib import suppress
-from os import listdir
-from os import stat
 from queue import Queue
-from sys import argv
-from sys import exit
-from sys import stderr
 from threading import Thread
 from util import (
     retry_until_result,
@@ -149,7 +146,7 @@ def check_uni_folder(uni_folder):
         conf = input(f"{uni_folder}{FOLDER_ERROR}")[0].lower()
         if conf != 'y':
             print('Ok, shutting down.')
-            exit(1)
+            sys.exit(1)
         uni_folder = os.path.join(home_dir, "Downloads")
     return uni_folder
 
@@ -160,7 +157,7 @@ def getSubjectFolder(fname, uni_folder):
     print("Getting subject folder")
     print(f"Fname: {fname}, subjectCode: {subjectCode}")
     # Using the subject code to find the appropriate folder.
-    for i in listdir(uni_folder):
+    for i in os.listdir(uni_folder):
         if subjectCode.lower() in i.lower():
             subjectFolder = i
             break
@@ -612,7 +609,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
             print('Made folder: ' + subjectFolder)
         else:
             print(FOLDER_NAME_ERROR)
-            exit(1)
+            sys.exit(1)
 
     # assign filenames
     # made it a separate loop because in the loop above it's constantly
@@ -690,7 +687,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
                 sizeWeb = 0
 
             # Get size of file on disk.
-            statinfo = stat(lec.fPath)
+            statinfo = os.stat(lec.fPath)
             sizeLocal = statinfo.st_size
 
             # Add to download list with note that it was incomplete.
@@ -786,7 +783,7 @@ def main():
     home_dir = os.path.expanduser("~")
     uni_folder = check_uni_folder(settings['uni_location'])
 
-    print("Welcome to", argv[0])
+    print("Welcome to", sys.argv[0])
 
     # Date Junk
     current_year = datetime.datetime.now().year
@@ -806,8 +803,11 @@ def main():
         print('Running in headless (hidden window) mode.')
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')  # TODO: Remove this
-    driver = webdriver.Chrome('ChromeDriver/chromedriver 2.31',
-                              chrome_options=chrome_options)
+    try:
+        driver = webdriver.Chrome('ChromeDriver/chromedriver 2.31',
+                                  chrome_options=chrome_options)
+    except:
+        print('Couldn\'t start Chrome!', file=sys.stderr)
 
     # Login
     print("Starting login process")
