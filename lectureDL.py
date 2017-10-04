@@ -160,7 +160,6 @@ def check_uni_folder(uni_folder, home_dir):
 
 
 def getSubjectFolder(fname, uni_folder):
-
     subjectCode = fname.split()[0].lower()
     print("Getting subject folder")
     print(f"Fname: {fname}, subjectCode: {subjectCode}")
@@ -499,7 +498,7 @@ def getToEchoCenter(driver):
     return getLectureList(driver)
 
 
-def download_lectures_for_subject(driver, subject,  current_year, week_day,
+def download_lectures_for_subject(driver, subject, current_year, week_day,
                                   dates_list, download_mode, uni_folder, q):
     downloaded = []
     skipped = []
@@ -601,13 +600,12 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
     for lec in lectures_list:
         lec.recNum = num_lectures - lec.recNum
 
-
     # # Getting the subject folder in which to put the lecture.
     # preset_subject_folders = settings['subject_folders']
     # if preset_subject_folders != '':
     #     subjectFolder =
     try:
-        subjectFolder = getSubjectFolder(lec.subjCode, uni_folder)
+        subjectFolder = getSubjectFolder(subjCode, uni_folder)
     except NameError:
         # If the user wants to automatically create the folders, do so.
         if settings['auto_create_subfolders']:
@@ -763,7 +761,7 @@ def download_lectures_for_subject(driver, subject,  current_year, week_day,
         downloaded.append(lec)
 
     # when finished with subject
-    print(f"Queued downloads for {lec.subjCode}! Going to next file!")
+    print(f"Queued downloads for {subjCode}! Going to next file!")
     return downloaded, skipped
 
 # Check dates_list
