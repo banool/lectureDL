@@ -22,9 +22,6 @@ settings = {
     # Currently: CODE - Name e.g. COMP10001 - Foundations of Algorithms
     # Ignored if 'auto_create_folders' is False.
     'default_auto_create_format': '{code} - {name}',
-    # Which subjects to download. An empty string '' means all.
-    # Use numbers otherwise, 1 being the first subject in the list e.g. 1,3,4
-    'subject_choices': '',
 }
 
 # Merge settings_base and settings.

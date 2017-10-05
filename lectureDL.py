@@ -103,6 +103,7 @@ except ImportError as e:
         'lecture_subfolder_name': 'Lectures',
         'auto_create_subfolders': True,
         'default_auto_create_format': '{code} - {name}',
+        'driver_relative_path': 'chromedriver',
     })
     getLectureName = lambda lec: f'{lec.subjCode} Week {lec.week:02} Lecture {lec.lecOfWeek}'
     print('Will download to ' + str(settings['uni_location']))
@@ -808,7 +809,7 @@ def main():
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')  # TODO: Remove this
     try:
-        driver = webdriver.Chrome('ChromeDriver/chromedriver 2.31',
+        driver = webdriver.Chrome(settings['driver_relative_path'],
                                   chrome_options=chrome_options)
     except:
         print('Couldn\'t start Chrome!', file=sys.stderr)
