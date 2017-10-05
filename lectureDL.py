@@ -226,7 +226,7 @@ def get_weeks_to_download(current_year, week_day):
     week_delta = datetime.timedelta(days=7)
     week_counter = 1
     day_counter = 1
-    midsemBreakWeek = 9 # Mid sem break occurs after this week.
+    midsemBreakWeek = 9  # Mid sem break occurs after this week.
 
     # assigns a week number to each date.
     while week_counter <= 12:
@@ -240,6 +240,10 @@ def get_weeks_to_download(current_year, week_day):
             current_date = current_date + week_delta
         day_counter = 1
 
+    current_week_no_offset = (datetime.datetime.today() - start_week0).days // 7
+    midsem_offset = (current_week_no_offset+1) // midsemBreakWeek
+    current_week = current_week_no_offset - midsem_offset
+
     # The user input stage.
     user_dates_input = "default"
     print("Would you like to download lectures from specific weeks or since a particular date?")
@@ -247,8 +251,7 @@ def get_weeks_to_download(current_year, week_day):
 
         # Automatically set the week range if specified in the settings.
         if settings['update_lower_week']:
-            lower_week_bound = (datetime.datetime.today() - start_week0).days // 7
-            settings['date_range'] =  f"{lower_week_bound}-12"
+            settings['date_range'] =  f"{current_week}-12"
 
         # Read in the date range if none was given in the settings.
         if settings['date_range'] is None:
@@ -268,6 +271,8 @@ def get_weeks_to_download(current_year, week_day):
 
         # if user enters comma-separated weeks, or just one, make a list for each and then concatenate
         elif "," in user_dates_input or user_dates_input.isdigit():
+            # TODO I think this might be a bit broken with the midsem thing.
+            # This whole part needs to be reworked anyway.
             print("Lectures will be downloaded for: ")
             chosen_weeks = user_dates_input.replace(" ", "").split(",")
             for item in chosen_weeks:
@@ -286,8 +291,8 @@ def get_weeks_to_download(current_year, week_day):
                 chosen_weeks = user_dates_input.split("-")
                 start_week = chosen_weeks[0]
                 end_week = chosen_weeks[1]
-                start_date = start_week0 + (int(start_week) * week_delta)
-                end_date = end_week0 + (int(end_week) * week_delta)
+                start_date = start_week0 + ((int(start_week)+midsem_offset) * week_delta)
+                end_date = end_week0 + ((int(end_week)+midsem_offset) * week_delta)
 
             # create a range between start_date and today
             elif "/" in user_dates_input:

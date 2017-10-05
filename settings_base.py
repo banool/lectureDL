@@ -10,7 +10,8 @@ _settings_base = {
     # If True, set lower week to current week (i.e. If in week 5 = 5-12).
     # Generally set this option to True unless you forgot to run the script
     # for a whole week or you're running this for the first time.
-    'update_lower_week': False,
+    'update_lower_week': True,
     # Whether to hide the Chrome window or not.
-    'hide_window': False,  # This is headless Chrome mode.
+    'hide_window': True,  # This is headless Chrome mode.
+    'subject_choices': '',
 }
