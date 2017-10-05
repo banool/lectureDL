@@ -15,20 +15,8 @@ settings = {
     # If you've selected a uni_location that doesn't have subfolders for each
     # subject in it, set this option to True and it'll make them automatically.
     'auto_create_subfolders': True,
-    # The name of the folder inside each subject's folder for holding the
-    # lectures. Your folder structure might look like:
-    # Uni/
-    #     COMP300026 - Models of Computation/
-    #         Assignment 1/
-    #         Lectures/
-    #     HIST10001 - Intro to Learning About Old Stuff/
-    #         Lectures/
-    #         Slides/
-    #     Other Junk/
-    #         blahblahblah.txt
-    #     SPAN30016 - Spanish 7/
-    #         Lectures/
-    #         Readings/
+    # The name of the folder inside each subject's folder for holding the lecs.
+    # Note the example folder structure at the bottom of the file.
     'lecture_subfolder_name': 'Lectures',
     # The format string for the subject folder names.
     # Currently: CODE - Name e.g. COMP10001 - Foundations of Algorithms
@@ -42,3 +30,20 @@ settings = {
 # Merge settings_base and settings.
 # If there is a key clash, we prefer the value in settings over _settings_base.
 settings = defaultdict(lambda: None, {**_settings_base, **settings})
+
+
+# Example directory structure:
+# Uni/
+#     COMP300026 - Models of Computation/
+#         Assignment 1/
+#         Lectures/
+#     HIST10001 - Intro to Learning About Old Stuff/
+#         Lectures/
+#         Slides/
+#     Other Junk/
+#         blahblahblah.txt
+#     SPAN30016 - Spanish 7/
+#         Lectures/
+#         Readings/
+# Note that if you have auto_create_subfolders on, you don't need to make
+# any of these subfolders yourself, just make sure uni_location exists.

@@ -32,12 +32,12 @@ The lecture downloader is able to:
 
 The features with the `~` are configurable through the settings file(s).
 
-**Note that you do not *need* to use a settings file, you can run the program
+**Note that you do *not* need to use a settings file, you can run the program
 without the settings file and it will just fall back to defaults and ask you
 for any required information.**
 
 ## Setup:
-lectureDL is written in [Python 3](http://python.org/downloads) and uses the [Selenium library](http://selenium-python.readthedocs.io) coupled with [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/).
+lectureDL is written in [Python 3](http://python.org/downloads) and uses [Selenium](http://selenium-python.readthedocs.io), coupled with [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/).
 
 ### Pre-installation steps
 - Make sure you have Chrome installed.
@@ -81,7 +81,28 @@ TODO youtube vid
 Emphasise that you need to bring the terminal back up to the front. Don't enter the password manually.
 
 ## Configuration
-TODO
+You'll notice there are 3 settings files.
+
+### `settings_base.py`
+This file is for storing settings that you want for all your different downloading
+profiles. This is only really relevant if you want to download from different LMS
+accounts, for example if you're both a tutor and a student.
+
+### `settings_example.py`
+This is where settings specific to a particular login go. Besides your username
+and password, there are other settings here. All the settings options are commented,
+so it should be pretty easy to change them to what you want.
+
+`settings_example.py` imports the settings from `settings_base.py` first, and
+then applies the settings from itself, overwriting the `settings_base.py` settings
+if there are clashes. If you only had one login, you could just put all your
+settings in this file and do away with `settings_base.py`.
+
+### `settings.py`
+This is the file that `lectureDL.py` looks for when it starts. If you had two
+settings files called `settings_tutoring.py` and `settings_personal.py`, you
+could select which one you want to use here by changing the first line to
+`from settings_tutoring import *` or `from settings_personal import *` accordingly.
 
 ## Additional notes
 
