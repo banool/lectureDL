@@ -175,21 +175,22 @@ def check_uni_folder(uni_folder, home_dir):
     return uni_folder
 
 
-def getSubjectFolder(fname, uni_folder):
-    ''' Enables any folder in which the subject code is included to be 
+def getSubjectFolder(subject_code, uni_folder):
+    ''' Enables any subject_code in which the subject code is included to be
     identified as the appropriate folder for the subject.
     '''
-    subjectCode = fname.split()[0].lower()
-    print("Getting subject folder")
-    print(f"Fname: {fname}, subjectCode: {subjectCode}")
+    print(f"Retrieving folder with name that includes: {subject_code}")
     # Using the subject code to find the appropriate folder.
-    for i in os.listdir(uni_folder):
-        if subjectCode.lower() in i.lower():
-            subjectFolder = i
+    for fold in os.listdir(uni_folder):
+        if subject_code.lower() in fold.lower():
+            subjectFolder = fold
             break
     try:
         return subjectFolder
     except NameError as e:
+        print(f"No folder including the code '{subject_code}' found.",
+              "Either create such a folder manually, or retry with",
+              "'auto_create_subfolders' setting set to True.")
         raise e
 
 
@@ -756,7 +757,7 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
             else:
                 print(lec.fName)
     else:
-        print("No lectures to be downloaded for " + subject[1])
+        print("No lectures to be downloaded for " + subject.name)
 
     # for each lecture, set filename and download
     for lec, partial in to_download:
