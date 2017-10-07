@@ -22,7 +22,7 @@ The lecture downloader is able to:
 - ~ Choose where to download the lectures to.
 - ~ Autogenerate folders for each subject.
 - ~ Assign week numbers based on date and appends lecture numbers if there are more than one lecture per week - formatted eg. "LING30001 Week 1 Lecture 02.m4v"
-- Find pre-existing folders for each subject (given appropriate naming, see the **Naming your folders** section below).
+- Find pre-existing folders for each subject (given appropriate naming, pretty much just make sure that your subject folder names have the subject code in them).
 - Skip lectures that you've already downloaded.
 - Resume downloads that were cancelled partway through.
 - Display a progress bar as you download each lecture.
