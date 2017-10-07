@@ -1,7 +1,12 @@
 # Don't import this directly.
 
 def getLectureName(lecture):
-    # My personal preference: COMP30022 Week 09 Lecture 1
+    ''' Sets the naming convention for lecture files.
+    Current preference: COMP30022 Week 09 Lecture 1
+    f'{lecture.subjCode} Week {lecture.week:02} Lecture {lecture.lecOfWeek}'
+    Another preference: Models of Computation - L09
+    f'{lec.subjName} - L{lec.recNum:02}'
+    '''
     return f'{lecture.subjCode} Week {lecture.week:02} Lecture {lecture.lecOfWeek}'
 
 _settings_base = {

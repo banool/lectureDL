@@ -36,7 +36,7 @@
 # chrome if one is encountered, it'd be like a million try/excepts.
 # So yeah, maybe one day. Still it wasn't too hard to get it working again.
 
-# UPDATE (As of 2017-09-24) - David Stern
+# UPDATE (As of 2017-10-07) - David Stern
 # Updates:
 # (1) Lecture Class Created & Implemented
 # (2) Scrolling Bug Fixed (Long lists of lectures weren't clickable)
@@ -49,14 +49,15 @@
 #       - getSubjects()         Takes the list of subjects, returns only those
 #                               selected by the user.
 # (6) Switched to f-strings to improve clarity.
-# (7) Other unlisted changes.
+# (7) Created and implemented Subject() Class.
+# (8) Other unlisted changes.
 #
 # TODO:
-# Create Subject() Class
-# Implement Subject() Class
 # Implement Graphical Folder Selection
 # Implement full GUI
 # Fix Dates (Think of a better way to select dates)
+# Save file sizes in a .pickle file
+# Shorten Scrolling Function (Line 561 in download_lectures_for_subject())
 
 
 from selenium import webdriver
@@ -125,10 +126,23 @@ FOLDER_ERROR = (" doesn\'t exist.\nWould you like to use the Downloads" +
 FOLDER_NAME_ERROR = ("There is a name mismatch between the subjects list and" +
                      " the folder names.\nYou might want to try the " +
                      "'auto_create_subfolders' option in the settings.")
+GET_ECHO = 'Getting past intermediate page / waiting for Echocenter to load...'
+
+
+class Subject(object):
+    def __init__(self, code, name, link, num, path=None, downloaded=0):
+        self.code = code
+        self.name = name
+        self.link = link
+        self.num = num
+        self.path = path
+        self.downloaded = downloaded
+
+    def __str__(self):
+        return f"{self.code} - {self.name}"
 
 
 class Lecture(object):
-
     def __init__(self, link, subjCode, week, lecOfWeek, date, subjName,
                  recNum, fName=None, fPath=None, dl_status=None):
         self.link = link
@@ -160,18 +174,22 @@ def check_uni_folder(uni_folder, home_dir):
     return uni_folder
 
 
-def getSubjectFolder(fname, uni_folder):
-    subjectCode = fname.split()[0].lower()
-    print("Getting subject folder")
-    print(f"Fname: {fname}, subjectCode: {subjectCode}")
+def getSubjectFolder(subject_code, uni_folder):
+    ''' Enables any subject_code in which the subject code is included to be
+    identified as the appropriate folder for the subject.
+    '''
+    print(f"Retrieving folder with name that includes: {subject_code}")
     # Using the subject code to find the appropriate folder.
-    for i in os.listdir(uni_folder):
-        if subjectCode.lower() in i.lower():
-            subjectFolder = i
+    for fold in os.listdir(uni_folder):
+        if subject_code.lower() in fold.lower():
+            subjectFolder = fold
             break
     try:
         return subjectFolder
     except NameError as e:
+        print(f"No folder including the code '{subject_code}' found.",
+              "Either create such a folder manually, or retry with",
+              "'auto_create_subfolders' setting set to True.")
         raise e
 
 
@@ -372,7 +390,8 @@ def getSubjectList(course_links):
         subj_name = subj_name.lstrip()
         subj_link = link.get_attribute("href")
 
-        subject_list.append([subj_code, subj_name, subj_link, subj_num+1])
+        subject_list.append(Subject(subj_code, subj_name, subj_link,
+                                    subj_num+1))
 
     # They loaded! Don't recurse, return the list instead :)
     return subject_list
@@ -390,7 +409,8 @@ def getValidUserChoice():
             print(f"Using preloaded setting: {settings['subject_choices']}")
             user_choice = settings['subject_choices']
         # Return the choice if it's valid
-        if user_choice == "" or all([x.isdigit() for x in user_choice.split(",")]):
+        if user_choice == "" or all([x.isdigit()
+                                     for x in user_choice.split(",")]):
             print("User choice valid!")
             return user_choice
         # If user choice invalid, continue loop.
@@ -409,9 +429,8 @@ def getSubjects(subject_list):
     if user_choice != "":
         # Allows for more flexible input
         selection = [int(x) for x in re.findall(r"\d", user_choice)]
-        # TODO:
-        # Will need to be changed when Subject() is implemented
-        return list(filter(lambda x: any(sel in x for sel in selection),
+        return list(filter(lambda sub: any(sel in sub.num
+                                           for sel in selection),
                            subject_list))
     # If not, just return all of the subjects
     return subject_list
@@ -423,8 +442,8 @@ def determine_subjects_to_download(subject_list):
     the user chooses to download.
     '''
     print("Subject list:")
-    for subjCode, name, link, sub_num in subject_list:
-        print(f"{sub_num}. {subjCode}: {name}")
+    for subject in subject_list:
+        print(f"{subject.num}. {subject.code}: {subject.name}")
     return getSubjects(subject_list)
 
 
@@ -494,13 +513,14 @@ def getPastIntermediateRecordingsPage(driver):
             # You'd be surprised at how effective this is, it can break some
             # pretty nasty loops that happen because of same-name links.
             # The only potentialy problem is the chance of timing out after
-            # a string of bad / unlucky choices. TODO: There is probably a
-            # better way to do this with generators or static vars or something.
+            # a string of bad / unlucky choices. 
+            # TODO: There is probably a better way to do this with generators
+            # or static vars or something.
             w = random.choice(driver.find_elements_by_link_text(i))
             w.click()
 
 
-@retry_until_result('Getting past intermediate page / waiting for Echocenter to load...', max_retries=40)
+@retry_until_result(GET_ECHO, max_retries=40)
 def getToEchoCenter(driver):
     getPastIntermediateRecordingsPage(driver)
     return getLectureList(driver)
@@ -510,12 +530,10 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
                                   dates_list, download_mode, uni_folder, q):
     downloaded = []
     skipped = []
-    subjCode, name, link, sub_num = subject
-    print(f"\nNow working on {subjCode}: {name}")
+    print(f"\nNow working on {subject.code}: {subject.name}")
 
     # Go to subject page and find Lecture Recordings page.
-    driver.get(link)
-
+    driver.get(subject.link)
     main_window = driver.current_window_handle
 
     # Get to the list of lectures.
@@ -529,17 +547,13 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
 
     # print status
     print("Building list of lectures...")
-    # scroll_wrapper = driver.find_elements
-    # driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     # for each li element, build up filename info and add to download list
     for rec_num, recording in enumerate(recs_list):
         # click on each recording to get different download links
         date_div = recording.find_element_by_css_selector("div.echo-date")
-        #date_div = recording
 
         # Deals with error where the next element can't be selected if it isn't
-        # literally visible. Weird behaviour, but the solution is to catch the
-        # error and tab downwards.
+        # literally visible. Limitation of selenium. Scrolls down to adjust.
         scroll_point = 10
         while True:
             scroll_point += 5
@@ -568,8 +582,6 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
             date = datetime.datetime.strptime(date_string, "%B %d %Y")
 
         # Checking if we can terminate early.
-        # DATE ERROR
-        # print(dates_list[0])
         if date < dates_list[0]:
             print("The lectures further down are outside the date range, no need to check them.")
             break
@@ -598,8 +610,8 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
                 lecture.lecOfWeek += 1
 
         # Create Lecture
-        lectures_list.append(Lecture(first_link, subjCode, week_num, lec_num,
-                                     date, name, rec_num))
+        lectures_list.append(Lecture(first_link, subject.code, week_num, lec_num,
+                                     date, subject.name, rec_num))
 
     # TODO: Get the length of the <ul>...</ul>, use it when creating the
     #       lectures instead
@@ -613,12 +625,12 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
     # if preset_subject_folders != '':
     #     subjectFolder =
     try:
-        subjectFolder = getSubjectFolder(subjCode, uni_folder)
+        subjectFolder = getSubjectFolder(subject.code, uni_folder)
     except NameError:
         # If the user wants to automatically create the folders, do so.
         if settings['auto_create_subfolders']:
             subjectFolder = settings['default_auto_create_format'].format(
-                code=subjCode, name=name)
+                code=subject.code, name=subject.name)
             os.mkdir(os.path.join(uni_folder, subjectFolder))
             print('Made folder: ' + subjectFolder)
         else:
@@ -668,6 +680,12 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
         # If the file is in the range but does exist, check that the file is completely
         # downloaded. If not, we will add it to the download list and overwrite the
         # local incomplete version.
+
+        # DAVETODO: SAVE FILE SIZES AND COMPLETED DOWNLOADS IN PICKLE FILE
+        # DAVETODO: CREATE SETTING 're-download' WHICH MAKES THE PROGRAM CHECK
+        #           WHETHER OR NOT OLD FILES STILL EXIST, AND REDOWNLOAD IF
+        #           NECESSARY.
+
         elif lec.date in dates_list and os.path.isfile(lec.fPath):
             while True:
                 try:
@@ -699,6 +717,7 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
 
             # Add to download list with note that it was incomplete.
             # TODO Unify the two bits of code to do with downloading / progress.
+            # BUG: Fully downloaded lectures are re-downloading?
             if sizeWeb > sizeLocal:
                 lec.dl_status = "Incomplete file (%0.1f/%0.1f MiB)." % (
                     sizeLocal / 1024 / 1024,
@@ -739,7 +758,7 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
             else:
                 print(lec.fName)
     else:
-        print("No lectures to be downloaded for " + subject[1])
+        print("No lectures to be downloaded for " + subject.name)
 
     # for each lecture, set filename and download
     for lec, partial in to_download:
@@ -769,7 +788,7 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
         downloaded.append(lec)
 
     # when finished with subject
-    print(f"Queued downloads for {subjCode}! Going to next file!")
+    print(f"Queued downloads for {subject.code}! Going to next file!")
     return downloaded, skipped
 
 # Check dates_list
@@ -839,8 +858,8 @@ def main():
 
     subjects_to_download = determine_subjects_to_download(subject_list)
     print("Subjects to be downloaded:")
-    for code, name, link, sub_num in subjects_to_download:
-        print(f"{code}: {name}")
+    for subject in subjects_to_download:
+        print(f"{subject.code}: {subject.name}")
 
     # Track which lectures we downloaded and which we skipped.
     all_downloaded = []
@@ -851,8 +870,8 @@ def main():
     t.start()
     for subject in subjects_to_download:
         res = download_lectures_for_subject(driver, subject, current_year,
-                                            week_day, dates_list, download_mode,
-                                            uni_folder, q)
+                                            week_day, dates_list,
+                                            download_mode, uni_folder, q)
         if res:
             downloaded, skipped = res
             all_downloaded += downloaded
