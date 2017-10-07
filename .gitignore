@@ -5,3 +5,4 @@ __pycache__
 get-pip.py
 gui.py
 /mysettings/
+mysettings.py

@@ -21,6 +21,7 @@ settings = {
     # The format string for the subject folder names.
     # Currently: CODE - Name e.g. COMP10001 - Foundations of Algorithms
     # Ignored if 'auto_create_folders' is False.
+    # If false, the subject folder only needs to include the subject code.
     'default_auto_create_format': '{code} - {name}',
 }
 
@@ -44,3 +45,13 @@ settings = defaultdict(lambda: None, {**_settings_base, **settings})
 #         Readings/
 # Note that if you have auto_create_subfolders on, you don't need to make
 # any of these subfolders yourself, just make sure uni_location exists.
+# With auto_create_subfolders off, directory structure may look like this:
+# Uni/
+#     COMP300026 - MOC/
+#         Assignment 1/
+#         Lectures/
+#     COMP300020 - DP/               
+#         Declarative Programming Assignment 1/
+#         Lectures/
+#     Other Junk/
+#         blahblahblah.txt
