@@ -221,6 +221,7 @@ def get_weeks_to_download(current_year, week_day):
     current_date = datetime.datetime(current_year, 7, 24)
     today = datetime.datetime.today()
     today_midnight = datetime.datetime(today.year, today.month, today.day)
+    # This is O-Week, so the start of week 1 should be 7 days after this.
     start_week0 = datetime.datetime(current_year, 7, 17)
     end_week0 = datetime.datetime(current_year, 7, 23)
     day_delta = datetime.timedelta(days=1)
@@ -262,16 +263,13 @@ def get_weeks_to_download(current_year, week_day):
             if len(settings['date_range']) > 0:
                 print("Using", settings['date_range'])
             else:
-                print("Downloading all.")
+                print("Downloading lectures from every week.")
+                settings['date_range'] = '1-12'  # TODO This is a hack.
             user_dates_input = settings['date_range']
         dates_list = []
 
-        # if left blank, download all videos
-        if user_dates_input == "":
-            dates_list = [start_week0 + datetime.timedelta(n) for n in range(int((datetime.datetime.today() - start_week0).days + 1))]
-
         # if user enters comma-separated weeks, or just one, make a list for each and then concatenate
-        elif "," in user_dates_input or user_dates_input.isdigit():
+        if "," in user_dates_input or user_dates_input.isdigit():
             # TODO I think this might be a bit broken with the midsem thing.
             # This whole part needs to be reworked anyway.
             print("Lectures will be downloaded for: ")
@@ -290,10 +288,14 @@ def get_weeks_to_download(current_year, week_day):
             if "-" in user_dates_input:
                 # splits the start and the end weeks
                 chosen_weeks = user_dates_input.split("-")
-                start_week = chosen_weeks[0]
-                end_week = chosen_weeks[1]
-                start_date = start_week0 + ((int(start_week)+midsem_offset) * week_delta)
-                end_date = end_week0 + ((int(end_week)+midsem_offset) * week_delta)
+                start_week = int(chosen_weeks[0])
+                if start_week > midsemBreakWeek:
+                    start_week += 1
+                start_date = start_week0 + (start_week * week_delta)
+                end_week = int(chosen_weeks[1])
+                if end_week > midsemBreakWeek:
+                    end_week += 1
+                end_date = end_week0 + (end_week * week_delta)
 
             # create a range between start_date and today
             elif "/" in user_dates_input:
@@ -301,13 +303,13 @@ def get_weeks_to_download(current_year, week_day):
                 start_date = datetime.datetime.strptime(user_dates_input, "%d/%m/%Y")
                 end_date = datetime.datetime.today()
             # ???
-            dates_list = [start_date + datetime.timedelta(n) for n in range(int((end_date - start_date).days))]
+            dates_list = [start_date + datetime.timedelta(n) for n in range((end_date - start_date).days)]
             dates_list.append(today_midnight)
             print("Lectures will be downloaded for the dates between " + datetime.datetime.strftime(start_date, "%d %B")
              + " and " + datetime.datetime.strftime(end_date, "%d %B") + ", inclusive.")
         # Go back to top of while loop.
         else:
-            print("That wasn't an option")
+            print("That wasn't a valid option")
             user_dates_input = "default"
     return dates_list
 

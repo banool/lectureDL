@@ -120,6 +120,11 @@ See the file `other/todo.md`.
 See the file `other/heads_up_2017_07_29.md`.
 
 ### Improving reliability
-Note: I'd recommend hiding subjects that are not active this semester because the script may try to find lecture recordings for past semesters. These days this is probably not necessary, but if you're having issues this might help.
+Note: I'd recommend hiding subjects that are not active this semester because
+the script may try to find lecture recordings for past semesters. These days
+this is probably not necessary, but if you're having issues this might help.
 
 ![Subject list](other/subj_list_screenshot.png?raw=true "Click on the gear to hide subjects")
+
+Note: For selecting the weeks, the only thing that is verified as working right
+now is the `-` option, like `8-12`. The `,` or `/` may or may not work.
