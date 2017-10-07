@@ -55,7 +55,7 @@ Clone or download the zip of this repo to get started.
 Prerequsities:
 
 - You probably want to have [brew](https://brew.sh) installed.
-- Python 3.6 or greater. It's easiest to install this with the installer from [https://www.python.org](https://www.python.org).
+- Python 3.6 or greater. Install this with brew if possible, though it's also fine to use the installer from [https://www.python.org](https://www.python.org).
 
 Setup instructions:
 ```
