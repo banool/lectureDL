@@ -127,7 +127,6 @@ FOLDER_NAME_ERROR = ("There is a name mismatch between the subjects list and" +
                      " the folder names.\nYou might want to try the " +
                      "'auto_create_subfolders' option in the settings.")
 GET_ECHO = 'Getting past intermediate page / waiting for Echocenter to load...'
-FIRST_CHAR = 0
 
 
 class Subject(object):
@@ -167,7 +166,7 @@ def check_uni_folder(uni_folder, home_dir):
     @param: uni_folder - pathname generated using os.path
     '''
     if not os.path.exists(uni_folder):
-        conf = input(f"{uni_folder}{FOLDER_ERROR}")[FIRST_CHAR].lower()
+        conf = input(f"{uni_folder}{FOLDER_ERROR}")[0].lower()
         if conf != 'y':
             print('Ok, shutting down.')
             sys.exit(1)
