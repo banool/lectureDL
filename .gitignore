@@ -6,3 +6,6 @@ get-pip.py
 gui.py
 /mysettings/
 mysettings.py
+notetoself.txt
+chromedriver*
+/ChromeDriver

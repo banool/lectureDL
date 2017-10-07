@@ -43,13 +43,12 @@ Clone or download the zip of this repo to get started.
 
 ### Pre-installation steps
 - Make sure you have Chrome installed and updated.
-- Get the latest Chromedriver for your system from [here.](https://sites.google.com/a/chromium.org/chromedriver/downloads) You might have to modify the code to point to this Chromedriver. For some easy instructions:
-    - Download Chromedriver and drag it into this folder.
-    - Go to `setting_base.py` and change the value for `'driver_relative_path'` to the name of your chromedriver download (probably just `chromedriver` by default).
-    - If you put it in the `ChromeDriver` folder, you'll need to make this value `ChromeDriver/chromedriver` instead.
+- Get the latest Chromedriver for your system from [here.](https://sites.google.com/a/chromium.org/chromedriver/downloads) For some easy instructions:
+    - Download Chromedriver, unzip it, and drag the contents into this folder. It should just be a single binary file.
+    - If your download isn't called `chromedriver`, you'll have to go to `setting_base.py` and change the value for `'driver_relative_path'` to the name of your chromedriver download.
     - In the future you might need to download a new Chromedriver, so make sure you keep track of which is which (perhaps by renaming it to `chromedriver <version>`, like `chromedriver2.32`).
 - Edit the settings, see the **Configuration** section. Or just delete `settings.py` and let it ask you for the information that it needs.
-- Make sure your clock is correct. If it is the wrong date, the script will crash.
+- Make sure your clock is correct. If it's the wrong date, the script will crash.
 
 ### MacOS
 Prerequsities:

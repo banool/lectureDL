@@ -22,5 +22,5 @@ _settings_base = {
     # Whether to hide the Chrome window or not.
     'hide_window': True,  # This is headless Chrome mode.
     # This is relative to where lectureDL.py is in the file system.
-    'driver_relative_path': 'ChromeDriver/chromedriver 2.31',
+    'driver_relative_path': 'chromedriver',
 }
