@@ -127,7 +127,7 @@ FOLDER_NAME_ERROR = ("There is a name mismatch between the subjects list and" +
                      " the folder names.\nYou might want to try the " +
                      "'auto_create_subfolders' option in the settings.")
 GET_ECHO = 'Getting past intermediate page / waiting for Echocenter to load...'
-
+NO_DL_FOLDER = 'The downloads folder doesn\'t exist either, shutting down'
 
 class Subject(object):
     def __init__(self, code, name, link, num, path=None, downloaded=0):
@@ -171,6 +171,9 @@ def check_uni_folder(uni_folder, home_dir):
             print('Ok, shutting down.')
             sys.exit(1)
         uni_folder = os.path.join(home_dir, "Downloads")
+        if not os.path.exists(uni_folder):
+            print(NO_DL_FOLDER, file=sys.stderr)
+            sys.exit(1)
     return uni_folder
 
 
@@ -513,7 +516,7 @@ def getPastIntermediateRecordingsPage(driver):
             # You'd be surprised at how effective this is, it can break some
             # pretty nasty loops that happen because of same-name links.
             # The only potentialy problem is the chance of timing out after
-            # a string of bad / unlucky choices. 
+            # a string of bad / unlucky choices.
             # TODO: There is probably a better way to do this with generators
             # or static vars or something.
             w = random.choice(driver.find_elements_by_link_text(i))
@@ -832,8 +835,9 @@ def main():
     try:
         driver = webdriver.Chrome(settings['driver_relative_path'],
                                   chrome_options=chrome_options)
-    except:
+    except Exception as e:
         print('Couldn\'t start Chrome!', file=sys.stderr)
+        print(str(e), file=sys.stderr)
         sys.exit(1)
 
     # Login
