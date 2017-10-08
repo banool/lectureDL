@@ -625,7 +625,6 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
                 actions.click()
                 actions.perform()
 
-
         # convert string into datetime.datetime object
         # date is formatted like "August 02 3:20 PM" but I want "August 02 2016"
         # so I need to get rid of time and add year
@@ -666,15 +665,8 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
 
         # Create Lecture
         lectures_list.append(Lecture(first_link, subject.code, week_num,
-                                     lec_num, date, subject.name, rec_num,
-                                     subjectFolder))
-
-    # TODO: Get the length of the <ul>...</ul>, use it when creating the
-    #       lectures instead
-    # Fixing Lecture Nums (lecs are downloaded & created in reverse order)
-    num_lectures = len(lectures_list)
-    for lec in lectures_list:
-        lec.recNum = num_lectures - lec.recNum
+                                     lec_num, date, subject.name,
+                                     len(recs_list) - rec_num, subjectFolder))
 
     # assign filepaths, filenames
     lectures_list = assign_filepaths(lectures_list, download_mode, uni_folder)
