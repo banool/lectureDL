@@ -123,11 +123,15 @@ LECTURE_FOLDER_NAME = settings['lecture_subfolder_name']
 SUBJ_NAMES = settings['subject_names']
 FOLDER_ERROR = (" doesn\'t exist.\nWould you like to use the Downloads" +
                 " folder instead? ")
-FOLDER_NAME_ERROR = ("There is a name mismatch between the subjects list and" +
-                     " the folder names.\nYou might want to try the " +
-                     "'auto_create_subfolders' option in the settings.")
+FOLDER_NAME_ERROR = ("No folder with the code subject_code in its name was",
+                     "found (e.g. 'My COMP10001 folder').\n",
+                     "Either create such a folder manually, or retry with",
+                     "'auto_create_subfolders' setting set to True in the",
+                     "settings file.")
+
 GET_ECHO = 'Getting past intermediate page / waiting for Echocenter to load...'
 NO_DL_FOLDER = 'The downloads folder doesn\'t exist either, shutting down.'
+
 
 class Subject(object):
     def __init__(self, code, name, link, num, path=None, downloaded=0):
@@ -182,6 +186,7 @@ def getSubjectFolder(subject_code, uni_folder):
     identified as the appropriate folder for the subject.
     '''
     print(f"Retrieving folder with name that includes: {subject_code}")
+
     # Using the subject code to find the appropriate folder.
     for fold in os.listdir(uni_folder):
         if subject_code.lower() in fold.lower():
@@ -529,6 +534,41 @@ def getToEchoCenter(driver):
     return getLectureList(driver)
 
 
+def assign_filepaths(lectures, download_mode, uni_folder, subjectFolder):
+    '''Assign filepaths (and therefore also file names) to lectures.
+
+    Args:
+        lectures (list): List of lecture objects
+        download_mode (str): A string specifying audio ('audio') or video
+                             ('video') downloads.
+
+    Returns:
+        lectures (list): The list of lecture objects, with filepaths added.
+    '''
+    # Get the filepaths and file names
+    for lec in lectures:
+        filename = getLectureName(lec)
+
+        # Adjust name for audio files
+        if download_mode == 'audio':
+            filename_with_ext = filename + '.mp3'
+        else:
+            filename_with_ext = filename + '.m4v'
+        file_path = os.path.join(uni_folder, subjectFolder, LECTURE_FOLDER_NAME,
+                                 filename_with_ext)
+
+        # Create the directory if it doesn't already exist.
+        if not os.path.isdir(os.path.join(uni_folder, subjectFolder,
+                                          LECTURE_FOLDER_NAME)):
+            print(f'Making {LECTURE_FOLDER_NAME} folder for {lec.folder}')
+            os.makedirs(os.path.join(folder, subjectFolder,
+                                     LECTURE_FOLDER_NAME))
+        lec.fName = filename
+        lec.fPath = file_path
+
+    return lectures
+
+
 def download_lectures_for_subject(driver, subject, current_year, week_day,
                                   dates_list, download_mode, uni_folder, q):
     downloaded = []
@@ -638,30 +678,10 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
             print(FOLDER_NAME_ERROR, file=sys.stderr)
             sys.exit(1)
 
-    # assign filenames
-    # made it a separate loop because in the loop above it's constantly
-    # updating earlier values etc
-    for lec in lectures_list:
+    # assign filepaths, filenames
+    lectures_list = assign_filepaths(lectures_list, download_mode, uni_folder, 
+                                     subjectFolder)
 
-        filename = getLectureName(lec)
-
-        if download_mode == "audio":
-            filename_with_ext = filename + ".mp3"
-            folder = audio_folder  # TODO this audio folder thing is a bit dumb.
-        else:
-            filename_with_ext = filename + ".m4v"
-            folder = uni_folder
-
-        file_path = os.path.join(folder, subjectFolder, LECTURE_FOLDER_NAME,
-                                 filename_with_ext)
-
-        if not os.path.isdir(os.path.join(folder, subjectFolder,
-                                          LECTURE_FOLDER_NAME)):
-            print("Making {} folder for {}".format(LECTURE_FOLDER_NAME, folder))
-            os.makedirs(os.path.join(folder, subjectFolder, LECTURE_FOLDER_NAME))
-
-        lec.fName = filename
-        lec.fPath = file_path
 
     # TODO - This is going into each link even if we don't need the lecture.
     #        This slows the program down massively.
