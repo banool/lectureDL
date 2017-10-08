@@ -557,21 +557,19 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
 
         # Deals with error where the next element can't be selected if it isn't
         # literally visible. Limitation of selenium. Scrolls down to adjust.
-        scroll_point = 10
         while True:
-            scroll_point += 5
             try:
+                # Prevent header from hiding list
+                driver.execute_script(f"arguments[0].focus();", recs_ul)
+                driver.execute_script(f"window.scrollTo(0, 15);")
                 recording.click()
                 break
+            # Scroll down to element
             except ElementNotVisibleException:
                 actions = webdriver.ActionChains(driver)
                 actions.move_to_element(recording)
                 actions.click()
-                actions.send_keys(Keys.SPACE)
                 actions.perform()
-            except:
-                driver.execute_script(f"arguments[0].focus();", recs_ul)
-                driver.execute_script(f"window.scrollTo(0, {scroll_point});")
 
 
         # convert string into datetime.datetime object
