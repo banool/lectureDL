@@ -148,7 +148,7 @@ class Subject(object):
 
 class Lecture(object):
     def __init__(self, link, subjCode, week, lecOfWeek, date, subjName,
-                 recNum, fName=None, fPath=None, dl_status=None):
+                 recNum, folder, fName=None, fPath=None, dl_status=None):
         self.link = link
         self.subjCode = subjCode
         self.week = week
@@ -156,6 +156,7 @@ class Lecture(object):
         self.date = date
         self.subjName = subjName
         self.recNum = recNum
+        self.folder = folder
         self.fName = fName
         self.fPath = fPath
         self.dl_status = dl_status
@@ -183,7 +184,7 @@ def check_uni_folder(uni_folder, home_dir):
 
 def getSubjectFolder(subject_code, uni_folder):
     ''' Enables any subject_code in which the subject code is included to be
-    identified as the appropriate folder for the subject.
+        identified as the appropriate folder for the subject.
     '''
     print(f"Retrieving folder with name that includes: {subject_code}")
 
@@ -194,11 +195,21 @@ def getSubjectFolder(subject_code, uni_folder):
             break
     try:
         return subjectFolder
+
+    # If a folder with the subject code in the name wasn't found
     except NameError as e:
-        print(f"No folder including the code '{subject_code}' found.",
-              "Either create such a folder manually, or retry with",
-              "'auto_create_subfolders' setting set to True.")
-        raise e
+
+        # If the user wants to automatically create the folders, do so.
+        if settings['auto_create_subfolders']:
+            subjectFolder = settings['default_auto_create_format'].format(
+                code=subject.code, name=subject.name)
+            os.mkdir(os.path.join(uni_folder, subjectFolder))
+            print('Made folder: ' + subjectFolder)
+
+        # Print an error.
+        else:
+            print(FOLDER_NAME_ERROR, file=sys.stderr)
+            sys.exit(1)
 
 
 # define function to find a link and return the one it finds
@@ -534,7 +545,7 @@ def getToEchoCenter(driver):
     return getLectureList(driver)
 
 
-def assign_filepaths(lectures, download_mode, uni_folder, subjectFolder):
+def assign_filepaths(lectures, download_mode, uni_folder):
     '''Assign filepaths (and therefore also file names) to lectures.
 
     Args:
@@ -554,14 +565,14 @@ def assign_filepaths(lectures, download_mode, uni_folder, subjectFolder):
             filename_with_ext = filename + '.mp3'
         else:
             filename_with_ext = filename + '.m4v'
-        file_path = os.path.join(uni_folder, subjectFolder, LECTURE_FOLDER_NAME,
+        file_path = os.path.join(uni_folder, lec.folder, LECTURE_FOLDER_NAME,
                                  filename_with_ext)
 
         # Create the directory if it doesn't already exist.
-        if not os.path.isdir(os.path.join(uni_folder, subjectFolder,
+        if not os.path.isdir(os.path.join(uni_folder, lec.folder,
                                           LECTURE_FOLDER_NAME)):
             print(f'Making {LECTURE_FOLDER_NAME} folder for {lec.folder}')
-            os.makedirs(os.path.join(folder, subjectFolder,
+            os.makedirs(os.path.join(folder, lec.folder,
                                      LECTURE_FOLDER_NAME))
         lec.fName = filename
         lec.fPath = file_path
@@ -587,6 +598,9 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
     multiple_lectures = False
     lectures_list = []
     to_download = []
+
+    # Getting the subject folder in which to put the lecture.
+    subjectFolder = getSubjectFolder(subject.code, uni_folder)
 
     # print status
     print("Building list of lectures...")
@@ -651,8 +665,9 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
                 lecture.lecOfWeek += 1
 
         # Create Lecture
-        lectures_list.append(Lecture(first_link, subject.code, week_num, lec_num,
-                                     date, subject.name, rec_num))
+        lectures_list.append(Lecture(first_link, subject.code, week_num,
+                                     lec_num, date, subject.name, rec_num,
+                                     subjectFolder))
 
     # TODO: Get the length of the <ul>...</ul>, use it when creating the
     #       lectures instead
@@ -661,27 +676,10 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
     for lec in lectures_list:
         lec.recNum = num_lectures - lec.recNum
 
-    # # Getting the subject folder in which to put the lecture.
-    # preset_subject_folders = settings['subject_folders']
-    # if preset_subject_folders != '':
-    #     subjectFolder =
-    try:
-        subjectFolder = getSubjectFolder(subject.code, uni_folder)
-    except NameError:
-        # If the user wants to automatically create the folders, do so.
-        if settings['auto_create_subfolders']:
-            subjectFolder = settings['default_auto_create_format'].format(
-                code=subject.code, name=subject.name)
-            os.mkdir(os.path.join(uni_folder, subjectFolder))
-            print('Made folder: ' + subjectFolder)
-        else:
-            print(FOLDER_NAME_ERROR, file=sys.stderr)
-            sys.exit(1)
-
     # assign filepaths, filenames
-    lectures_list = assign_filepaths(lectures_list, download_mode, uni_folder, 
-                                     subjectFolder)
+    lectures_list = assign_filepaths(lectures_list, download_mode, uni_folder)
 
+    # DOWNLOADING STARTS HERE
 
     # TODO - This is going into each link even if we don't need the lecture.
     #        This slows the program down massively.
