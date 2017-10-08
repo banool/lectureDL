@@ -127,7 +127,7 @@ FOLDER_NAME_ERROR = ("There is a name mismatch between the subjects list and" +
                      " the folder names.\nYou might want to try the " +
                      "'auto_create_subfolders' option in the settings.")
 GET_ECHO = 'Getting past intermediate page / waiting for Echocenter to load...'
-NO_DL_FOLDER = 'The downloads folder doesn\'t exist either, shutting down'
+NO_DL_FOLDER = 'The downloads folder doesn\'t exist either, shutting down.'
 
 class Subject(object):
     def __init__(self, code, name, link, num, path=None, downloaded=0):
@@ -833,8 +833,10 @@ def main():
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')  # TODO: Remove this
     try:
-        driver = webdriver.Chrome(settings['driver_relative_path'],
-                                  chrome_options=chrome_options)
+        # We build an absolute path to avoid the "Message: 'chromedriver'
+        # executable needs to be in PATH" error.
+        path = os.path.abspath(settings['driver_relative_path'])
+        driver = webdriver.Chrome(path, chrome_options=chrome_options)
     except Exception as e:
         print('Couldn\'t start Chrome!', file=sys.stderr)
         print(str(e), file=sys.stderr)
