@@ -50,6 +50,8 @@ Clone or download the zip of this repo to get started.
 - Edit the settings, see the **Configuration** section. Or just delete `settings.py` and let it ask you for the information that it needs.
 - Make sure your clock is correct. If it's the wrong date, the script will crash.
 
+**Now before moving on, make sure to modify the settings files (username, password, etc.). If this sounds too hard, just rename `settings.py` (e.g. `mv settings.py settings.py.bak`) and the script will prompt you for the required information as it goes.**
+
 ### MacOS
 Prerequsities:
 
@@ -77,6 +79,18 @@ Setup instructions:
 sudo apt-get install python3.6-venv
 # Now just follow the MacOS instructions
 ```
+
+### Windows 10 with bash (WSL)
+- Don't work from the subsystem's filesystem, it doesn't play too nice with Windows explorer or anything. Instead, move into the Windows file system, e.g. `cd /mnt/c/Users/<username>/Desktop`.
+- Clone or unzip the lectureDL repo here.
+- Copy chromedriver into lectureDL (it'll just be on the Desktop) and cd there from bash, e.g. `cd /mnt/c/Users/<username>/Desktop/lectureDL`.
+- Follow the Linux instructions for installing Python 3.6 (with venv), as well as the MacOS instructions afterwards to set up the venv. Don't run `lectureDL.py` yet though, it won't work.
+
+Here you have two options:
+1. Change the `'uni_location'` option in `settings_example.py` to the folder that you want. If you aren't using a settings file then this of course won't work.
+2. Create the folder `~/Downloads` or make it a symbolic link to somewhere else, e.g. `cd ~ && ln -s /mnt/c/Users/<username>/Downloads Downloads`.
+
+After this you should **finally** be good to go. Good luck!
 
 ## How to use
 TODO youtube tutorial vid maybe.

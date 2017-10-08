@@ -20,7 +20,7 @@ _settings_base = {
     # for a whole week or you're running this for the first time.
     'update_lower_week': True,
     # Whether to hide the Chrome window or not.
-    'hide_window': True,  # This is headless Chrome mode.
+    'hide_window': False,  # This is headless Chrome mode.
     # This is relative to where lectureDL.py is in the file system.
     'driver_relative_path': 'chromedriver',
 }
