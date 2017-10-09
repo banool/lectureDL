@@ -845,13 +845,14 @@ def main():
         # executable needs to be in PATH" error.
         path = os.path.abspath(settings['driver_relative_path'])
         driver = webdriver.Chrome(path, chrome_options=chrome_options)
-    except:
+    except Exception as e1:
         try:
             path = path + '.exe'  # We're on Windows.
             driver = webdriver.Chrome(path, chrome_options=chrome_options)
-        except Exception as e:
+        except Exception as e2:
             print('Couldn\'t start Chrome!', file=sys.stderr)
-            print(str(e), file=sys.stderr)
+            print(str(e1), file=sys.stderr)
+            print(str(e2), file=sys.stderr)
             sys.exit(1)
 
     # Login
