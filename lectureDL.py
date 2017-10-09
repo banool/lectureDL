@@ -416,24 +416,38 @@ def getSubjectList(course_links):
     return subject_list
 
 
-def getValidUserChoice():
-    user_choice = settings['subject_choices']  # None if not specified.
+def getValidUserChoice(max_subject_number):
+    ''' Returns a list of ints, corresponding to the subject numbers
+        that the user wants to download.
+    '''
+    # This will be None if not specified in the settings.
+    user_choice = settings['subject_choices']
     while True:
-        # Either get the user's choice
+        # Either get the user's choice.
         if user_choice is None:
             print("Please enter subjects you would like to download",
                   "(e.g. 1,2,3) or leave blank to download all.")
-            user_choice = input("> ").replace(' ', '')
-        # Or use pre-loaded subject choices
+            user_choice = input("> ")
+        # Or use pre-loaded subject choices.
         else:
             print(f"Using preloaded setting: {user_choice}")
             user_choice = settings['subject_choices']
-        # Return the choice if it's valid
-        if user_choice == "" or all([x.isdigit()
-                                     for x in user_choice.split(",")]):
+        # If user_choice is empty, they just want all the subjects.
+        if user_choice == '':
             print("User choice valid!")
-            return user_choice
-        # If user choice invalid, continue loop.
+            return list(range(1, max_subject_number+1))
+        # The user has specified specific subjects, validate the input.
+        # Despite the earlier message, we allow commas or spaces. If the input
+        # is invalid we don't return and just go back around the loop.
+        with suppress(ValueError):
+            user_choice = user_choice.replace(',', ' ').split()
+            out = [int(x) for x in user_choice]
+            # Make sure that the selections are in the valid range.
+            if not [x for x in out if x < 1 or x > max_subject_number]:
+                return out
+        # The user choice was invalid, go back around the loop.
+        print('That was invalid, try again!')
+        user_choice = None
 
 
 def getSubjects(subject_list):
@@ -441,17 +455,11 @@ def getSubjects(subject_list):
     Takes a list of subjects, retrieves a valid selection of subjects from
     the user, and returns just those subjects selected.
     '''
-    # Get a user choice
-    user_choice = getValidUserChoice()
-    # Select specific choices, if they were made
-    if user_choice != "":
-        # Allows for more flexible input
-        selection = [int(x) for x in re.findall(r"\d", user_choice)]
-        return list(filter(lambda sub: any(sel in sub.num
-                                           for sel in selection),
-                           subject_list))
-    # If not, just return all of the subjects
-    return subject_list
+    # Get the user's choices, as a list of ints.
+    max_subject_number = max([subj.num for subj in subject_list])
+    user_choice = getValidUserChoice(max_subject_number)
+    return [subj for subj in subject_list if subj.num in user_choice]
+
 
 
 def determine_subjects_to_download(subject_list):
