@@ -417,15 +417,16 @@ def getSubjectList(course_links):
 
 
 def getValidUserChoice():
+    user_choice = settings['subject_choices']  # None if not specified.
     while True:
         # Either get the user's choice
-        if settings['subject_choices'] is None:
+        if user_choice is None:
             print("Please enter subjects you would like to download",
-                  "(E.g. 1,2,3) or leave blank to download all.")
-            user_choice = input("> ")
+                  "(e.g. 1,2,3) or leave blank to download all.")
+            user_choice = input("> ").replace(' ', '')
         # Or use pre-loaded subject choices
         else:
-            print(f"Using preloaded setting: {settings['subject_choices']}")
+            print(f"Using preloaded setting: {user_choice}")
             user_choice = settings['subject_choices']
         # Return the choice if it's valid
         if user_choice == "" or all([x.isdigit()
@@ -433,8 +434,6 @@ def getValidUserChoice():
             print("User choice valid!")
             return user_choice
         # If user choice invalid, continue loop.
-        else:
-            continue
 
 
 def getSubjects(subject_list):
