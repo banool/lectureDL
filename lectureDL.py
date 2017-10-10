@@ -546,6 +546,7 @@ def getPastIntermediateRecordingsPage(driver):
             w.click()
 
 
+# TODO This max_retries should be specifiable by the settings.
 @retry_until_result(GET_ECHO, max_retries=40)
 def getToEchoCenter(driver):
     getPastIntermediateRecordingsPage(driver)

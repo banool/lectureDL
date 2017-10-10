@@ -127,7 +127,7 @@ could select which one you want to use here by changing the first line to
 See the file `other/initial_differences.md`. There have been many more improvements since that markdown file was written.
 
 ### To do list
-See the file `other/todo.md`.
+~See the file `other/todo.md`.~ See the Issues tab.
 
 ### Setup for a new semester
 See the file `other/heads_up_2017_07_29.md`.
