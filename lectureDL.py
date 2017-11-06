@@ -603,7 +603,12 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
 
     # Get to the list of lectures.
     getToRecordingsFirstPage(driver)
-    recs_ul, recs_list = getToEchoCenter(driver)
+    try:
+        recs_ul, recs_list = getToEchoCenter(driver)
+    except RuntimeError:
+        # TODO Make this error catching more specific.
+        print(f'NOTE! The echocenter could not be found for {subject.name}! Moving on...')
+        return None
 
     # setup for recordings
     multiple_lectures = False
@@ -652,7 +657,13 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
             break
 
         # lookup week number and set default lecture number
-        week_num = week_day[date]
+        try:
+            week_num = week_day[date]
+        except KeyError:
+            print('NOTE! Ignoring lecture with date ' + str(date) + ' because\n'
+                  '      it is outside of the standard semester weeks, you\'ll\n'
+                  '      have to download it manually :/')
+            continue
         lec_num = 1
 
         # get link to initial download page for either audio or video
