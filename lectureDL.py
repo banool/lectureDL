@@ -371,7 +371,6 @@ def get_course_links(driver):
     # function that returns, not yields.
     course_links = None
     try:
-        time.sleep(1)
         # list items in list class "courseListing"
         course_list_candidates = driver.find_elements_by_css_selector("ul.courseListing")
         course_list = None
@@ -384,8 +383,12 @@ def get_course_links(driver):
             course_list = c
             if course_list is None:
                 yield None
+                continue
             # only get links with target="_top" to single out subject headings
             course_links = course_list.find_elements_by_css_selector('a[target=_top]')
+            if course_links == []:
+                yield None
+                continue
             # list to be appended with [subj_code, subj_name, subj_link]
             yield course_links
         yield None
@@ -874,7 +877,12 @@ def main():
     # box (subjects and not communities).
     subjectsFoundSuccess = False
     while not subjectsFoundSuccess:
-        course_listing = get_course_links(driver)
+        try:
+            course_listing = get_course_links(driver)
+        except StopIteration:
+            # I know this is messy, that this is needed even with the decorator.
+            time.sleep(0.5)
+            continue
         try:
             subject_list = getSubjectList(course_listing)
         except RuntimeError:

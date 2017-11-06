@@ -1,6 +1,6 @@
+import inspect
 import sys
 import time
-import types
 
 def retry_until_result(wait_message, delay=0.25, max_retries=20):
     ''' Decorator to retry a function until it doesn't return None.
@@ -13,14 +13,19 @@ def retry_until_result(wait_message, delay=0.25, max_retries=20):
         def wrapper(*args, **kwargs):
             retries = 0
             print(wait_message)
+            is_generator = inspect.isgeneratorfunction(function)
+            if is_generator:
+                iterator = iter(function(*args, **kwargs))
+                # print(str(function) + ' is a generator')
             while True:
                 if retries >= max_retries:
                     raise RuntimeError('Max retries exceeded!')
+                if not is_generator:
+                    result = function(*args, **kwargs)
+                else:
+                    # Roughly handle if the function is a generator.
+                    result = next(iterator)
                 retries += 1
-                result = function(*args, **kwargs)
-                # Roughly handle if the function is a generator.
-                if isinstance(result, types.GeneratorType):
-                    result = next(result)
                 if result is None:
                     time.sleep(delay)
                     continue
