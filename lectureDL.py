@@ -661,8 +661,8 @@ def download_lectures_for_subject(driver, subject, current_year, week_day,
             week_num = week_day[date]
         except KeyError:
             print('NOTE! Ignoring lecture with date ' + str(date) + ' because\n'
-                  '      it is outside of the standard semester weeks, you\'ll\n'
-                  '      have to download it manually :/')
+                  '      it is outside of the standard semester week range,\n'
+                  '      you\'ll have to download it manually :/')
             continue
         lec_num = 1
 
