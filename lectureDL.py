@@ -263,12 +263,13 @@ def get_weeks_to_download(current_year, week_day):
     end_week0 = datetime.datetime(current_year, 7, 23)
     day_delta = datetime.timedelta(days=1)
     week_delta = datetime.timedelta(days=7)
+    weeks_in_semester = 12
     week_counter = 1
     day_counter = 1
     midsemBreakWeek = 9  # Mid sem break occurs after this week.
 
     # assigns a week number to each date.
-    while week_counter <= 12:
+    while week_counter <= weeks_in_semester:
         while day_counter <= 7:
             week_day[current_date] = week_counter
             day_counter += 1
@@ -282,6 +283,8 @@ def get_weeks_to_download(current_year, week_day):
     current_week_no_offset = (datetime.datetime.today() - start_week0).days // 7
     midsem_offset = (current_week_no_offset+1) // midsemBreakWeek
     current_week = current_week_no_offset - midsem_offset
+    if current_week > weeks_in_semester:
+        current_week = weeks_in_semester
 
     # The user input stage.
     user_dates_input = "default"
@@ -290,7 +293,7 @@ def get_weeks_to_download(current_year, week_day):
 
         # Automatically set the week range if specified in the settings.
         if settings['update_lower_week']:
-            settings['date_range'] =  f"{current_week}-12"
+            settings['date_range'] =  f"{current_week}-{weeks_in_semester}"
 
         # Read in the date range if none was given in the settings.
         if settings['date_range'] is None:
@@ -301,7 +304,7 @@ def get_weeks_to_download(current_year, week_day):
                 print("Using", settings['date_range'])
             else:
                 print("Downloading lectures from every week.")
-                settings['date_range'] = '1-12'  # TODO This is a hack.
+                settings['date_range'] = '1-{weeks_in_semester}'  # TODO This is a hack.
             user_dates_input = settings['date_range']
         dates_list = []
 
