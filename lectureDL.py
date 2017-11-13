@@ -88,7 +88,12 @@ from threading import Thread
 from util import (
     retry_until_result,
     show_progress,
+    StdoutSpace,
 )
+
+# To revert to regular stdout, just comment out this line.
+# The file=sys.__stdout__ part in util.show_progress could then also be removed.
+sys.stdout = StdoutSpace(sys.stdout)
 
 # Try to read in a settings file.
 try:

@@ -1,4 +1,6 @@
 import inspect
+import io
+import shutil
 import sys
 import time
 
@@ -49,5 +51,35 @@ def show_progress(filehook, pretty_name, localSize, webSize, chunk_size=1024):
             fh.close()
             break
         total_read += len(chunk)
-        print("== Progress (%s):% 5.1f%% ==" % (pretty_name, total_read*100.0/total_size), end="\r", flush=True)
+        print("== Progress (%s):% 5.1f%% ==" % (pretty_name, total_read*100.0/total_size), end="\r", flush=True, file=sys.__stdout__)
         yield chunk
+
+
+class StdoutSpace(io.TextIOWrapper):
+    '''
+    Use like:
+    sys.stdout = StdoutSpace(sys.stdout)
+    '''
+
+    def __init__(self, original_stdout):
+        super()
+        self.original_stdout = original_stdout
+        self.current_line = []
+
+    def write(self, text):
+        if not text.endswith('\n'):
+            self.current_line.append(text)
+        else:
+            terminal_width = get_terminal_width()
+            string = ''.join(self.current_line)
+            spaces = (terminal_width - len(string)) * ' '
+            out = string + spaces + '\n'
+            self.original_stdout.write(out)
+            self.current_line = []
+
+    def flush(self):
+        # self.original_stdout.flush()
+        pass
+
+def get_terminal_width():
+    return shutil.get_terminal_size((80, 20)).columns
